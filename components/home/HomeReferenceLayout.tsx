@@ -9,6 +9,7 @@ import FeaturedProductsSection from './FeaturedProductsSection'
 import WhyChooseUsSection from './WhyChooseUsSection'
 import ProjectsSection from './ProjectsSection'
 import BrandsSection from './BrandsSection'
+import CertificationsSection from './CertificationsSection'
 import CTASection from './CTASection'
 
 
@@ -23,6 +24,7 @@ export default function HomePage() {
       <WhyChooseUsSection/>
       <ProjectsSection/>
       <BrandsSection/>
+      <CertificationsSection/>
       <CTASection/>
 
       {/* WhatsApp */}
