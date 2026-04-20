@@ -1,100 +1,254 @@
 'use client'
 
 import Image from 'next/image'
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-
-function Reveal({ children, delay=0, dir='up', className='' }: {
-  children:React.ReactNode; delay?:number; dir?:'up'|'left'|'right'|'scale'; className?:string
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once:true, margin:'-80px' })
-  const init = { up:{y:40,x:0}, left:{y:0,x:-40}, right:{y:0,x:40}, scale:{y:0,x:0} }
-  return (
-    <motion.div ref={ref}
-      initial={{ opacity:0, ...init[dir], scale: dir==='scale' ? 0.94 : 1 }}
-      animate={inView ? { opacity:1, x:0, y:0, scale:1 } : {}}
-      transition={{ duration:0.7, delay, ease:[0.25,0.1,0.25,1] }}
-      className={className}
-    >{children}</motion.div>
-  )
-}
+import { motion, useScroll, useTransform, useTime, MotionValue } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
 
 const BRANDS = [
-  { name:'ATG', logo:'/images/atg.png' },
-  { name:'3M', logo:'/images/3m.png' },
-  { name:'CTG', logo:'/images/ctg.png' },
-  { name:'Delta Plus', logo:'/images/deltaplus.png' },
-  { name:'Eyevex', logo:'/images/eyevex.png' },
-  { name:'Hans', logo:'/images/hans.png' },
-  { name:'MTS', logo:'/images/mts.png' },
-  { name:'Pyramax', logo:'/images/pyramax.png' },
-  { name:'Uvex', logo:'/images/uvex.png' },
-  { name:'Vaultex', logo:'/images/vaultex.png' },
+  { name: 'ATG', logo: '/images/atg.png' },
+  { name: '3M', logo: '/images/3m.png' },
+  { name: 'CTG', logo: '/images/ctg.png' },
+  { name: 'Delta Plus', logo: '/images/deltaplus.png' },
+  { name: 'Eyevex', logo: '/images/eyevex.png' },
+  { name: 'Hans', logo: '/images/hans.png' },
+  { name: 'MTS', logo: '/images/mts.png' },
+  { name: 'Pyramax', logo: '/images/pyramax.png' },
+  { name: 'Uvex', logo: '/images/uvex.png' },
+  { name: 'Vaultex', logo: '/images/vaultex.png' },
+]
+
+// UPDATED DESKTOP MAP: Fills the massive gap in the middle while keeping the text area clear.
+const DESKTOP_MAP = [
+  { x: -0.75, y: -0.45, scale: 1.15 }, // Top Left
+  { x: 0.75,  y: -0.55, scale: 0.90 }, // Top Right
+  { x: -0.35, y: -0.05, scale: 0.85 }, // Mid-Inner Left (Fills center space)
+  { x: 0.40,  y: -0.15, scale: 1.25 }, // Mid-Inner Right (Fills center space)
+  { x: -0.85, y: 0.25,  scale: 1.05 }, // Far Left
+  { x: 0.85,  y: 0.20,  scale: 0.95 }, // Far Right
+  { x: -0.15, y: 0.45,  scale: 1.10 }, // Center-Lower Left (Fills center space)
+  { x: 0.20,  y: 0.35,  scale: 0.80 }, // Center-Lower Right (Fills center space)
+  { x: -0.55, y: 0.75,  scale: 0.95 }, // Bottom Left
+  { x: 0.55,  y: 0.85,  scale: 1.15 }  // Bottom Right
+]
+
+// Mobile Map: 3 icons per row to fit perfectly on narrow screens.
+const MOBILE_MAP = [
+  { x: -0.90, y: -0.20, scale: 0.90 }, // Row 1
+  { x: 0.00,  y: -0.10, scale: 1.10 },
+  { x: 0.90,  y: -0.20, scale: 0.85 },
+  
+  { x: -0.90, y: 0.20, scale: 1.05 },  // Row 2
+  { x: -0.05, y: 0.30, scale: 0.90 },  
+  { x: 0.90,  y: 0.20, scale: 1.15 },  
+  
+  { x: -0.90, y: 0.60, scale: 1.10 },  // Row 3
+  { x: 0.05,  y: 0.70, scale: 0.85 },  
+  { x: 0.90,  y: 0.60, scale: 0.95 },  
+  
+  { x: 0.00,  y: 0.95, scale: 1.05 }   // Row 4
 ]
 
 export default function BrandsSection() {
-  const floatClasses = ['fa', 'fb', 'fc']
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [win, setWin] = useState({ w: 1200, h: 800, isMobile: false, mounted: false })
+  const [scrollDistance, setScrollDistance] = useState(0)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWin({
+        w: window.innerWidth,
+        h: window.innerHeight,
+        isMobile: window.innerWidth < 768,
+        mounted: true
+      })
+      if (containerRef.current) {
+        setScrollDistance(containerRef.current.offsetHeight - window.innerHeight)
+      }
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end end'],
+  })
+
+  // Sticky fix: Exact pixel translation
+  const fakeStickyY = useTransform(scrollYProgress, [0, 1], [0, scrollDistance])
+
+  // Move the text up 35% of the screen height
+  const textY = useTransform(scrollYProgress, [0, 0.7], [0, -(win.h * 0.35)])
+  const textScale = useTransform(scrollYProgress, [0, 0.7], [1, win.isMobile ? 0.7 : 0.8])
 
   return (
-    <section style={{ background:'#f5f4f0', padding:'clamp(60px,8vw,100px) clamp(20px,5vw,6vw)', position:'relative', overflow:'hidden' }}>
+    <section 
+      ref={containerRef} 
+      style={{ 
+        height: '300vh', 
+        background: '#f5f4f0', 
+        position: 'relative',
+        '--card-size': win.isMobile ? '95px' : '140px' 
+      } as React.CSSProperties}
+    >
       <style>{`
-        @keyframes floatA { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-        @keyframes floatB { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
-        @keyframes floatC { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-        .brand-card { position:relative; cursor:pointer; background:transparent; border:none; outline:none; width:100%; height:130px; display:flex; align-items:center; justify-content:center; padding:16px; border-radius:12px; transition:transform .35s ease; overflow:hidden; }
-        .brand-card::before { content:''; position:absolute; inset:0; border-radius:12px; background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(226,0,16,0.10) 0%,transparent 65%); opacity:0; transition:opacity .3s ease; pointer-events:none; z-index:0; }
-        .brand-card:hover { transform:translateY(-8px) scale(1.05); }
-        .brand-card:hover::before { opacity:1; }
-        .brand-card img { position:relative; z-index:1; max-width:100%; max-height:90px; object-fit:contain; width:auto; height:auto; transition:filter .35s ease,transform .35s ease; filter:grayscale(15%) brightness(0.95); }
-        .brand-card:hover img { filter:grayscale(0%) brightness(1) drop-shadow(0 4px 12px rgba(226,0,16,0.22)); transform:scale(1.08); }
-        .brand-card.fa { animation:floatA 3.8s ease-in-out infinite; }
-        .brand-card.fb { animation:floatB 4.4s ease-in-out infinite; }
-        .brand-card.fc { animation:floatC 3.2s ease-in-out infinite; }
+        .brand-card {
+          position: relative;
+          width: var(--card-size);
+          height: var(--card-size);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .brand-card img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: contain;
+        }
       `}</style>
-      {/* Subtle dot grid */}
-      <div style={{ position:'absolute', inset:0, pointerEvents:'none', backgroundImage:'radial-gradient(circle, rgba(226,0,16,0.04) 1px, transparent 1px)', backgroundSize:'36px 36px', zIndex:0 }}/>
 
-      <div style={{ maxWidth:1200, margin:'0 auto', position:'relative', zIndex:1 }}>
-        <div style={{ textAlign:'center', marginBottom:'60px' }}>
-          <Reveal>
-            <div style={{ display:'inline-flex', alignItems:'center', gap:10, fontSize:10, fontWeight:700, color:'#E20010', letterSpacing:'5px', textTransform:'uppercase', marginBottom:14 }}>
-              <span style={{ width:24, height:2, background:'#E20010' }}/>Trusted Partners<span style={{ width:24, height:2, background:'#E20010' }}/>
-            </div>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <h2 style={{ fontSize:'clamp(28px,4vw,52px)', fontWeight:900, letterSpacing:'-1.5px', color:'#111', marginBottom:14 }}>
-              Brands We <span style={{ color:'#E20010' }}>Represent</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p style={{ fontSize:13, color:'#6b6b6b', maxWidth:560, margin:'0 auto' }}>
-              Authorized distributor of leading global brands, all ISO certified with international compliance.
-            </p>
-          </Reveal>
-        </div>
+      <motion.div style={{ 
+        position: 'relative', 
+        y: fakeStickyY,
+        height: '100vh', 
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        
+        <div style={{ 
+          position: 'absolute', inset: 0, pointerEvents: 'none', 
+          backgroundImage: 'radial-gradient(circle, rgba(226,0,16,0.05) 1px, transparent 1px)', 
+          backgroundSize: '36px 36px', zIndex: 0 
+        }}/>
 
-        {/* Brands Grid */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:'8px' }}>
-          {BRANDS.map((brand, i) => (
-            <Reveal key={brand.name} delay={i * 0.05}>
-              <button
-                className={`brand-card ${floatClasses[i % 3]}`}
-                title={brand.name}
-                style={{ background:'none' }}
-              >
-                <Image
-                  src={brand.logo}
-                  alt={brand.name}
-                  width={120}
-                  height={100}
-                  style={{ maxWidth:'100%', maxHeight:'90px', objectFit:'contain' }}
-                />
-              </button>
-            </Reveal>
-          ))}
-        </div>
-      </div>
+        {/* Center Typography */}
+        <motion.div 
+          style={{ 
+            position: 'absolute', 
+            zIndex: 10, 
+            textAlign: 'center',
+            y: textY,
+            scale: textScale,
+            pointerEvents: 'none',
+            padding: '0 20px',
+            width: '100%',
+          }}
+        >
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 10, fontWeight: 700, color: '#E20010', letterSpacing: '5px', textTransform: 'uppercase', marginBottom: 14 }}>
+            <span style={{ width: 24, height: 2, background: '#E20010' }}/>
+            Trusted Partners
+            <span style={{ width: 24, height: 2, background: '#E20010' }}/>
+          </div>
+          <h2 style={{ fontSize: 'clamp(28px,6vw,52px)', fontWeight: 900, letterSpacing: '-1.5px', color: '#111', marginBottom: 14 }}>
+            Brands We <span style={{ color: '#E20010' }}>Represent</span>
+          </h2>
+          <p style={{ fontSize: 'clamp(12px, 2.5vw, 13px)', color: '#6b6b6b', maxWidth: 560, margin: '0 auto' }}>
+            Authorized distributor of leading global brands, all ISO certified with international compliance.
+          </p>
+        </motion.div>
+
+        {/* Logos Container */}
+        {win.mounted && (
+          <div style={{ position: 'absolute', width: 0, height: 0, zIndex: 5 }}>
+            {BRANDS.map((brand, i) => (
+              <BrandNode 
+                key={brand.name} 
+                brand={brand} 
+                index={i} 
+                total={BRANDS.length} 
+                scrollYProgress={scrollYProgress} 
+                win={win} 
+              />
+            ))}
+          </div>
+        )}
+      </motion.div>
     </section>
+  )
+}
+
+// Sub-component for individual logo logic
+function BrandNode({ brand, index, total, scrollYProgress, win }: { 
+  brand: any, index: number, total: number, scrollYProgress: MotionValue<number>, win: any 
+}) {
+  const time = useTime()
+
+  // 1. Setup Data for the initial orbit
+  const orbitRadius = win.isMobile ? win.w * 0.38 : 280
+  const baseAngle = (index / total) * Math.PI * 2
+
+  // Get the correct map depending on screen size
+  const targetMap = win.isMobile ? MOBILE_MAP : DESKTOP_MAP
+
+  // Calculate borders based on device
+  const paddingX = win.isMobile ? 55 : 120
+  const paddingY = win.isMobile ? 80 : 120
+  const maxX = (win.w / 2) - paddingX
+  const maxY = (win.h / 2) - paddingY
+  
+  // Get destination coordinates
+  const endX = targetMap[index].x * maxX
+  const endY = targetMap[index].y * maxY
+
+  // 2. Dynamic Position Math: Smoothly blend from orbiting to static scatter
+  const x = useTransform(() => {
+    const t = time.get()
+    const scroll = Math.min(Math.max(scrollYProgress.get() / 0.7, 0), 1) // Completes at 70% scroll
+    
+    // Initial orbiting effect
+    const currentAngle = (t / 4500) + baseAngle 
+    const orbitX = Math.cos(currentAngle) * orbitRadius
+    
+    // Mix values: As scroll increases, orbit fades and scatter position takes over
+    return orbitX * (1 - scroll) + endX * scroll
+  })
+
+  const y = useTransform(() => {
+    const t = time.get()
+    const scroll = Math.min(Math.max(scrollYProgress.get() / 0.7, 0), 1)
+    
+    const currentAngle = (t / 4500) + baseAngle
+    const orbitY = Math.sin(currentAngle) * orbitRadius
+    
+    return orbitY * (1 - scroll) + endY * scroll
+  })
+
+  // 3. Uneven Sizing transition
+  const finalScale = targetMap[index].scale
+  const scale = useTransform(scrollYProgress, [0, 0.7], [1, win.isMobile ? finalScale * 0.85 : finalScale])
+
+  return (
+    <motion.div
+      style={{
+        position: 'absolute',
+        x, 
+        y,
+        scale,
+        left: 'calc(var(--card-size) / -2)', 
+        top: 'calc(var(--card-size) / -2)',
+      }}
+    >
+      {/* Gentle floating effect (runs continuously regardless of scroll) */}
+      <motion.div
+        animate={{ y: [0, -12, 0] }}
+        transition={{ 
+          repeat: Infinity, 
+          duration: 3 + (index % 4), // Varied float speeds
+          ease: 'easeInOut' 
+        }}
+      >
+        <div className="brand-card">
+          <Image
+            src={brand.logo}
+            alt={brand.name}
+            width={160}
+            height={160}
+          />
+        </div>
+      </motion.div>
+    </motion.div>
   )
 }

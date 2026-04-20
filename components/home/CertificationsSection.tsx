@@ -38,8 +38,14 @@ export default function CertificationsSection() {
           </Reveal>
         </div>
 
-        {/* Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: 30 }}>
+        {/* Grid: Constrained max-width & exactly 2 columns to ensure they share a line on mobile */}
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(2, 1fr)', 
+          gap: 'clamp(10px, 4vw, 40px)',
+          maxWidth: 700, // Keeps them from stretching too far apart on large desktop screens
+          margin: '0 auto'
+        }}>
           {[
             { image: '/images/iso.png', title: 'ISO 9001:2015' },
             { image: '/images/jsrs.png', title: 'JSRS Certified' },
@@ -49,22 +55,42 @@ export default function CertificationsSection() {
                 whileHover={{ y: -8, scale: 1.03 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* Image */}
-                <div style={{ position: 'relative', height: 240, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <motion.div whileHover={{ scale: 1.08 }}>
+                {/* Image Container with Dynamic Height for Mobile */}
+                <div style={{ 
+                  position: 'relative', 
+                  height: 'clamp(140px, 25vw, 240px)', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center' 
+                }}>
+                  {/* Floating Animation applied here */}
+                  <motion.div 
+                    animate={{ y: [0, -12, 0] }}
+                    transition={{ 
+                      repeat: Infinity, 
+                      duration: 3 + (idx * 0.5), // Offsets the animation so they float out of sync
+                      ease: 'easeInOut' 
+                    }}
+                    whileHover={{ scale: 1.08 }} // Retain the hover scale
+                    style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}
+                  >
                     <Image
                       src={cert.image}
                       alt={cert.title}
                       width={220}
                       height={220}
-                      style={{ objectFit: 'contain' }}
+                      style={{ 
+                        objectFit: 'contain',
+                        maxWidth: '100%',
+                        maxHeight: '100%'
+                      }}
                     />
                   </motion.div>
                 </div>
 
                 {/* Title */}
                 <div style={{ textAlign: 'center', paddingTop: 12 }}>
-                  <div style={{ fontSize: 16, fontWeight: 900, color: '#111' }}>
+                  <div style={{ fontSize: 'clamp(14px, 2.5vw, 16px)', fontWeight: 900, color: '#111' }}>
                     {cert.title}
                   </div>
                 </div>

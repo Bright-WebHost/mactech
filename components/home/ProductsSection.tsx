@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import gsap from 'gsap'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const PRODUCTS = [
   { name: 'Fasteners',   sub: 'Industrial',  image: '/images/products/fastner.png' },
@@ -15,45 +15,36 @@ const PRODUCTS = [
 ]
 
 const ITEMS  = [...PRODUCTS, ...PRODUCTS, ...PRODUCTS, ...PRODUCTS, ...PRODUCTS]
-const CARD_W = 320
-const GAP    = 28
+const CARD_W = 280
+const GAP    = 24
 
-// ─── Cursor teacher demo with sweeping animation ───────────────────────────
-function CursorTeacher({ wrapRef }: { wrapRef: React.RefObject<HTMLDivElement | null> }) {
+// ─── Persistent cursor teacher - ALWAYS VISIBLE ───────────────────────────────
+function CursorTeacher({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLDivElement | null>, isMobile: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
   const dotRef = useRef<HTMLDivElement>(null)
-  const dismissed = useRef(false)
 
   useEffect(() => {
+    if (isMobile) {
+      ref.current?.style.setProperty('display', 'none')
+      return
+    }
+
     const wrap = wrapRef.current
     const el   = ref.current
     const dot  = dotRef.current
     if (!wrap || !el || !dot) return
 
-    // Sweeping cursor animation: left → right → left, repeat
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.4 })
+    // Sweeping cursor animation - CONTINUOUS, NO DISMISS
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.8 })
 
-    tl.set(dot, { x: -90 })
-    tl.to(dot, { x: 90,  duration: 1.1, ease: 'power2.inOut' })
-    tl.to(dot, { x: -90, duration: 1.1, ease: 'power2.inOut', delay: 0.1 })
-
-    // Dismiss on first real mouse move inside wrap
-    const dismiss = () => {
-      if (dismissed.current) return
-      dismissed.current = true
-      tl.kill()
-      gsap.to(el, { opacity: 0, scale: 0.85, duration: 0.35, ease: 'power2.in',
-        onComplete: () => { el.style.display = 'none' }
-      })
-      wrap.removeEventListener('mousemove', dismiss)
-    }
-    wrap.addEventListener('mousemove', dismiss)
+    tl.set(dot, { x: -110 })
+    tl.to(dot, { x: 110,  duration: 1.4, ease: 'power2.inOut' })
+    tl.to(dot, { x: -110, duration: 1.4, ease: 'power2.inOut', delay: 0.3 })
 
     return () => {
       tl.kill()
-      wrap.removeEventListener('mousemove', dismiss)
     }
-  }, [wrapRef])
+  }, [wrapRef, isMobile])
 
   return (
     <div
@@ -67,35 +58,46 @@ function CursorTeacher({ wrapRef }: { wrapRef: React.RefObject<HTMLDivElement | 
         flexDirection: 'column',
         alignItems:    'center',
         justifyContent:'center',
-        gap:           16,
+        gap:           24,
       }}
     >
       <style>{`
-        @keyframes labelPulse { 0%,100%{opacity:.45} 50%{opacity:.9} }
-        @keyframes trailFade  { 0%{opacity:.35;transform:scaleX(1)} 100%{opacity:0;transform:scaleX(1.6)} }
+        @keyframes labelPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+        @keyframes dotGlow { 0%{box-shadow: 0 0 30px rgba(226,0,16,0.7), 0 0 60px rgba(226,0,16,0.4)} 50%{box-shadow: 0 0 50px rgba(226,0,16,0.9), 0 0 100px rgba(226,0,16,0.6)} 100%{box-shadow: 0 0 30px rgba(226,0,16,0.7), 0 0 60px rgba(226,0,16,0.4)} }
+        @keyframes arrowBounce { 0%{opacity:.2;transform:translateX(0) scale(0.8)} 50%{opacity:1;transform:translateX(0) scale(1.2)} 100%{opacity:.2;transform:translateX(0) scale(0.8)} }
+        @keyframes textPulse { 0%,100%{opacity:.4;transform:scale(0.95)} 50%{opacity:1;transform:scale(1)} }
       `}</style>
 
       {/* Animated sweep dot + trail */}
-      <div style={{ position: 'relative', width: 200, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ position: 'relative', width: 260, height: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
         {/* Left label */}
-        <span style={{ position: 'absolute', left: 0, fontSize: 11, color: '#E20010', fontWeight: 800, letterSpacing: '1px', animation: 'labelPulse 1.6s ease-in-out infinite' }}>←</span>
+        <div style={{ position: 'absolute', left: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+          <ChevronLeft size={22} color="#E20010" strokeWidth={2.5} style={{ animation: 'arrowBounce 2.2s ease-in-out infinite' }} />
+          <span style={{ fontSize: 9, color: '#E20010', fontWeight: 800, letterSpacing: '2px', animation: 'labelPulse 2.2s ease-in-out infinite' }}>DRAG</span>
+        </div>
+
         {/* Right label */}
-        <span style={{ position: 'absolute', right: 0, fontSize: 11, color: '#E20010', fontWeight: 800, letterSpacing: '1px', animation: 'labelPulse 1.6s ease-in-out infinite .4s' }}>→</span>
+        <div style={{ position: 'absolute', right: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+          <ChevronRight size={22} color="#E20010" strokeWidth={2.5} style={{ animation: 'arrowBounce 2.2s ease-in-out infinite .4s' }} />
+          <span style={{ fontSize: 9, color: '#E20010', fontWeight: 800, letterSpacing: '2px', animation: 'labelPulse 2.2s ease-in-out infinite .4s' }}>DRAG</span>
+        </div>
 
         {/* The sweeping dot */}
         <div ref={dotRef} style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
 
           {/* Glow ring */}
           <div style={{
-            width: 44, height: 44, borderRadius: '50%',
-            border: '2px solid #E20010',
-            background: 'rgba(226,0,16,0.12)',
+            width: 60, height: 60, borderRadius: '50%',
+            border: '3px solid #E20010',
+            background: 'rgba(226,0,16,0.2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 0 24px rgba(226,0,16,0.5), 0 0 8px rgba(226,0,16,0.8)',
+            boxShadow: '0 0 30px rgba(226,0,16,0.7), 0 0 60px rgba(226,0,16,0.4)',
+            animation: 'dotGlow 2s ease-in-out infinite',
+            backdropFilter: 'blur(8px)',
           }}>
             {/* Cursor SVG inside the ring */}
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
               <path d="M5 3l14 9-7 1-4 7L5 3z" fill="#E20010" stroke="#E20010" strokeWidth="1.5" strokeLinejoin="round"/>
             </svg>
           </div>
@@ -104,17 +106,23 @@ function CursorTeacher({ wrapRef }: { wrapRef: React.RefObject<HTMLDivElement | 
 
       {/* Text label */}
       <div style={{
-        fontSize: 10, fontWeight: 700, letterSpacing: '3px',
-        textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)',
-        animation: 'labelPulse 2s ease-in-out infinite',
+        fontSize: 13, fontWeight: 700, letterSpacing: '3px',
+        textTransform: 'uppercase', color: 'rgba(226,0,16,0.8)',
+        animation: 'textPulse 2.4s ease-in-out infinite',
+        textAlign: 'center',
+        background: 'rgba(226,0,16,0.05)',
+        padding: '10px 20px',
+        borderRadius: '30px',
+        border: '1px solid rgba(226,0,16,0.3)',
+        backdropFilter: 'blur(10px)',
       }}>
-        Move cursor to explore
+        Move cursor to explore →
       </div>
     </div>
   )
 }
 
-// ─── Edge vignette with pulsing chevrons ──────────────────────────────────────
+// ─── Enhanced edge vignette with pulsing chevrons ──────────────────────────────────────
 function EdgeArrow({ side }: { side: 'left' | 'right' }) {
   const isLeft = side === 'left'
   return (
@@ -123,28 +131,29 @@ function EdgeArrow({ side }: { side: 'left' | 'right' }) {
         position: 'absolute',
         top: 0, bottom: 0,
         [side]: 0,
-        width: 120,
+        width: 100,
         zIndex: 50,
         pointerEvents: 'none',
         background: isLeft
-          ? 'linear-gradient(to right, #0A0A0A 0%, transparent 100%)'
-          : 'linear-gradient(to left, #0A0A0A 0%, transparent 100%)',
+          ? 'linear-gradient(to right, rgba(10,10,10,0.95) 0%, transparent 100%)'
+          : 'linear-gradient(to left, rgba(10,10,10,0.95) 0%, transparent 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: isLeft ? 'flex-start' : 'flex-end',
-        padding: '0 18px',
+        padding: '0 20px',
       }}
     >
       <style>{`
         @keyframes edgePulse {
-          0%,100% { opacity: .2; transform: translateX(0); }
-          50%      { opacity: .7; transform: translateX(${isLeft ? '-4px' : '4px'}); }
+          0%,100% { opacity: .25; transform: translateX(0) scale(1); }
+          50%      { opacity: .8; transform: translateX(${isLeft ? '-6px' : '6px'}) scale(1.15); }
         }
       `}</style>
       <div style={{
-        fontSize: 22,
+        fontSize: 32,
         color: '#E20010',
-        animation: 'edgePulse 1.6s ease-in-out infinite',
+        animation: 'edgePulse 2s ease-in-out infinite',
+        fontWeight: 'bold',
       }}>
         {isLeft ? '‹' : '›'}
       </div>
@@ -153,7 +162,7 @@ function EdgeArrow({ side }: { side: 'left' | 'right' }) {
 }
 
 // ─── Main marquee with external wrapRef ──────────────────────────────────────
-function InfiniteMarquee({ wrapRef }: { wrapRef: React.RefObject<HTMLDivElement | null> }) {
+function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLDivElement | null>, isMobile: boolean }) {
   const trackRef  = useRef<HTMLDivElement>(null)
   const stateRef  = useRef({ x: 0, vel: 0, targetVel: 0, mouseX: 0, mouseY: 0, inside: false })
   const velRef    = useRef(0)
@@ -203,15 +212,15 @@ function InfiniteMarquee({ wrapRef }: { wrapRef: React.RefObject<HTMLDivElement 
         const r2    = card.getBoundingClientRect()
         const ccx   = r2.left - wrapRect.left + r2.width / 2
         const normX = Math.max(-1, Math.min(1, (ccx - cx) / (cx * 0.9)))
-        const rotY  = normX * -24
-        const rotX  = mouseNormY * 10
-        const sc    = 1 - Math.abs(normX) * 0.09
+        const rotY  = normX * -28
+        const rotX  = mouseNormY * 12
+        const sc    = 1 - Math.abs(normX) * 0.11
         const sh    = Math.abs(normX) < 0.18
-          ? '0 30px 80px rgba(226,0,16,0.45)'
-          : '0 10px 36px rgba(0,0,0,0.5)'
+          ? '0 40px 120px rgba(226,0,16,0.5)'
+          : '0 15px 50px rgba(0,0,0,0.7)'
 
         const imgEl = card.querySelector<HTMLElement>('.mac-img')
-        if (imgEl) gsap.set(imgEl, { x: normX * -10, y: mouseNormY * -8 })
+        if (imgEl) gsap.set(imgEl, { x: normX * -12, y: mouseNormY * -10 })
 
         gsap.set(card, { rotateY: rotY, rotateX: rotX, scale: sc, boxShadow: sh, transformPerspective: 1200 })
       })
@@ -231,7 +240,7 @@ function InfiniteMarquee({ wrapRef }: { wrapRef: React.RefObject<HTMLDivElement 
   return (
     <div
       ref={wrapRef}
-      style={{ overflow: 'hidden', padding: '40px 0', perspective: '1200px', cursor: 'none', position: 'relative' }}
+      style={{ overflow: 'hidden', padding: isMobile ? '20px 0' : '50px 0', perspective: '1200px', cursor: isMobile ? 'grab' : 'none', position: 'relative' }}
     >
       <div
         ref={trackRef}
@@ -242,108 +251,332 @@ function InfiniteMarquee({ wrapRef }: { wrapRef: React.RefObject<HTMLDivElement 
             <div
               className="mac-card"
               style={{
-                width: CARD_W, height: 420, borderRadius: 20,
-                overflow: 'hidden', position: 'relative',
-                background: '#111', transformStyle: 'preserve-3d',
+                width: CARD_W, 
+                height: isMobile ? 360 : 400, 
+                borderRadius: 16,
+                overflow: 'hidden', 
+                position: 'relative',
+                background: 'linear-gradient(135deg, rgba(30,30,40,0.8) 0%, rgba(20,20,30,0.8) 100%)',
+                transformStyle: 'preserve-3d',
+                border: '1.5px solid rgba(226,0,16,0.3)',
+                backdropFilter: 'blur(10px)',
+                transition: 'all 0.3s ease',
               }}
             >
+              {/* Image container with overlay */}
               <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
-                <div className="mac-img" style={{ position: 'relative', width: '100%', height: '115%', top: '-7.5%' }}>
+                <div className="mac-img" style={{ position: 'relative', width: '100%', height: '125%', top: '-12.5%' }}>
                   <Image src={p.image} alt={p.name} fill style={{ objectFit: 'cover' }} />
                 </div>
               </div>
+
+              {/* Modern gradient overlay - subtle at top, dark at bottom */}
               <div style={{
-                position: 'absolute', inset: 0, zIndex: 1,
-                background: 'linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)',
+                position: 'absolute', 
+                inset: 0, 
+                zIndex: 1,
+                background: 'linear-gradient(180deg, rgba(10,10,15,0) 0%, rgba(10,10,15,0.4) 50%, rgba(10,10,15,0.95) 100%)',
+                backdropFilter: 'blur(1px)',
               }} />
-              {/* Red accent line */}
-              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 2, background: '#E20010', opacity: 0.8, zIndex: 2 }} />
-              <div style={{ position: 'absolute', bottom: 20, left: 18, zIndex: 2 }}>
-                <div style={{ fontSize: 9, fontWeight: 600, opacity: 0.55, letterSpacing: '2.5px', textTransform: 'uppercase', color: '#fff', marginBottom: 5 }}>
+
+              {/* Neon accent bars - top and bottom */}
+              <div style={{ 
+                position: 'absolute', 
+                top: 0, 
+                left: 0, 
+                right: 0, 
+                height: 1, 
+                background: 'linear-gradient(90deg, transparent 0%, rgba(226,0,16,0.5) 50%, transparent 100%)',
+                zIndex: 2 
+              }} />
+              <div style={{ 
+                position: 'absolute', 
+                bottom: 0, 
+                left: 0, 
+                right: 0, 
+                height: 2, 
+                background: 'linear-gradient(90deg, rgba(226,0,16,0.3) 0%, #E20010 50%, rgba(226,0,16,0.3) 100%)',
+                zIndex: 2,
+                boxShadow: '0 0 20px rgba(226,0,16,0.4)',
+              }} />
+
+              {/* Content section with modern styling */}
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 3, padding: '24px 18px 20px' }}>
+                <div style={{ 
+                  fontSize: 9, 
+                  fontWeight: 600, 
+                  opacity: 0.7, 
+                  letterSpacing: '3px', 
+                  textTransform: 'uppercase', 
+                  color: '#FF6B35',
+                  marginBottom: 8,
+                  textShadow: '0 0 10px rgba(255,107,53,0.3)',
+                }}>
                   {p.sub}
                 </div>
-                <div style={{ fontSize: 17, fontWeight: 800, color: '#fff', letterSpacing: '0.2px' }}>
+                <div style={{ 
+                  fontSize: 18, 
+                  fontWeight: 800, 
+                  color: '#fff', 
+                  letterSpacing: '-0.5px',
+                  textShadow: '0 2px 8px rgba(0,0,0,0.5)',
+                }}>
                   {p.name}
                 </div>
               </div>
+
+              {/* Hover glow effect - hidden but reactive */}
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 0,
+                background: 'radial-gradient(circle at 50% 50%, rgba(226,0,16,0.15) 0%, transparent 70%)',
+                opacity: 0,
+                transition: 'opacity 0.3s ease',
+              }} className="card-glow" />
             </div>
           </Link>
         ))}
-      </div>      <CursorTeacher wrapRef={wrapRef} />    </div>
+      </div>
+      <CursorTeacher wrapRef={wrapRef} isMobile={isMobile} />
+    </div>
   )
 }
 
 export default function ProductsSection() {
   const wrapRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   return (
-    <section style={{ background: '#0A0A0A', padding: '80px 0 70px', position: 'relative', overflow: 'hidden' }}>
+    <section style={{ 
+      background: 'linear-gradient(180deg, #0A0A0A 0%, #0f0f1a 50%, #0A0A0A 100%)', 
+      padding: isMobile ? '50px 0 40px' : '80px 0 70px', 
+      position: 'relative', 
+      overflow: 'hidden'
+    }}>
+      <style>{`
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(40px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInLeft {
+          from { opacity: 0; transform: translateX(-30px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+          from { opacity: 0; transform: translateX(30px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes glow {
+          0%, 100% { box-shadow: 0 0 10px rgba(226,0,16,0.2); }
+          50% { box-shadow: 0 0 20px rgba(226,0,16,0.4), inset 0 0 20px rgba(226,0,16,0.1); }
+        }
+        .fade-in-up { animation: fadeInUp 0.9s ease-out forwards; }
+        .slide-in-left { animation: slideInLeft 0.9s ease-out forwards; }
+        .slide-in-right { animation: slideInRight 0.9s ease-out forwards; }
+        .pill-hover:hover { animation: glow 1.5s ease-in-out infinite; }
+      `}</style>
 
-      {/* Top accent line */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, transparent 0%, #E20010 40%, #FF6B35 60%, transparent 100%)', zIndex: 10 }} />
+      {/* Top accent line with neon glow */}
+      <div style={{ 
+        position: 'absolute', 
+        top: 0, 
+        left: 0, 
+        right: 0, 
+        height: 2, 
+        background: 'linear-gradient(90deg, transparent 0%, #E20010 25%, #FF6B35 50%, #E20010 75%, transparent 100%)',
+        zIndex: 10,
+        boxShadow: '0 0 20px rgba(226,0,16,0.6)',
+      }} />
 
-      {/* Subtle red glow behind cards */}
-      <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translateX(-50%)', width: 700, height: 300, background: 'radial-gradient(ellipse, rgba(226,0,16,0.08) 0%, transparent 70%)', pointerEvents: 'none', zIndex: 0 }} />
+      {/* Large central glow - more prominent */}
+      <div style={{ 
+        position: 'absolute', 
+        top: '20%', 
+        left: '50%', 
+        transform: 'translateX(-50%)', 
+        width: '95%',
+        maxWidth: 900, 
+        height: 450, 
+        background: 'radial-gradient(ellipse, rgba(226,0,16,0.15) 0%, transparent 60%)', 
+        pointerEvents: 'none', 
+        zIndex: 0,
+        filter: 'blur(80px)',
+      }} />
+
+      {/* Secondary orange glow */}
+      <div style={{ 
+        position: 'absolute', 
+        bottom: '5%', 
+        right: '10%', 
+        width: 350, 
+        height: 350, 
+        background: 'radial-gradient(ellipse, rgba(255,107,53,0.12) 0%, transparent 65%)', 
+        pointerEvents: 'none', 
+        zIndex: 0,
+        filter: 'blur(100px)',
+      }} />
 
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 40px 40px', position: 'relative', zIndex: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24 }}>
-          <div>
-            <div style={{ fontSize: 10, fontWeight: 800, letterSpacing: '3.5px', textTransform: 'uppercase', color: '#E20010', marginBottom: 14 }}>
-              Our Catalogue
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '0 20px 35px' : '0 40px 50px', position: 'relative', zIndex: 10 }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'flex-end', justifyContent: 'space-between', gap: 32 }}>
+          <div className="fade-in-up">
+            <div style={{ 
+              fontSize: 10, 
+              fontWeight: 800, 
+              letterSpacing: '4px', 
+              textTransform: 'uppercase', 
+              color: '#FF6B35',
+              marginBottom: 16,
+              opacity: 0.9,
+            }}>
+              ✦ Our Catalogue
             </div>
-            <h2 style={{ fontSize: 'clamp(36px, 5vw, 62px)', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.05, letterSpacing: '-2px' }}>
+            <h2 style={{ 
+              fontSize: isMobile ? 'clamp(32px, 8vw, 48px)' : 'clamp(42px, 5.5vw, 68px)', 
+              fontWeight: 900, 
+              color: '#fff', 
+              margin: 0, 
+              lineHeight: 1.08, 
+              letterSpacing: '-1.5px',
+            }}>
               Products Built for<br />
-              <span style={{ color: '#E20010' }}>Every</span> Industry
+              <span style={{ 
+                background: 'linear-gradient(120deg, #E20010 0%, #FF6B35 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}>
+                Every Industry
+              </span>
             </h2>
           </div>
 
-          {/* Category pills */}
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end', paddingBottom: 8, flexShrink: 0 }}>
-            {PRODUCTS.map((p, i) => (
-              <div key={i} style={{
-                fontSize: 10, fontWeight: 700, letterSpacing: '1.5px',
-                textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)',
-                border: '1px solid rgba(255,255,255,0.12)',
-                borderRadius: 20, padding: '4px 12px',
-              }}>
-                {p.name}
-              </div>
-            ))}
-          </div>
+          {/* Category pills - modern design */}
+          {!isMobile && (
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'flex-end', flexShrink: 0, maxWidth: '55%' }}>
+              {PRODUCTS.map((p, i) => (
+                <div 
+                  key={i} 
+                  className="pill-hover"
+                  style={{
+                    fontSize: 11, 
+                    fontWeight: 700, 
+                    letterSpacing: '1.5px',
+                    textTransform: 'uppercase', 
+                    color: 'rgba(255,255,255,0.7)',
+                    border: '1.5px solid rgba(226,0,16,0.4)',
+                    borderRadius: 25, 
+                    padding: '8px 16px',
+                    background: 'rgba(226,0,16,0.08)',
+                    backdropFilter: 'blur(10px)',
+                    transition: 'all 0.4s ease',
+                    cursor: 'pointer',
+                  }} 
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    gsap.to(el, { 
+                      background: 'rgba(226,0,16,0.2)', 
+                      borderColor: 'rgba(226,0,16,0.8)', 
+                      color: '#E20010',
+                      boxShadow: '0 0 20px rgba(226,0,16,0.4)',
+                      duration: 0.3 
+                    })
+                  }} 
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement
+                    gsap.to(el, { 
+                      background: 'rgba(226,0,16,0.08)', 
+                      borderColor: 'rgba(226,0,16,0.4)', 
+                      color: 'rgba(255,255,255,0.7)',
+                      boxShadow: 'none',
+                      duration: 0.3 
+                    })
+                  }}
+                >
+                  {p.name}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
       {/* ── Marquee + edge effects ───────────────────────────────────────────── */}
       <div style={{ position: 'relative' }}>
-        <EdgeArrow side="left" />
-        <EdgeArrow side="right" />
-        <InfiniteMarquee wrapRef={wrapRef} />
+        {!isMobile && <EdgeArrow side="left" />}
+        {!isMobile && <EdgeArrow side="right" />}
+        <InfiniteMarquee wrapRef={wrapRef} isMobile={isMobile} />
       </div>
 
+      {/* ── Mobile scroll indicator ──────────────────────────────────────────── */}
+      {isMobile && (
+        <div style={{
+          textAlign: 'center',
+          marginTop: 24,
+          position: 'relative',
+          zIndex: 10,
+          fontSize: 12,
+          fontWeight: 600,
+          color: 'rgba(226,0,16,0.8)',
+          letterSpacing: '1.5px',
+          animation: 'fadeInUp 0.9s ease-out 0.3s both',
+        }}>
+          ← Swipe to explore →
+        </div>
+      )}
+
       {/* ── CTA ─────────────────────────────────────────────────────────────── */}
-      <div style={{ textAlign: 'center', marginTop: 48, position: 'relative', zIndex: 10 }}>
+      <div style={{ textAlign: 'center', marginTop: isMobile ? 45 : 60, position: 'relative', zIndex: 10 }}>
         <button
           style={{
-            padding: '14px 40px',
+            padding: isMobile ? '13px 36px' : '15px 44px',
             background: 'transparent',
             border: '2px solid #E20010',
             color: '#E20010',
             cursor: 'pointer',
             fontWeight: 800,
-            fontSize: 13,
-            borderRadius: 4,
-            letterSpacing: '1px',
+            fontSize: isMobile ? 12 : 14,
+            borderRadius: 6,
+            letterSpacing: '1.5px',
             textTransform: 'uppercase',
             display: 'inline-flex',
             alignItems: 'center',
-            gap: 10,
-            transition: 'all .2s ease',
+            gap: 12,
+            transition: 'all .4s cubic-bezier(0.23, 1, 0.320, 1)',
+            position: 'relative',
+            overflow: 'hidden',
+            backdropFilter: 'blur(10px)',
           }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#E20010'; (e.currentTarget as HTMLButtonElement).style.color = '#fff' }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; (e.currentTarget as HTMLButtonElement).style.color = '#E20010' }}
+          onMouseEnter={e => { 
+            const btn = e.currentTarget as HTMLButtonElement
+            gsap.to(btn, { 
+              background: '#E20010', 
+              color: '#fff', 
+              boxShadow: '0 0 40px rgba(226,0,16,0.7), inset 0 0 20px rgba(255,255,255,0.2)',
+              transform: 'scale(1.05)',
+              duration: 0.4 
+            })
+          }}
+          onMouseLeave={e => { 
+            const btn = e.currentTarget as HTMLButtonElement
+            gsap.to(btn, { 
+              background: 'transparent', 
+              color: '#E20010', 
+              boxShadow: 'none',
+              transform: 'scale(1)',
+              duration: 0.4 
+            })
+          }}
         >
-          View All Products <ArrowRight size={14} strokeWidth={3} />
+          View All Products <ArrowRight size={16} strokeWidth={3} />
         </button>
       </div>
 

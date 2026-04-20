@@ -10,7 +10,6 @@ const PROJECTS = [
   { img:'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80', city:'Muscat', label:'Industrial Complex', year:'2023' },
   { img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=80', city:'Sohar', label:'Port Infrastructure', year:'2022' },
   { img:'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&q=80', city:'Dubai', label:'Commercial Tower', year:'2023' },
-  { img:'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=900&q=80', city:'Muscat', label:'Oil & Gas Facility', year:'2022' },
 ]
 
 export default function ProjectsSection() {
