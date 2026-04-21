@@ -78,7 +78,7 @@ export default function HeroSection() {
   const slide = SLIDES[idx]
   const IconComponent = slide.icon
 
-  // ─── GSAP Scroll Animation ──────────────────────────────────────────────────
+  // ─── GSAP Scroll Animation (Optimized for Mobile) ──────────────────────────
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
@@ -93,11 +93,16 @@ export default function HeroSection() {
         end: `+=${scrollDistance}`,
         pin: true,
         pinSpacing: true,
-        scrub: 1.2,
+        scrub: 0.2, // Lowered for instant touch response
+        snap: { // Added snapping to lock onto slides cleanly
+          snapTo: 1 / (N - 1),
+          duration: { min: 0.2, max: 0.4 },
+          ease: 'power1.inOut'
+        },
         invalidateOnRefresh: true,
         onUpdate: (self) => {
           const progress = self.progress
-          const newIdx = Math.min(Math.floor(progress * N), N - 1)
+          const newIdx = Math.min(Math.round(progress * (N - 1)), N - 1)
 
           if (newIdx !== indexRef.current) {
             indexRef.current = newIdx
@@ -288,12 +293,12 @@ export default function HeroSection() {
             pointer-events: none;
           }
 
-          /* Desktop Default (Matches your original) */
+          /* Desktop Default */
           .left-panel { position: absolute; left: clamp(24px, 6vw, 92px); top: 50%; transform: translateY(-50%); z-index: 40; max-width: 420px; }
           .center-panel { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 25; pointer-events: none; display: flex; flex-direction: column; align-items: center; }
           .right-panel { position: absolute; right: clamp(24px, 6vw, 92px); top: 50%; transform: translateY(-50%); z-index: 30; max-width: 400px; text-align: right; }
           
-          .btn-primary { display: inline-flex; alignItems: center; gap: 8; background: linear-gradient(135deg, ${RED}, ${ACCENT_ORANGE}); color: ${WHITE}; font-size: 11px; font-weight: 800; padding: 12px 22px; border-radius: 6px; text-decoration: none; }
+          .btn-primary { display: inline-flex; alignItems: center; gap: 8px; background: linear-gradient(135deg, ${RED}, ${ACCENT_ORANGE}); color: ${WHITE}; font-size: 11px; font-weight: 800; padding: 12px 22px; border-radius: 6px; text-decoration: none; }
           .btn-secondary { display: inline-flex; alignItems: center; background: rgba(255,255,255,0.08); border: 1.5px solid rgba(255,255,255,0.15); color: ${WHITE}; font-size: 11px; font-weight: 700; padding: 12px 20px; border-radius: 6px; text-decoration: none; backdrop-filter: blur(8px); }
           .feature-card { background: rgba(255,255,255,0.05); border: 1.5px solid ${RED}40; border-radius: 12px; padding: 18px; backdrop-filter: blur(12px); margin-bottom: 24px; text-align: left; }
           .tagline-text { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.6); font-style: italic; }
@@ -308,18 +313,18 @@ export default function HeroSection() {
               transform: none !important;
               max-width: 100% !important;
               text-align: center !important;
-              margin-bottom: 20px;
+              margin-bottom: 15px;
             }
             .hero-main-container {
                justify-content: flex-start !important;
-               padding-top: 60px;
-               height: 100vh;
-               overflow-y: auto;
+               padding-top: 10vh;
+               height: 100dvh;
+               overflow: hidden !important; /* Forces ScrollTrigger to work properly */
             }
-            .center-panel { order: 1; }
+            .center-panel { order: 1; transform: scale(0.95) !important; }
             .left-panel { order: 2; display: flex; flex-direction: column; align-items: center; }
             .right-panel { order: 3; display: flex; flex-direction: column; align-items: center; }
-            .feature-card { margin-bottom: 10px; }
+            .feature-card { margin-bottom: 10px; width: 90%; }
             .tagline-text { display: none; }
           }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // ─── Zone config ─────────────────────────────────────────────────────────────
 type Zone =
@@ -55,8 +55,25 @@ const drawCenteredSpacedText = (
 
 export default function CustomCursor() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  
+  // ── FIX: State to track if device has a real mouse ────────────────────────
+  const [isDesktop, setIsDesktop] = useState(true)
 
   useEffect(() => {
+    // Check if the device supports hover and has a fine pointer (mouse)
+    const mediaQuery = window.matchMedia('(hover: hover) and (pointer: fine)')
+    setIsDesktop(mediaQuery.matches)
+
+    // Listen for changes (e.g., if someone plugs a mouse into a tablet)
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches)
+    mediaQuery.addEventListener('change', handler)
+    return () => mediaQuery.removeEventListener('change', handler)
+  }, [])
+
+  useEffect(() => {
+    // If it's a mobile/touch device, completely abort running the cursor logic
+    if (!isDesktop) return
+
     const canvas = canvasRef.current
     if (!canvas) return
 
@@ -86,10 +103,6 @@ export default function CustomCursor() {
     let ldx = -999, ldy = -999
     let raf: number
 
-    // ── FIX 1: Snap all followers to real mouse position on first move ─────
-    // After Next.js client-side navigation the component remounts but no
-    // mousemove fires, so the canvas stays blank. Grabbing the first event
-    // and teleporting all lerp followers fixes the blank + swim-from-center.
     const snapOnFirstMove = (e: MouseEvent) => {
       mx = e.clientX; my = e.clientY
       f1x = mx; f1y = my
@@ -100,10 +113,6 @@ export default function CustomCursor() {
     }
     document.addEventListener('mousemove', snapOnFirstMove, { capture: true, passive: true })
 
-    // ── FIX 2: Release pressing state via multiple safety nets ────────────
-    // When a link is clicked, the browser navigates before mouseup fires on
-    // the document, leaving pressing=true forever → cursor shrinks & freezes.
-    // We catch mouseup on window (capture), tab blur, and page hide.
     const releasePressing = () => { pressing = false }
     window.addEventListener('mouseup', releasePressing, true)
     window.addEventListener('blur', releasePressing)
@@ -151,8 +160,6 @@ export default function CustomCursor() {
     const onDown = (e: MouseEvent) => {
       pressing = true
       burst(e.clientX, e.clientY)
-      // FIX 3: Hard timeout safety net — if mouseup is never received
-      // (e.g. navigation swallows it), force-release after 350 ms.
       setTimeout(releasePressing, 350)
     }
     const onUp   = () => { pressing = false }
@@ -175,7 +182,6 @@ export default function CustomCursor() {
       f2x = lrp(f2x, mx, 0.10); f2y = lrp(f2y, my, 0.10)
       f3x = lrp(f3x, mx, 0.05); f3y = lrp(f3y, my, 0.05)
 
-      // magnetic pull on tight follower
       if (magOn) {
         const dx = f1x - magX, dy = f1y - magY
         const pull = Math.max(0, 1 - hyp(dx, dy) / 130)
@@ -189,7 +195,6 @@ export default function CustomCursor() {
       curSize      = lrp(curSize, tgtSize, 0.11)
       const ps     = pressing ? 0.72 : 1.0
 
-      // ── 1) INK TRAIL ──────────────────────────────────────────────────
       for (let i = drops.length - 1; i >= 0; i--) drops[i].life -= 0.042
       for (let i = 1; i < drops.length; i++) {
         const c = drops[i], p = drops[i - 1], prog = i / drops.length
@@ -202,7 +207,6 @@ export default function CustomCursor() {
       }
       for (let i = drops.length - 1; i >= 0; i--) if (drops[i].life <= 0) drops.splice(i, 1)
 
-      // ── 2) CLICK BURST PARTICLES ───────────────────────────────────────
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i]
         p.vy += 0.09; p.vx *= 0.96; p.x += p.vx; p.y += p.vy; p.life -= p.decay
@@ -212,11 +216,9 @@ export default function CustomCursor() {
         ctx.fillStyle = R + (p.life * 0.95) + ')'; ctx.fill()
       }
 
-      // ── 3) GHOST RING (slowest) ────────────────────────────────────────
       ctx.beginPath(); ctx.arc(f3x, f3y, (curSize + 18) * ps, 0, Math.PI * 2)
       ctx.strokeStyle = R + (active ? 0.10 : 0.06) + ')'; ctx.lineWidth = 1; ctx.stroke()
 
-      // ── 4) MID RING (squash/stretch along velocity) ────────────────────
       {
         const angle = Math.atan2(vy, vx), stretch = Math.min(spd / 22, 0.65)
         ctx.save(); ctx.translate(f2x, f2y); ctx.rotate(angle)
@@ -226,7 +228,6 @@ export default function CustomCursor() {
         ctx.restore()
       }
 
-      // ── 5) ROTATING DASHES (active only) ──────────────────────────────
       if (active && curSize > 14) {
         const dash = Math.max(3, curSize * 0.22)
         ctx.save(); ctx.translate(f1x, f1y); ctx.rotate(rot)
@@ -236,7 +237,6 @@ export default function CustomCursor() {
         ctx.restore()
       }
 
-      // ── 6) MAIN RING ──────────────────────────────────────────────────
       {
         const r = curSize * ps
         ctx.beginPath(); ctx.arc(f1x, f1y, r, 0, Math.PI * 2)
@@ -253,27 +253,22 @@ export default function CustomCursor() {
         }
       }
 
-      // ── 7) LABEL ──────────────────────────────────────────────────────
       if (cfg.label && curSize > 22) {
         const alpha = Math.min(1, (curSize - 22) / 18)
         ctx.save(); ctx.translate(f1x, f1y)
         ctx.font = '700 8px -apple-system,"Helvetica Neue",sans-serif'
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
         ctx.fillStyle = `rgba(255,255,255,${alpha})`
-        // Avoid CanvasRenderingContext2D.letterSpacing so the loop does not crash
-        // on browsers that do not implement that property.
         drawCenteredSpacedText(ctx, cfg.label, 0, 0, 2.5)
         ctx.restore()
       }
 
-      // ── 8) CENTER DOT ─────────────────────────────────────────────────
       const dr = pressing ? 2.5 : 4.5
       ctx.beginPath(); ctx.arc(mx, my, dr, 0, Math.PI * 2)
       ctx.fillStyle = 'rgba(226,0,16,1)'; ctx.fill()
       ctx.beginPath(); ctx.arc(mx - 1, my - 1, dr * 0.28, 0, Math.PI * 2)
       ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.fill()
 
-      // ── 9) MAGNETIC TETHER ────────────────────────────────────────────
       if (magStr > 0.04) {
         const ang = Math.atan2(magY - f1y, magX - f1x)
         ctx.save(); ctx.globalAlpha = magStr * 0.38
@@ -305,11 +300,15 @@ export default function CustomCursor() {
       document.removeEventListener('visibilitychange', releasePressing)
       window.removeEventListener('resize', resize)
     }
-  }, [])
+  }, [isDesktop]) // Re-run if device type changes
+
+  // If we are on a touch device, return nothing! This prevents the drawing effect and restores native scrolling.
+  if (!isDesktop) return null
 
   return (
     <>
       <style>{`
+        /* Only apply 'cursor: none' when the custom cursor is actively rendered */
         *, *::before, *::after { cursor: none !important; }
         canvas { display: block; }
       `}</style>
