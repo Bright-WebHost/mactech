@@ -1,365 +1,249 @@
-import type { Metadata } from 'next'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'Services | Mactech Oman',
-  description:
-    'Explore Mactech Oman services and supply categories including fasteners, PPE, welding consumables, tools, pipes and construction consumables.',
-}
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
-// ─── Service data (one strong image per service) ───────────────────────────────
+// ─── Service Data ─────────────────────────────────────────────────────────────
 const SERVICES = [
-  {
-    num: '01',
-    tag: 'High-load · Corrosion-resistant',
-    category: 'Fasteners',
-    title: ['Fasteners &', 'Fixings'],
-    desc: 'A comprehensive range of industrial fasteners engineered for high-load, corrosive, and demanding environments across oil & gas, marine, and construction projects.',
-    features: [
-      'Hex bolts, stud bolts, anchor bolts — all grades',
-      'Stainless, galvanised & high-tensile finishes',
-      'ASTM, DIN & ISO certified to project spec',
-      'Custom kitting and packing on request',
-    ],
-    image: { src: '/images/fasteners/nut.png', alt: 'Industrial hex nut and bolt' },
+  { 
+    id: 'fasteners', 
+    num: '01', 
+    category: 'FASTENERS', 
+    tag: 'High-load · Corrosion-resistant', 
+    title: ['Fasteners &', 'Fixings'], 
+    desc: 'A comprehensive range of industrial fasteners engineered for high-load, corrosive, and demanding environments across oil & gas, marine, and construction projects.', 
+    features: ['Hex bolts, stud bolts, anchor bolts', 'Stainless & high-tensile finishes', 'ASTM, DIN & ISO certified'], 
+    images: ['/images/fasteners/nut.png', '/images/fasteners/bolt.png', '/images/fasteners/brush.png', '/images/fasteners/wrench.png'] 
   },
-  {
-    num: '02',
-    tag: 'EN · ANSI · OSHA Certified',
-    category: 'Safety',
-    title: ['Personal Protective', 'Equipment'],
-    desc: 'Certified head-to-toe PPE solutions for industrial, construction, and offshore environments meeting or exceeding international safety standards.',
-    features: [
-      'Hard hats & safety helmets — Type I & II',
-      'Hi-vis vests, coveralls & chemical suits',
-      'Safety footwear — steel toe, puncture-resistant',
-      'Respiratory, eye & hearing protection',
-    ],
-    image: { src: '/images/fasteners/helmate.png', alt: 'Industrial safety helmet' },
+  { 
+    id: 'safety', 
+    num: '02', 
+    category: 'SAFETY', 
+    tag: 'EN · ANSI · OSHA Certified', 
+    title: ['Personal Protective', 'Equipment'], 
+    desc: 'Certified head-to-toe PPE solutions for industrial, construction, and offshore environments meeting or exceeding international safety standards.', 
+    features: ['Hard hats & safety helmets', 'Hi-vis vests & coveralls', 'Respiratory & eye protection'], 
+    images: ['/images/fasteners/helmate.png', '/images/safety/boots.png', '/images/safety/coat.png', '/images/safety/fullsuit.png'] 
   },
-  {
-    num: '03',
-    tag: 'MIG · TIG · MMA · FCAW',
-    category: 'Welding',
-    title: ['Welding', 'Consumables'],
-    desc: 'Full-spectrum welding consumables for all major processes. OEM-grade materials for structural, pipeline, and offshore welding across Oman.',
-    features: [
-      'Electrodes — cellulosic, rutile & low-hydrogen',
-      'MIG/TIG wires — solid, flux-cored & metal-cored',
-      'Welding gases — Argon, CO₂, mixed cylinders',
-      'Grinding discs, brushes & post-weld treatment',
-    ],
-    image: { src: '/images/welding/welding1.png', alt: 'Professional welding equipment' },
+  { 
+    id: 'welding', 
+    num: '03', 
+    category: 'WELDING', 
+    tag: 'MIG · TIG · MMA · FCAW', 
+    title: ['Welding', 'Consumables'], 
+    desc: 'Full-spectrum welding consumables for all major processes. OEM-grade materials for structural, pipeline, and offshore welding across Oman.', 
+    features: ['Cellulosic, rutile & low-hydrogen', 'MIG/TIG wires & metal-cored', 'Welding gases & treatment'], 
+    images: ['/images/welding/welding1.png', '/images/welding/welding2.png', '/images/welding/welding3.png', '/images/welding/welding4.png'] 
   },
-  {
-    num: '04',
-    tag: 'Hand · Power · Precision',
-    category: 'Tools',
-    title: ['Hand &', 'Power Tools'],
-    desc: 'Industrial-grade hand tools and power tools from globally trusted brands for maintenance, fabrication, and site operations across Oman.',
-    features: [
-      'Spanners, ratchets, torque wrenches, pliers sets',
-      'Grinders, drills, impact drivers & saws',
-      'Measuring & marking tools — precision grade',
-      'Tool storage systems and organiser sets',
-    ],
-    image: { src: '/images/hero/tools4.png', alt: 'Industrial tools set' },
+  { 
+    id: 'tools', 
+    num: '04', 
+    category: 'TOOLS', 
+    tag: 'Hand · Power · Precision', 
+    title: ['Hand &', 'Power Tools'], 
+    desc: 'Industrial-grade hand tools and power tools from globally trusted brands for maintenance, fabrication, and site operations across Oman.', 
+    features: ['Spanners, ratchets, torque wrenches', 'Grinders, drills & impact drivers', 'Precision measuring tools'], 
+    images: ['/images/tools/tool1.png', '/images/tools/tool2.png', '/images/tools/tool3.png', '/images/fasteners/wrench2.png'] 
   },
-  {
-    num: '05',
-    tag: 'CS · SS · GI · HDPE',
-    category: 'Piping',
-    title: ['Pipes, Valves', '& Fittings'],
-    desc: 'Extensive piping systems for oil & gas, utility, and process applications. Supplied to project spec with fast turnaround across all schedules and ratings.',
-    features: [
-      'Carbon steel, stainless & GI pipes — all schedules',
-      'Elbows, tees, reducers, flanges & end caps',
-      'Gate, ball, butterfly, globe & check valves',
-      'Gaskets, clamps & pipe support systems',
-    ],
-    image: { src: '/images/pipes/pipe1.png', alt: 'Industrial steel pipe system' },
+  { 
+    id: 'piping', 
+    num: '05', 
+    category: 'PIPING', 
+    tag: 'CS · SS · GI · HDPE', 
+    title: ['Pipes, Valves', '& Fittings'], 
+    desc: 'Extensive piping systems for oil & gas, utility, and process applications. Supplied to project spec with fast turnaround across all schedules and ratings.', 
+    features: ['Carbon steel, stainless & GI pipes', 'Gate, ball, globe & check valves', 'Gaskets & pipe support'], 
+    images: ['/images/pipes/pipe1.png', '/images/pipes/pipe2.png', '/images/pipes/pipe3.png', '/images/pipes/pipe4.png'] 
   },
-  {
-    num: '06',
-    tag: 'Abrasives · Sealants · Chemicals',
-    category: 'Construction',
-    title: ['Construction', 'Consumables'],
-    desc: 'General and specialist consumables to keep construction, maintenance, and civil works running. Trusted by major Oman contractors for reliability and quality.',
-    features: [
-      'Abrasives — cutting discs, flap discs, grinding wheels',
-      'Adhesives, sealants, PTFE tape & lubricants',
-      'Cable ties, conduits, tapes & marking supplies',
-      'Cleaning chemicals & site maintenance products',
-    ],
-    image: { src: '/images/construction/1.png', alt: 'Construction consumables' },
+  { 
+    id: 'construction', 
+    num: '06', 
+    category: 'CONSTRUCTION', 
+    tag: 'Abrasives · Sealants · Chemicals', 
+    title: ['Construction', 'Consumables'], 
+    desc: 'General and specialist consumables to keep construction, maintenance, and civil works running. Trusted by major Oman contractors for reliability and quality.', 
+    features: ['Cutting discs & flap discs', 'Adhesives, sealants & lubricants', 'Cleaning & site maintenance'], 
+    images: ['/images/construction/1.png', '/images/construction/2.png', '/images/construction/3.png', '/images/construction/4.png'] 
   },
 ]
 
-// ─── Trust stats ──────────────────────────────────────────────────────────────
 const STATS = [
-  { value: '12,000+', label: 'SKUs in Stock' },
-  { value: '24 hr', label: 'Delivery Across Oman' },
-  { value: 'ISO', label: 'Certified Supply Chain' },
-  { value: '15+', label: 'Years in Market' },
+  { value: '12k+', label: 'SKUs IN STOCK' },
+  { value: '24 HR', label: 'DELIVERY ACROSS OMAN' },
+  { value: 'ISO', label: 'CERTIFIED SUPPLY CHAIN' },
+  { value: '15+', label: 'YEARS IN MARKET' },
 ]
 
-// ─── Checkmark icon ───────────────────────────────────────────────────────────
 const Check = () => (
-  <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
-    <path
-      d="M2.5 6.5l3 3 5-5"
-      stroke="#E20010"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
+  <svg width="12" height="12" viewBox="0 0 13 13" fill="none">
+    <path d="M2.5 6.5l3 3 5-5" stroke="#E20010" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-export default function ServicesPage() {
+function FloatingImages({ images }: { images: string[] }) {
   return (
-    <div className="bg-white">
+    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {images.map((src, i) => (
+        <motion.img
+          key={src}
+          src={src}
+          alt="Industrial component"
+          initial={{ y: 20, opacity: 0 }}
+          whileInView={{ 
+            y: [0, -15, 0], 
+            opacity: 1,
+            transition: { 
+              y: { duration: 4 + i, repeat: Infinity, ease: "easeInOut" },
+              opacity: { duration: 0.8 }
+            }
+          }}
+          className="absolute object-contain drop-shadow-2xl"
+          style={{
+            width: i === 0 ? '55%' : '25%', 
+            zIndex: i === 0 ? 10 : 5,
+            left: i === 0 ? '22%' : i === 1 ? '8%' : i === 2 ? '68%' : '12%',
+            top: i === 0 ? '22%' : i === 1 ? '12%' : i === 2 ? '18%' : '58%',
+            filter: i !== 0 ? 'blur(1px)' : 'none',
+            opacity: i !== 0 ? 0.5 : 1
+          }}
+        />
+      ))}
+    </div>
+  )
+}
 
-      {/* ── Hero ───────────────────────────────────────────────────────────── */}
-      <section className="px-8 py-16 lg:px-16 lg:py-24 bg-white border-b border-[rgba(226,0,16,0.12)]">
-        <div className="max-w-5xl">
-          <div className="inline-flex items-center gap-1.5 text-[#E20010] bg-[rgba(226,0,16,0.07)] border border-[rgba(226,0,16,0.18)] px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-[0.12em] mb-6">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E20010]" />
+function ServiceCard({ svc, index, total }: { svc: typeof SERVICES[0], index: number, total: number }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start start', 'end start']
+  })
+
+  const isLast = index === total - 1
+  const scale = useTransform(scrollYProgress, [0, 1], [1, isLast ? 1 : 0.98])
+
+  return (
+    <div 
+      ref={containerRef} 
+      id={svc.id}
+      className="h-[105vh] w-full sticky top-0 flex items-start justify-center pt-24 px-4 lg:px-8"
+    >
+      <motion.div 
+        style={{ scale }}
+        className={`w-full max-w-[1400px] h-[75vh] rounded-[2.5rem] overflow-hidden shadow-[0_40px_80px_-20px_rgba(0,0,0,0.4)] border border-black/5 flex flex-col lg:flex-row relative ${index % 2 === 0 ? 'bg-[#151515]' : 'bg-[#0d0d0d]'}`}
+      >
+        <div className="w-full lg:w-1/2 h-1/2 lg:h-full flex flex-col justify-center p-8 lg:p-20 relative z-20 text-white">
+          <div className="flex flex-col gap-1 mb-6">
+            <span className="label-base uppercase tracking-[0.4em] text-[#E20010]">{svc.category}</span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-white/30">{svc.tag}</span>
+          </div>
+
+          <h2 className="font-barlow-condensed font-black uppercase leading-[0.9] tracking-tighter mb-6" style={{ fontSize: 'clamp(40px, 5vw, 68px)' }}>
+            {svc.title[0]} <br /> <span className="text-[#E20010]">{svc.title[1]}</span>
+          </h2>
+
+          <p className="text-md-static text-white/40 leading-relaxed mb-8 max-w-[440px] font-medium">{svc.desc}</p>
+
+          <ul className="space-y-4">
+            {svc.features.map((f) => (
+              <li key={f} className="flex items-center gap-3 label-xs text-white/90 tracking-widest">
+                <span className="flex-shrink-0 bg-[#E20010]/20 p-2 rounded-full"><Check /></span>
+                {f}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-[#f6f6f6] relative overflow-hidden">
+          <FloatingImages images={svc.images} />
+          <div className="absolute font-barlow-condensed font-black text-[#E20010] opacity-[0.03] text-[350px] leading-none select-none pointer-events-none right-[-30px] bottom-[-30px]">
+            {svc.num}
+          </div>
+        </div>
+      </motion.div>
+    </div>
+  )
+}
+
+export default function ServicesPage() {
+  const scrollToService = (id: string) => {
+    const el = document.getElementById(id)
+    if (el) {
+      window.scrollTo({ top: el.offsetTop - 100, behavior: 'smooth' })
+    }
+  }
+
+  return (
+    <div className="bg-white min-h-screen font-sans">
+      
+      {/* ── Hero ── */}
+      <section className="px-8 pt-20 pb-12 lg:px-20 lg:pt-24 max-w-[1440px] mx-auto">
+        <div className="max-w-4xl">
+          <div className="inline-flex items-center gap-2 text-[#E20010] bg-[#E20010]/5 border border-[#E20010]/20 px-4 py-1.5 rounded-full label-xs mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#E20010] animate-pulse" />
             Industrial Supply — Oman
           </div>
 
-          <h1
-            className="font-barlow-condensed font-black uppercase leading-[1.0] tracking-tight text-[#0D0D0D] mb-5"
-            style={{ fontSize: 'clamp(52px, 8vw, 96px)' }}
-          >
+          <h1 className="font-barlow-condensed font-black uppercase leading-[0.8] tracking-tighter text-black mb-6" style={{ fontSize: 'clamp(56px, 10vw, 130px)' }}>
             Our Supply<br />
             <span className="text-[#E20010]">Services</span>
           </h1>
 
-          <p className="text-[15px] text-[#6b6b6b] leading-relaxed max-w-[500px]">
-            Complete industrial supply support — from product selection to timely delivery
-            across Oman, serving oil & gas, marine, and construction sectors.
+          <p className="text-md-static text-black/60 leading-relaxed max-w-xl font-medium border-l-3 border-[#E20010] pl-5 italic">
+            Bridging global manufacturing with Oman’s infrastructure 
+            through certified, precision-engineered solutions.
           </p>
         </div>
       </section>
 
-      {/* ── Stats Bar ──────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 bg-[#0D0D0D] border-b border-white/5">
+      {/* ── Stats ── */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 bg-black text-white">
         {STATS.map((stat, i) => (
-          <div
-            key={stat.label}
-            className={`px-8 py-7 flex flex-col gap-1.5 ${
-              i < STATS.length - 1 ? 'border-r border-white/[0.07]' : ''
-            }`}
-          >
-            <span
-              className="font-barlow-condensed font-black uppercase text-[#E20010] leading-none"
-              style={{ fontSize: 'clamp(30px, 3.5vw, 44px)' }}
-            >
-              {stat.value}
-            </span>
-            <span className="text-[10.5px] font-medium uppercase tracking-[0.1em] text-white/40">
-              {stat.label}
-            </span>
+          <div key={stat.label} className={`px-10 py-10 flex flex-col items-start gap-1 ${i < STATS.length - 1 ? 'border-r border-white/10' : ''}`}>
+            <span className="font-barlow-condensed font-black text-5xl lg:text-7xl text-[#E20010] leading-none">{stat.value}</span>
+            <span className="label-xs text-white/30">{stat.label}</span>
           </div>
         ))}
       </div>
 
-      {/* ── Category Nav ───────────────────────────────────────────────────── */}
-      <nav
-        className="hidden lg:flex items-stretch border-b border-[rgba(226,0,16,0.1)] bg-white sticky top-0 z-10"
-        aria-label="Service categories"
-      >
-        {SERVICES.map((svc) => (
-          <a
-            key={svc.num}
-            href={`#${svc.category.toLowerCase()}`}
-            className="flex-1 group flex flex-col items-center justify-center px-4 py-3 border-r border-[rgba(226,0,16,0.08)] last:border-r-0 hover:bg-[rgba(226,0,16,0.04)] transition-colors duration-150"
-          >
-            <span className="text-[9px] font-bold text-[#E20010] tracking-[0.1em] mb-0.5">
-              {svc.num}
-            </span>
-            <span className="text-[10px] font-semibold uppercase tracking-[0.09em] text-[#888] group-hover:text-[#E20010] transition-colors duration-150 whitespace-nowrap">
-              {svc.category}
-            </span>
-          </a>
-        ))}
-      </nav>
-
-      {/* ── Service Sections ───────────────────────────────────────────────── */}
-      <div>
-        {SERVICES.map((svc, index) => {
-          const isEven = index % 2 === 1
-
-          /* ── Text panel (dark) ── */
-          const TextPanel = (
-            <div
-              className="flex flex-col justify-center px-10 py-16 lg:px-14 lg:py-20 bg-[#0D0D0D]"
-              style={{ minHeight: 500 }}
+      {/* ── Filter Nav ── */}
+      <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5">
+        <div className="flex max-w-[1440px] mx-auto overflow-x-auto no-scrollbar">
+          {SERVICES.map((s) => (
+            <button 
+              key={s.id} 
+              onClick={() => scrollToService(s.id)}
+              className="flex-1 min-w-[140px] py-6 flex flex-col items-center gap-1 border-r border-black/5 hover:bg-gray-50 transition-all group"
             >
-              {/* Number + category row */}
-              <div className="flex items-end gap-4 mb-8">
-                <span
-                  className="font-barlow-condensed font-black leading-none text-[#E20010]"
-                  style={{ fontSize: 80, opacity: 0.12 }}
-                  aria-hidden="true"
-                >
-                  {svc.num}
-                </span>
-                <div className="mb-1.5 flex flex-col gap-1">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#E20010]">
-                    {svc.category}
-                  </span>
-                  <span className="text-[9.5px] uppercase tracking-[0.1em] text-white/30">
-                    {svc.tag}
-                  </span>
-                </div>
-              </div>
-
-              {/* Title */}
-              <h2
-                className="font-barlow-condensed font-black uppercase leading-[1.0] tracking-tight text-white mb-5"
-                style={{ fontSize: 'clamp(34px, 3.8vw, 54px)' }}
-              >
-                {svc.title[0]}
-                <br />
-                {svc.title[1]}
-              </h2>
-
-              {/* Red rule */}
-              <div className="w-10 h-[2px] bg-[#E20010] mb-6 rounded-full" />
-
-              {/* Description */}
-              <p className="text-[13px] text-white/50 leading-relaxed mb-8 max-w-[380px]">
-                {svc.desc}
-              </p>
-
-              {/* Features */}
-              <ul className="flex flex-col gap-3.5">
-                {svc.features.map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-start gap-3 text-[12.5px] text-white/70 leading-snug"
-                  >
-                    <span className="flex-shrink-0 mt-[2px]">
-                      <Check />
-                    </span>
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )
-
-          /* ── Image panel (light) ── */
-          const ImagePanel = (
-            <div
-              className="relative flex items-center justify-center bg-[#F4F4F2]"
-              style={{ minHeight: 500 }}
-            >
-              {/* Subtle section number watermark */}
-              <span
-                className="absolute bottom-4 right-5 font-barlow-condensed font-black uppercase leading-none pointer-events-none select-none text-[#E20010]"
-                style={{ fontSize: 130, opacity: 0.035, letterSpacing: '-0.04em' }}
-                aria-hidden="true"
-              >
-                {svc.num}
-              </span>
-
-              {/* Subtle top accent line */}
-              <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#E20010] to-transparent opacity-10" />
-
-              {/* Product image */}
-              <img
-                src={svc.image.src}
-                alt={svc.image.alt}
-                loading="lazy"
-                className="relative z-10 hover:scale-[1.05] transition-transform duration-700 ease-out"
-                style={{
-                  maxWidth: '68%',
-                  maxHeight: 340,
-                  objectFit: 'contain',
-                  filter: 'drop-shadow(0 28px 56px rgba(0,0,0,0.14))',
-                }}
-              />
-
-              {/* Bottom left label */}
-              <div className="absolute bottom-5 left-6 z-10">
-                <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[#E20010] bg-white border border-[rgba(226,0,16,0.22)] px-3 py-1.5 rounded-full shadow-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#E20010]" />
-                  {svc.category}
-                </span>
-              </div>
-            </div>
-          )
-
-          return (
-            <article
-              key={svc.num}
-              id={svc.category.toLowerCase()}
-              className="grid grid-cols-1 lg:grid-cols-2 border-b border-[rgba(226,0,16,0.1)] scroll-mt-[88px]"
-            >
-              {isEven ? (
-                <>
-                  <div className="order-2 lg:order-1">{ImagePanel}</div>
-                  <div className="order-1 lg:order-2">{TextPanel}</div>
-                </>
-              ) : (
-                <>
-                  <div>{TextPanel}</div>
-                  <div>{ImagePanel}</div>
-                </>
-              )}
-            </article>
-          )
-        })}
+              <span className="text-[#E20010] font-barlow-condensed font-black text-lg leading-none opacity-40 group-hover:opacity-100">{s.num}</span>
+              <span className="label-xs text-black group-hover:text-[#E20010]">{s.category}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* ── CTA ────────────────────────────────────────────────────────────── */}
-      <section className="bg-[#0D0D0D] px-8 py-16 lg:px-16 lg:py-20 border-t border-white/[0.06]">
-        <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#E20010] mb-3 block">
-              Procurement — Fast Track
-            </span>
-            <h2
-              className="font-barlow-condensed font-black uppercase leading-[1.0] tracking-tight text-white mb-4"
-              style={{ fontSize: 'clamp(30px, 4.5vw, 56px)' }}
-            >
-              Send us your<br />
-              <span className="text-[#E20010]">Bill of Materials</span>
-            </h2>
-            <p className="text-[13px] text-white/45 leading-relaxed max-w-[440px]">
-              Upload your BOM or material list — our technical sales team will price, source,
-              and deliver across Oman within 24 hours. No back-and-forth.
-            </p>
-          </div>
+      {/* ── Cards Stack ── */}
+      <div className="relative pt-8 pb-32">
+        {SERVICES.map((svc, index) => (
+          <ServiceCard key={svc.id} svc={svc} index={index} total={SERVICES.length} />
+        ))}
+      </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
-            <a
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2.5 bg-[#E20010] hover:bg-[#b4000d] text-white font-bold px-8 py-4 rounded-lg transition-colors duration-200 text-[11px] uppercase tracking-widest whitespace-nowrap"
-            >
-              Upload your BOM
-              <svg
-                className="w-3.5 h-3.5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2.5}
-                viewBox="0 0 24 24"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-            <a
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 border border-white/15 hover:border-white/35 text-white/60 hover:text-white font-semibold px-8 py-4 rounded-lg transition-all duration-200 text-[11px] uppercase tracking-widest whitespace-nowrap"
-            >
-              Request a Quote
-            </a>
-          </div>
+      {/* ── CTA ── */}
+      <section className="bg-black py-28 text-center relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[#E20010]/5 blur-[120px] rounded-full" />
+        <div className="relative z-10">
+          <h2 className="font-barlow-condensed font-black uppercase text-6xl lg:text-[9rem] text-white leading-[0.85] mb-10">
+            Ready to <br /><span className="text-[#E20010]">Build?</span>
+          </h2>
+          <motion.a 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            href="/contact" 
+            className="inline-block bg-[#E20010] text-white font-black px-12 py-5 rounded-full uppercase tracking-[0.15em] label-base shadow-xl shadow-red-900/20"
+          >
+            Request a Quote
+          </motion.a>
         </div>
       </section>
 
