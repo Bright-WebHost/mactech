@@ -146,7 +146,7 @@ export default function AboutSection() {
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.15 }}
               style={{ position: 'absolute', top: 12, left: 12, right: 12, bottom: 12, zIndex: 1, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}>
               <motion.div animate={{ scale: [1, 1.04, 1] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }} style={{ width: '100%', height: '100%' }}>
-                <Image src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=85" alt="Mactech industrial" fill className="object-cover" />
+                <Image src="/images/products/about.avif" alt="Mactech industrial" fill className="object-cover" />
               </motion.div>
             </motion.div>
 
