@@ -9,7 +9,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer style={{ background: '#111', color: '#fff', fontFamily: "'Plus Jakarta Sans', sans-serif", position: 'relative' }}>
+    <footer style={{ background: '#111', color: '#fff', fontFamily: "'DM Sans', sans-serif", position: 'relative' }}>
       
       {/* Moved the Red CTA Box to the top.
         Using negative top margin to make it overlap the section above it slightly, 

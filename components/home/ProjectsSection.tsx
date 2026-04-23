@@ -2,9 +2,12 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { MapPin, ArrowRight } from 'lucide-react'
-import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { MapPin, ArrowRight, ChevronRight } from 'lucide-react'
+import { useState, useEffect } from 'react'
+
+// Ensure these are loaded in your project:
+// @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=DM+Sans:wght@400;500;700&display=swap');
 
 const PROJECTS = [
   { img:'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=80', city:'Muscat', label:'Industrial Complex', year:'2023' },
@@ -12,96 +15,173 @@ const PROJECTS = [
   { img:'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=900&q=80', city:'Dubai', label:'Commercial Tower', year:'2023' },
 ]
 
-export default function ProjectsSection() {
-  const [activeProject, setActiveProject] = useState(0)
+const RED = '#CC1020'
+
+export default function ImprovedProjectsSection() {
+  const [active, setActive] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % PROJECTS.length)
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [])
 
   return (
-    <section style={{ position:'relative', overflow:'hidden', background:'#0d0d0d' }}>
-      <div style={{ position:'relative', height:'580px' }}>
-
-        {/* Background slides */}
-        {PROJECTS.map((p, i) => (
-          <motion.div key={i}
-            animate={{ opacity: activeProject===i ? 1 : 0 }}
-            transition={{ duration:.7 }}
-            style={{ position:'absolute', inset:0, zIndex: activeProject===i ? 1 : 0 }}
+    <section className="relative overflow-hidden bg-[#0a0a0a]" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <div className="relative h-[650px] md:h-[750px] w-full">
+        
+        {/* Cinematic Background Layer */}
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={active}
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="absolute inset-0 z-0"
           >
-            <Image src={p.img} alt={p.city} fill className="object-cover" style={{ filter:'brightness(0.6) saturate(0.85)' }}/>
-            <div style={{ position:'absolute', inset:0, background:'linear-gradient(160deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.82) 100%)' }}/>
-            <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'linear-gradient(to bottom, #E20010 0%, transparent 70%)', zIndex:2 }}/>
+            <Image 
+              src={PROJECTS[active].img} 
+              alt={PROJECTS[active].city} 
+              fill 
+              className="object-cover" 
+              priority
+              style={{ filter: 'brightness(0.4) contrast(1.1)' }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-black via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
           </motion.div>
-        ))}
+        </AnimatePresence>
 
-        {/* Header — top left */}
-        <div style={{ position:'absolute', top:'clamp(24px,4vw,48px)', left:'clamp(20px,5vw,8vw)', zIndex:20 }}>
-          <div style={{ display:'inline-flex', alignItems:'center', gap:10, fontSize:10, fontWeight:700, color:'#E20010', letterSpacing:'5px', textTransform:'uppercase', marginBottom:14 }}>
-            <span style={{ width:24, height:2, background:'#E20010', display:'inline-block' }}/> What We Do
-          </div>
-          <h2 style={{ fontSize:'clamp(28px,4.5vw,60px)', fontWeight:900, lineHeight:.9, letterSpacing:'-2px', color:'#fff' }}>
-            Our <span style={{ color:'#E20010' }}>Projects</span>
+        {/* ── Header Area ── */}
+        <div className="absolute top-12 left-6 md:left-20 z-20">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="flex items-center gap-3 mb-4"
+          >
+            <span className="w-12 h-[2px]" style={{ backgroundColor: RED }} />
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em]" style={{ color: RED }}>Portfolio</span>
+          </motion.div>
+          <h2 
+            className="text-6xl md:text-9xl font-black text-white uppercase tracking-tighter leading-[0.85]"
+            style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+          >
+            Our <span className="block md:inline" style={{ color: RED }}>Projects</span>
           </h2>
         </div>
 
-        {/* Ghost counter — desktop only */}
-        <div style={{ position:'absolute', top:'40px', right:'8vw', zIndex:20, fontSize:'clamp(48px,6vw,80px)', fontWeight:900, color:'rgba(255,255,255,0.05)', letterSpacing:'-3px', lineHeight:1, userSelect:'none' }}>
-          {String(activeProject+1).padStart(2,'0')}&nbsp;
-          <span style={{ color:'rgba(226,0,16,0.15)' }}>/</span>
-          &nbsp;{String(PROJECTS.length).padStart(2,'0')}
-        </div>
+        {/* ── Main Content + Thumbs ── */}
+        <div className="absolute bottom-16 w-full px-6 md:px-20 z-20">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
+            
+            {/* Text Info */}
+            <div className="max-w-2xl">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.6 }}
+                >
+                  <div className="flex items-center gap-4 mb-4 font-bold text-lg" style={{ color: RED }}>
+                    <span>0{active + 1}</span>
+                    <span className="w-8 h-[1px] bg-white/20" />
+                    <span className="text-white/40">0{PROJECTS.length}</span>
+                  </div>
+                  
+                  <h3 
+                    className="text-5xl md:text-8xl font-black text-white mb-6 tracking-tight leading-none uppercase"
+                    style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+                  >
+                    {PROJECTS[active].label}
+                  </h3>
 
-        {/* Bottom: info + thumbs */}
-        <div style={{ position:'absolute', bottom:'40px', left:0, right:0, zIndex:20, padding:'0 8vw', display:'flex', alignItems:'flex-end', justifyContent:'space-between', gap:'24px' }}>
-          <motion.div key={activeProject} initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }} transition={{ duration:.45 }}>
-            <div style={{ fontSize:10, fontWeight:700, color:'#E20010', letterSpacing:'5px', textTransform:'uppercase', marginBottom:10 }}>
-              {String(activeProject+1).padStart(2,'0')} / {String(PROJECTS.length).padStart(2,'0')}
-            </div>
-            <h3 style={{ fontSize:'clamp(32px,5vw,64px)', fontWeight:900, color:'#fff', lineHeight:.9, letterSpacing:'-2px', marginBottom:'14px' }}>{PROJECTS[activeProject].label}</h3>
-            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:20 }}>
-              <MapPin size={12} color="#E20010"/>
-              <span style={{ fontSize:11, color:'rgba(255,255,255,0.5)', fontWeight:600, letterSpacing:'3px', textTransform:'uppercase' }}>
-                {PROJECTS[activeProject].city}&nbsp;·&nbsp;{PROJECTS[activeProject].year}
-              </span>
-            </div>
-            <Link href="/products" style={{ display:'inline-flex', alignItems:'center', gap:10, background:'#E20010', color:'#fff', fontWeight:700, fontSize:11, padding:'11px 24px', borderRadius:7, textDecoration:'none', letterSpacing:'2px', textTransform:'uppercase' }}>
-              View Work <ArrowRight size={12}/>
-            </Link>
-          </motion.div>
+                  <div className="flex items-center gap-6 mb-8">
+                    <div className="flex items-center gap-2">
+                      <MapPin size={18} style={{ color: RED }} />
+                      <span className="text-sm font-bold uppercase tracking-widest text-white/80">
+                        {PROJECTS[active].city}
+                      </span>
+                    </div>
+                    <span className="text-white/20">|</span>
+                    <span className="text-sm font-bold text-white/50">{PROJECTS[active].year}</span>
+                  </div>
 
-          {/* Thumbnail strip */}
-          <div style={{ display:'flex', flexDirection:'column', gap:'8px', flexShrink:0 }}>
-            {PROJECTS.map((p, i) => (
-              <motion.button key={i} onClick={() => setActiveProject(i)} whileHover={{ scale:1.03 }}
-                style={{ position:'relative', width:'150px', height:'88px', border: activeProject===i ? '2px solid #E20010' : '2px solid rgba(255,255,255,0.1)', background:'none', padding:0, cursor:'pointer', borderRadius:'8px', overflow:'hidden', flexShrink:0, transition:'border .3s' }}
-              >
-                <Image src={p.img} alt={p.city} fill className="object-cover" style={{ filter: activeProject===i ? 'brightness(0.75)' : 'brightness(0.5)' }}/>
-                {activeProject===i && <div style={{ position:'absolute', left:0, top:0, bottom:0, width:3, background:'#E20010' }}/>}
-                <div style={{ position:'absolute', bottom:5, left:8, fontSize:8, fontWeight:700, color:'#fff', letterSpacing:'2px', textTransform:'uppercase' }}>{p.city}</div>
-              </motion.button>
-            ))}
+                  <Link 
+                    href="/work" 
+                    className="group relative inline-flex items-center gap-4 text-white px-10 py-4 rounded-sm transition-all duration-300 overflow-hidden"
+                    style={{ 
+                      backgroundColor: RED,
+                      fontFamily: "'Barlow Condensed', sans-serif" 
+                    }}
+                  >
+                    <span className="relative z-10 font-black uppercase text-base tracking-wider">Explore Case Study</span>
+                    <ArrowRight size={20} className="relative z-10 group-hover:translate-x-2 transition-transform" />
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Visual Thumbnails */}
+            <div className="hidden md:flex flex-col gap-4">
+              {PROJECTS.map((p, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActive(i)}
+                  className={`group relative w-52 h-28 rounded-sm overflow-hidden transition-all duration-500 border-2 ${
+                    active === i ? 'scale-105' : 'border-white/10 opacity-40 grayscale hover:grayscale-0 hover:opacity-100'
+                  }`}
+                  style={{ borderColor: active === i ? RED : 'rgba(255,255,255,0.1)' }}
+                >
+                  <Image src={p.img} alt={p.city} fill className="object-cover" />
+                  <div className={`absolute inset-0 ${active === i ? 'bg-transparent' : 'bg-black/40'}`} />
+                  <div className="absolute bottom-3 left-3 flex items-center justify-between w-[85%]">
+                    <span 
+                      className="text-[10px] font-black uppercase text-white tracking-widest"
+                      style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
+                    >
+                      {p.city}
+                    </span>
+                    {active === i && <ChevronRight size={16} style={{ color: RED }} />}
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Progress bar */}
-        <div style={{ position:'absolute', bottom:0, left:0, right:0, height:2, background:'rgba(255,255,255,0.06)', zIndex:20 }}>
-          <motion.div style={{ height:'100%', background:'#E20010' }} animate={{ width:`${((activeProject+1)/PROJECTS.length)*100}%` }} transition={{ duration:.4 }}/>
+        {/* ── Progress Bar ── */}
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-white/5 z-30">
+          <motion.div 
+            className="h-full"
+            style={{ backgroundColor: RED }}
+            initial={{ width: "0%" }}
+            animate={{ width: `${((active + 1) / PROJECTS.length) * 100}%` }}
+            transition={{ duration: 0.8, ease: "anticipate" }}
+          />
         </div>
       </div>
 
-      {/* Bottom strip */}
-      <div style={{ background:'#0d0d0d', display:'flex', alignItems:'center', justifyContent:'space-between', padding:'16px clamp(20px,5vw,6vw)', borderTop:'1px solid rgba(255,255,255,0.06)', flexWrap:'wrap', gap:12 }}>
-        <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-          {PROJECTS.map((p, i) => (
-            <button key={i} onClick={() => setActiveProject(i)}
-              style={{ fontSize:10, fontWeight:600, letterSpacing:'2px', textTransform:'uppercase', color: activeProject===i ? '#E20010' : 'rgba(255,255,255,0.35)', border: activeProject===i ? '1px solid rgba(226,0,16,0.4)' : '1px solid rgba(255,255,255,0.1)', padding:'5px 14px', borderRadius:20, background:'none', cursor:'pointer', transition:'all .3s' }}>
-              {p.city}
-            </button>
+      {/* ── Mobile Navigation ── */}
+      <div className="md:hidden flex items-center justify-between px-6 py-6 border-t border-white/10">
+        <div className="flex gap-2">
+          {PROJECTS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              className="h-1 transition-all duration-300 rounded-full"
+              style={{ 
+                width: active === i ? '32px' : '16px',
+                backgroundColor: active === i ? RED : 'rgba(255,255,255,0.2)' 
+              }}
+            />
           ))}
         </div>
-        <div style={{ display:'flex', gap:7, alignItems:'center' }}>
-          {PROJECTS.map((_, i) => (
-            <button key={i} onClick={() => setActiveProject(i)}
-              style={{ width: activeProject===i ? 26 : 7, height:7, borderRadius:4, background: activeProject===i ? '#E20010' : 'rgba(255,255,255,0.18)', border:'none', cursor:'pointer', transition:'all .3s', padding:0 }}/>
-          ))}
+        <div className="text-white/40 font-bold text-xs tracking-widest">
+          0{active + 1} / 0{PROJECTS.length}
         </div>
       </div>
     </section>

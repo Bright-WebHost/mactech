@@ -15,7 +15,7 @@ import CTASection from './CTASection'
 
 export default function HomePage() {
   return (
-    <div style={{ fontFamily:"'Plus Jakarta Sans', sans-serif", background:'#fff', color:'#111', overflowX:'hidden' }}>
+    <div style={{ fontFamily:"'DM Sans', sans-serif", background:'#fff', color:'#111', overflowX:'hidden' }}>
       <HeroSection/>
       <MarqueeSection/>
       <AboutSection/>

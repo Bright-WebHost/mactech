@@ -4,7 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRef, useEffect, useState } from 'react'
 import gsap from 'gsap'
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
+
+// Ensure these are in your layout or global CSS:
+// @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=DM+Sans:wght@400;500;700&display=swap');
 
 const PRODUCTS = [
   { name: 'Fasteners',   sub: 'Industrial',  image: '/images/products/fastner.png' },
@@ -17,8 +20,8 @@ const PRODUCTS = [
 const ITEMS  = [...PRODUCTS, ...PRODUCTS, ...PRODUCTS, ...PRODUCTS, ...PRODUCTS]
 const CARD_W = 280
 const GAP    = 24
+const RED    = '#CC1020' // Matching the exact Red from your Hero
 
-// ─── Persistent cursor teacher (Desktop Only) ───────────────────────────────
 function CursorTeacher({ isMobile }: { isMobile: boolean }) {
   const ref = useRef<HTMLDivElement>(null)
   const dotRef = useRef<HTMLDivElement>(null)
@@ -40,26 +43,28 @@ function CursorTeacher({ isMobile }: { isMobile: boolean }) {
 
   return (
     <div ref={ref} style={{ position: 'absolute', inset: 0, zIndex: 55, pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 24 }}>
-      <style>{`
-        @keyframes labelPulse { 0%,100%{opacity:.3} 50%{opacity:1} }
-        @keyframes dotGlow { 0%{box-shadow: 0 0 30px rgba(226,0,16,0.7)} 50%{box-shadow: 0 0 60px rgba(226,0,16,0.9)} 100%{box-shadow: 0 0 30px rgba(226,0,16,0.7)} }
-        @keyframes textPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
-      `}</style>
       <div style={{ position: 'relative', width: 260, height: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div ref={dotRef} style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ width: 60, height: 60, borderRadius: '50%', border: '3px solid #E20010', background: 'rgba(226,0,16,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'dotGlow 2s infinite', backdropFilter: 'blur(8px)' }}>
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-7 1-4 7L5 3z" fill="#E20010" /></svg>
+          <div style={{ width: 60, height: 60, borderRadius: '50%', border: `3px solid ${RED}`, background: 'rgba(204,16,32,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)', boxShadow: `0 0 30px ${RED}50` }}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-7 1-4 7L5 3z" fill={RED} /></svg>
           </div>
         </div>
       </div>
-      <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: 'rgba(226,0,16,0.8)', animation: 'textPulse 2.4s infinite' }}>
+      <div style={{ 
+        fontFamily: "'Barlow Condensed', sans-serif", 
+        fontSize: 14, 
+        fontWeight: 900, 
+        letterSpacing: '2px', 
+        textTransform: 'uppercase', 
+        color: RED, 
+        opacity: 0.8 
+      }}>
         Move cursor to explore →
       </div>
     </div>
   )
 }
 
-// ─── Enhanced Marquee with Auto-Drive and Inertia ───────────────────────────
 function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLDivElement | null>, isMobile: boolean }) {
   const trackRef  = useRef<HTMLDivElement>(null)
   const stateRef  = useRef({ 
@@ -67,7 +72,7 @@ function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLD
   })
   
   const SINGLE = (CARD_W + GAP) * PRODUCTS.length
-  const BASE_SPEED = 0.5 // Constant cinematic drift
+  const BASE_SPEED = 0.5 
 
   useEffect(() => {
     const track = trackRef.current
@@ -83,15 +88,11 @@ function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLD
     }
     const onEnter = () => { s.inside = true }
     const onLeave = () => { s.inside = false }
-
-    const onTouchStart = (e: TouchEvent) => {
-        s.isTouching = true;
-        s.lastTouchX = e.touches[0].clientX;
-    }
+    const onTouchStart = (e: TouchEvent) => { s.isTouching = true; s.lastTouchX = e.touches[0].clientX; }
     const onTouchMove = (e: TouchEvent) => {
         const touchX = e.touches[0].clientX;
         const delta = touchX - s.lastTouchX;
-        s.vel -= delta * 0.25; // Direct manipulation
+        s.vel -= delta * 0.25;
         s.lastTouchX = touchX;
     }
     const onTouchEnd = () => { s.isTouching = false }
@@ -108,32 +109,24 @@ function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLD
       const W = wrap.offsetWidth || 800
       const cx = W / 2
 
-      // Calculate Target Velocity
       if (s.inside && !isMobile) {
-        // Desktop: Center-based steering + Base speed
         const norm = (s.mouseX - cx) / cx
         const DEAD = 0.1
         const clamped = Math.abs(norm) < DEAD ? 0 : (norm - Math.sign(norm) * DEAD) / (1 - DEAD)
         s.targetVel = clamped * 8 + BASE_SPEED
       } else {
-        // Mobile & Idle: Maintain base cinematic drift
         s.targetVel = BASE_SPEED
       }
 
-      // Physics: Approach target speed. 
-      // If user is swiping, we let s.vel be controlled by onTouchMove.
-      // If not, we lerp back to targetVel (base speed).
       const friction = s.isTouching ? 0.2 : 0.05
       s.vel += (s.targetVel - s.vel) * friction
       s.x -= s.vel
 
-      // Seamless Loop
       if (Math.abs(s.x) >= SINGLE * 2) s.x += SINGLE * 2
       if (s.x > 0) s.x -= SINGLE * 2
       
       gsap.set(track, { x: s.x })
 
-      // Visual Distortions (Tilt/Scale)
       const wrapRect = wrap.getBoundingClientRect()
       track.querySelectorAll<HTMLElement>('.mac-card').forEach(card => {
         const r2 = card.getBoundingClientRect()
@@ -143,7 +136,7 @@ function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLD
         gsap.set(card, { 
           rotateY: normX * -22, 
           scale: 1 - Math.abs(normX) * 0.08, 
-          boxShadow: Math.abs(normX) < 0.2 ? '0 30px 100px rgba(226,0,16,0.3)' : '0 10px 40px rgba(0,0,0,0.5)',
+          boxShadow: Math.abs(normX) < 0.2 ? `0 30px 100px ${RED}30` : '0 10px 40px rgba(0,0,0,0.5)',
           transformPerspective: 1200 
         })
       })
@@ -166,16 +159,24 @@ function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLD
     }}>
       <div ref={trackRef} style={{ display: 'flex', gap: GAP, width: 'max-content', alignItems: 'center' }}>
         {ITEMS.map((p, i) => (
-          <Link key={i} href="#" style={{ flexShrink: 0, display: 'block' }}>
+          <Link key={i} href="#" style={{ flexShrink: 0, display: 'block', textDecoration: 'none' }}>
             <div className="mac-card" style={{
-              width: CARD_W, height: isMobile ? 360 : 400, borderRadius: 16, overflow: 'hidden', position: 'relative',
+              width: CARD_W, height: isMobile ? 360 : 400, borderRadius: 8, overflow: 'hidden', position: 'relative',
               background: '#151515', transformStyle: 'preserve-3d', border: '1px solid rgba(255,255,255,0.1)'
             }}>
               <Image src={p.image} alt={p.name} fill style={{ objectFit: 'cover' }} />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.9) 100%)' }} />
-              <div style={{ position: 'absolute', bottom: 20, left: 20, zIndex: 2 }}>
-                <div style={{ fontSize: 9, color: '#FF6B35', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>{p.sub}</div>
-                <div style={{ fontSize: 18, color: '#fff', fontWeight: 800 }}>{p.name}</div>
+              <div style={{ position: 'absolute', bottom: 25, left: 25, zIndex: 2 }}>
+                <div style={{ 
+                    fontFamily: "'DM Sans', sans-serif", 
+                    fontSize: 10, color: '#FF6B35', fontWeight: 700, 
+                    letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 4 
+                }}>{p.sub}</div>
+                <div style={{ 
+                    fontFamily: "'Barlow Condensed', sans-serif", 
+                    fontSize: 28, color: '#fff', fontWeight: 900, 
+                    textTransform: 'uppercase', lineHeight: 0.9 
+                }}>{p.name}</div>
               </div>
             </div>
           </Link>
@@ -197,11 +198,20 @@ export default function ProductsSection() {
   }, [])
 
   return (
-    <section style={{ background: '#0A0A0A', padding: '80px 0', position: 'relative', overflow: 'hidden' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', marginBottom: 40 }}>
-        <h2 style={{ fontSize: isMobile ? '32px' : '56px', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1.1 }}>
+    <section style={{ background: '#0A0A0A', padding: '100px 0', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', marginBottom: 20 }}>
+        {/* Industrial Headline Styling */}
+        <h2 style={{ 
+            fontFamily: "'Barlow Condensed', sans-serif",
+            fontSize: isMobile ? '48px' : '84px', 
+            fontWeight: 900, 
+            color: '#fff', 
+            margin: 0, 
+            lineHeight: 0.85,
+            textTransform: 'uppercase'
+        }}>
             Industrial Solutions<br />
-            <span style={{ color: '#E20010' }}>Forged in Quality</span>
+            <span style={{ color: RED }}>Forged in Quality</span>
         </h2>
       </div>
 
@@ -209,10 +219,16 @@ export default function ProductsSection() {
 
       <div style={{ textAlign: 'center', marginTop: 40 }}>
         <button style={{
-          padding: '14px 32px', background: 'transparent', border: '2px solid #E20010', color: '#E20010',
-          fontWeight: 800, borderRadius: 4, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 10
-        }}>
-          Explore Full Range <ArrowRight size={18} />
+          fontFamily: "'Barlow Condensed', sans-serif",
+          padding: '16px 40px', background: 'transparent', border: `2px solid ${RED}`, color: '#fff',
+          fontWeight: 900, fontSize: '18px', letterSpacing: '1px', textTransform: 'uppercase',
+          borderRadius: 4, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 12,
+          transition: 'all 0.3s ease'
+        }}
+        onMouseEnter={(e) => (e.currentTarget.style.background = RED)}
+        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+        >
+          Explore Full Range <ArrowRight size={20} />
         </button>
       </div>
     </section>
