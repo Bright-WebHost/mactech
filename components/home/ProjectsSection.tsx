@@ -1,9 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MapPin, ArrowRight, ChevronRight } from 'lucide-react'
+import { MapPin, ChevronRight } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 // Ensure these are loaded in your project:
@@ -64,11 +63,13 @@ export default function ImprovedProjectsSection() {
             <span className="w-12 h-[2px]" style={{ backgroundColor: RED }} />
             <span className="text-[10px] font-bold uppercase tracking-[0.5em]" style={{ color: RED }}>Portfolio</span>
           </motion.div>
+          {/* FIXED: Adjusted sizing to text-[12vw] for mobile, added whitespace-nowrap */}
           <h2 
-            className="text-6xl md:text-9xl font-black text-white uppercase tracking-tighter leading-[0.85]"
+            className="text-[12vw] sm:text-6xl md:text-9xl font-black text-white uppercase tracking-tighter leading-[0.85] whitespace-nowrap"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
-            Our <span className="block md:inline" style={{ color: RED }}>Projects</span>
+            {/* FIXED: Removed block class from span so it stays inline */}
+            Our <span style={{ color: RED }}>Projects</span>
           </h2>
         </div>
 
@@ -109,18 +110,6 @@ export default function ImprovedProjectsSection() {
                     <span className="text-white/20">|</span>
                     <span className="text-sm font-bold text-white/50">{PROJECTS[active].year}</span>
                   </div>
-
-                  <Link 
-                    href="/work" 
-                    className="group relative inline-flex items-center gap-4 text-white px-10 py-4 rounded-sm transition-all duration-300 overflow-hidden"
-                    style={{ 
-                      backgroundColor: RED,
-                      fontFamily: "'Barlow Condensed', sans-serif" 
-                    }}
-                  >
-                    <span className="relative z-10 font-black uppercase text-base tracking-wider">Explore Case Study</span>
-                    <ArrowRight size={20} className="relative z-10 group-hover:translate-x-2 transition-transform" />
-                  </Link>
                 </motion.div>
               </AnimatePresence>
             </div>

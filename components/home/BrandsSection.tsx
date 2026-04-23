@@ -31,16 +31,16 @@ const DESKTOP_MAP = [
 ]
 
 const MOBILE_MAP = [
-  { x: -0.90, y: -0.20, scale: 0.90 }, 
-  { x: 0.00,  y: -0.10, scale: 1.10 },
-  { x: 0.90,  y: -0.20, scale: 0.85 },
-  { x: -0.90, y: 0.20, scale: 1.05 },  
-  { x: -0.05, y: 0.30, scale: 0.90 },  
-  { x: 0.90,  y: 0.20, scale: 1.15 },  
-  { x: -0.90, y: 0.60, scale: 1.10 },  
-  { x: 0.05,  y: 0.70, scale: 0.85 },  
-  { x: 0.90,  y: 0.60, scale: 0.95 },  
-  { x: 0.00,  y: 0.95, scale: 1.05 }   
+  { x: -0.80, y: -0.75, scale: 0.90 }, 
+  { x: 0.00,  y: -0.85, scale: 1.10 },
+  { x: 0.80,  y: -0.75, scale: 0.85 },
+  { x: -0.85, y: -0.25, scale: 1.05 },  
+  { x: 0.00,  y: -0.15, scale: 0.90 },  
+  { x: 0.85,  y: -0.25, scale: 1.15 },  
+  { x: -0.75, y: 0.30,  scale: 1.10 },  
+  { x: 0.00,  y: 0.45,  scale: 0.85 },  
+  { x: 0.75,  y: 0.30,  scale: 0.95 },  
+  { x: 0.00,  y: 0.85,  scale: 1.05 }   
 ]
 
 const RED = '#CC1020'
@@ -51,21 +51,43 @@ export default function BrandsSection() {
   const [scrollDistance, setScrollDistance] = useState(0)
 
   useEffect(() => {
+    // Prevent SSR window errors
+    if (typeof window === 'undefined') return;
+
+    let lastWidth = window.innerWidth
+
     const handleResize = () => {
-      setWin({
-        w: window.innerWidth,
-        h: window.innerHeight,
-        isMobile: window.innerWidth < 1024,
-        mounted: true
-      })
+      // Only recalculate if the horizontal width physically changes
+      if (window.innerWidth !== lastWidth) {
+        lastWidth = window.innerWidth
+        setWin({
+          w: window.innerWidth,
+          h: window.innerHeight,
+          isMobile: window.innerWidth < 1024,
+          mounted: true
+        })
+      }
+      
       if (containerRef.current) {
         setScrollDistance(containerRef.current.offsetHeight - window.innerHeight)
       }
     }
-    handleResize()
+    
+    // Set initial values
+    setWin({
+      w: window.innerWidth,
+      h: window.innerHeight,
+      isMobile: window.innerWidth < 1024,
+      mounted: true
+    })
+
+    if (containerRef.current) {
+      setScrollDistance(containerRef.current.offsetHeight - window.innerHeight)
+    }
+
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  }, []) // Empty dependency array prevents re-render loops
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -79,9 +101,9 @@ export default function BrandsSection() {
       ref={containerRef} 
       style={{ 
         height: '300vh', 
-        background: '#f5f4f0', // Right side original color
+        background: '#f5f4f0',
         position: 'relative',
-        '--card-size': win.isMobile ? '85px' : '135px' 
+        '--card-size': win.isMobile ? '80px' : '135px'
       } as React.CSSProperties}
     >
       <style>{`
@@ -119,7 +141,6 @@ export default function BrandsSection() {
           zIndex: 20,
           position: 'relative'
         }}>
-           {/* Red Grain Background for Left side only */}
            <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.15 }}>
             <div style={{ 
               position: 'absolute', inset: 0,
@@ -166,7 +187,7 @@ export default function BrandsSection() {
           </p>
         </div>
 
-        {/* ── RIGHT SIDE: SAME ANIMATION PLAYS HERE ── */}
+        {/* ── RIGHT SIDE: LOGO ANIMATION CONTAINER ── */}
         <div style={{ 
           flex: 1, 
           position: 'relative',
@@ -197,7 +218,6 @@ export default function BrandsSection() {
 function BrandNode({ brand, index, total, scrollYProgress, win }: { 
   brand: any, index: number, total: number, scrollYProgress: MotionValue<number>, win: any 
 }) {
-  // RESTORED ORIGINAL ANIMATION MATH
   const orbitRadius = win.isMobile ? win.w * 0.35 : 240
   const angle = (index / total) * Math.PI * 2
   const startX = Math.cos(angle) * orbitRadius
@@ -205,14 +225,15 @@ function BrandNode({ brand, index, total, scrollYProgress, win }: {
 
   const targetMap = win.isMobile ? MOBILE_MAP : DESKTOP_MAP
   
-  // Adjusted boundaries to stay within the right panel
-  const paddingX = win.isMobile ? 50 : 100
-  const paddingY = win.isMobile ? 70 : 100
-  
-  // Width is effectively the remaining space (55% of window)
+  // Calculate bounding box constraints
   const panelWidth = win.isMobile ? win.w : win.w * 0.55
+  const panelHeight = win.isMobile ? win.h * 0.55 : win.h
+  
+  const paddingX = win.isMobile ? 40 : 100
+  const paddingY = win.isMobile ? 50 : 100
+  
   const maxX = (panelWidth / 2) - paddingX
-  const maxY = (win.h / 2) - paddingY
+  const maxY = (panelHeight / 2) - paddingY
   
   const endX = targetMap[index].x * maxX
   const endY = targetMap[index].y * maxY

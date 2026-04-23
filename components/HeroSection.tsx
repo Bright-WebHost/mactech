@@ -7,8 +7,8 @@ import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import { ArrowRight, Zap, Shield, Award } from 'lucide-react'
 
-// IMPORTANT: Add this to your layout.tsx or globals.css to load the fonts:
-// @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=DM+Sans:wght@400;500;700&display=swap');
+// IMPORTANT: Ensure these fonts are loaded in your layout.tsx
+// Barlow Condensed (900) and DM Sans (400, 500, 700)
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -101,7 +101,6 @@ export default function HeroSection() {
   return (
     <div ref={containerRef} style={{ background: BG, overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
       <section className="hero-viewport">
-        {/* Background Large Text - Using the Industrial Font */}
         <div className="mactech-bg-text">MACTECH</div>
         
         <div className="stack-container">
@@ -115,7 +114,6 @@ export default function HeroSection() {
         <div className="premium-ui-overlay">
           <div className="left-panel">
              <div className="headline-group">
-                {/* Main Title - Switched to the Bold Industrial Font */}
                 <h2 className="main-title">
                   COMPLETE <br />
                   <span style={{ color: RED }}>INDUSTRIAL</span> <br />
@@ -151,18 +149,18 @@ export default function HeroSection() {
         </div>
 
         <div className="bottom-wave">
-          <svg viewBox="0 0 1440 200" preserveAspectRatio="none"><path d="M0,80 Q360,20 720,60 T1440,40 L1440,200 L0,200 Z" fill={CREAM} /></svg>
+          <svg viewBox="0 0 1440 200" preserveAspectRatio="none">
+            <path d="M0,80 Q360,20 720,60 T1440,40 L1440,200 L0,200 Z" fill={CREAM} />
+          </svg>
         </div>
 
         <style>{`
-          /* THE INDUSTRIAL CONDENSED FONT */
           .main-title, .mactech-bg-text, .btn-primary, .btn-secondary, .feature-tag {
             font-family: 'Barlow Condensed', sans-serif;
             text-transform: uppercase;
             letter-spacing: -0.02em;
           }
 
-          /* THE CLEAN MODERN FONT */
           .current-label, .description-text, .feature-text, .tagline-text, .counter-current, .counter-total {
             font-family: 'DM Sans', sans-serif;
           }
@@ -229,15 +227,70 @@ export default function HeroSection() {
           
           .bottom-wave { position: absolute; bottom: -2px; width: 100%; height: 10vh; z-index: 10; }
 
+          /* MOBILE FIXES */
           @media (max-width: 1024px) {
-            .premium-ui-overlay { flex-direction: column; justify-content: center; text-align: center; padding: 5vh 20px; }
-            .left-panel { margin-bottom: 40px; display: flex; flex-direction: column; align-items: center; }
+            .premium-ui-overlay { 
+              flex-direction: column; 
+              justify-content: flex-start; 
+              text-align: center; 
+              padding: 40px 15px; 
+              pointer-events: auto;
+            }
+
+            .left-panel { 
+              display: flex; 
+              flex-direction: column; 
+              align-items: center;
+              z-index: 20; 
+              width: 100%;
+            }
+
+            .main-title { font-size: 38px; }
+            
+            .stack-container { 
+              height: 30%; 
+              top: 42%; 
+              transform: translateY(-50%);
+              z-index: 5; 
+            }
+            .product-image { width: 62vw; opacity: 0.9; }
+
+            /* BUTTONS IN ONE LINE */
+            .btn-group { 
+              margin-top: 32vh; 
+              flex-direction: row; /* One line */
+              width: 100%;
+              max-width: 360px; /* Limit total width to keep buttons clean */
+              justify-content: center;
+              gap: 8px; /* Tighter gap for small screens */
+            }
+            
+            .btn-primary, .btn-secondary { 
+              flex: 1; /* Equal width */
+              padding: 14px 10px; 
+              font-size: 13px; /* Slightly smaller font to ensure text fits */
+              white-space: nowrap; /* Keep text on one line inside button */
+              justify-content: center;
+            }
+
+            .right-panel { 
+              position: absolute; 
+              bottom: 80px; 
+              width: 100%; 
+              left: 0; 
+              display: flex; 
+              justify-content: center; 
+              padding: 0 15px;
+            }
+            .feature-card { width: 100%; max-width: 340px; margin-bottom: 0; }
+
             .description-text, .tagline-text, .slide-counter-wrapper { display: none; }
-            .main-title { font-size: 50px; }
-            .stack-container { height: 40%; top: 45%; }
-            .product-image { width: 75vw; }
-            .right-panel { position: absolute; bottom: 12vh; width: 100%; left: 0; display: flex; justify-content: center; }
-            .feature-card { width: 90%; }
+          }
+
+          /* Small mobile screens extra optimization */
+          @media (max-width: 360px) {
+            .main-title { font-size: 32px; }
+            .btn-primary, .btn-secondary { font-size: 11px; padding: 12px 6px; }
           }
         `}</style>
       </section>

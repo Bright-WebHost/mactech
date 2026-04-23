@@ -37,14 +37,17 @@ export default function FeaturedProductsSection() {
       ref={containerRef}
       onMouseMove={handleMove}
       onTouchMove={handleMove}
-      className="bg-[#050505] min-h-screen text-white relative overflow-hidden py-20"
+      // FIXED: Adjusted vertical padding for mobile (pt-8) while keeping desktop (md:py-20)
+      className="bg-[#050505] min-h-screen text-white relative overflow-hidden pt-8 pb-20 md:py-20"
     >
       {/* ── Header ── */}
-      <header className="px-6 lg:px-20 mb-16 relative z-10">
+      {/* FIXED: Reduced bottom margin on mobile (mb-8) */}
+      <header className="px-6 lg:px-20 mb-8 md:mb-16 relative z-10">
         <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#E20010] block mb-4">
           03 — Our Catalog
         </span>
-        <h2 className="font-barlow-condensed font-black uppercase tracking-tighter text-5xl md:text-8xl leading-none">
+        {/* FIXED: Added whitespace-nowrap and dynamic viewport width text sizing (text-[8vw]) for mobile */}
+        <h2 className="font-barlow-condensed font-black uppercase tracking-tighter text-[8vw] sm:text-5xl md:text-8xl leading-none whitespace-nowrap">
           Featured <span className="italic font-light opacity-50">Products</span>
         </h2>
       </header>
@@ -82,7 +85,7 @@ export default function FeaturedProductsSection() {
         ))}
       </div>
 
-      {/* ── Floating Tooltip (The "Magic" part from your Projects Section) ── */}
+      {/* ── Floating Tooltip ── */}
       <AnimatePresence>
         {hoveredIndex !== null && (
           <motion.div
@@ -94,7 +97,7 @@ export default function FeaturedProductsSection() {
               x: cursorX,
               y: cursorY,
               translateX: '-50%',
-              translateY: '-105%', // This is what keeps it above the finger on mobile
+              translateY: '-105%', // Keeps it above the finger on mobile
             }}
           >
             <Image 
@@ -103,7 +106,6 @@ export default function FeaturedProductsSection() {
               fill 
               className="object-cover" 
             />
-            {/* Dark gradient overlay for a premium look */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </motion.div>
         )}
