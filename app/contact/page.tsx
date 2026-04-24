@@ -2,17 +2,11 @@
 import { useState } from 'react'
 import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react'
 import { LOCATIONS, WHATSAPP } from '@/lib/constants'
+import { useForm, ValidationError } from '@formspree/react'
 
 export default function ContactPage() {
+  const [state, handleSubmit] = useForm('mlgazrrd')
   const [form, setForm] = useState({ name: '', company: '', phone: '', email: '', product: '', message: '' })
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('sending')
-    await new Promise(r => setTimeout(r, 1500))
-    setStatus('sent')
-  }
 
   return (
     <>
@@ -37,8 +31,10 @@ export default function ContactPage() {
             {/* Form - 3 cols */}
             <div className="lg:col-span-3">
               <div className="glass-card p-8">
+                {/* Heading forced to white */}
                 <h2 className="text-2xl font-bold text-white mb-6">Send an Inquiry</h2>
-                {status === 'sent' ? (
+                
+                {state.succeeded ? (
                   <div className="text-center py-12">
                     <div className="text-5xl mb-4">✅</div>
                     <h3 className="text-white font-bold text-xl mb-2">Inquiry Received!</h3>
@@ -48,37 +44,41 @@ export default function ContactPage() {
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm text-gray-muted mb-2">Full Name *</label>
-                        <input required value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="Your name" />
+                        <label className="block text-sm font-medium text-white mb-2">Full Name *</label>
+                        <input required name="name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="Your name" />
+                        <ValidationError field="name" errors={state.errors} className="text-red-400 text-xs mt-1" />
                       </div>
                       <div>
-                        <label className="block text-sm text-gray-muted mb-2">Company</label>
-                        <input value={form.company} onChange={e => setForm({...form, company: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="Company name" />
+                        <label className="block text-sm font-medium text-white mb-2">Company</label>
+                        <input name="company" value={form.company} onChange={e => setForm({...form, company: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="Company name" />
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm text-gray-muted mb-2">Phone *</label>
-                        <input required type="tel" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="+968 XXXX XXXX" />
+                        <label className="block text-sm font-medium text-white mb-2">Phone *</label>
+                        <input required type="tel" name="phone" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="+968 XXXX XXXX" />
+                        <ValidationError field="phone" errors={state.errors} className="text-red-400 text-xs mt-1" />
                       </div>
                       <div>
-                        <label className="block text-sm text-gray-muted mb-2">Email</label>
-                        <input type="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="your@email.com" />
+                        <label className="block text-sm font-medium text-white mb-2">Email</label>
+                        <input type="email" name="email" value={form.email} onChange={e => setForm({...form, email: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="your@email.com" />
+                        <ValidationError field="email" errors={state.errors} className="text-red-400 text-xs mt-1" />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm text-gray-muted mb-2">Product / Category</label>
-                      <select value={form.product} onChange={e => setForm({...form, product: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors">
-                        <option value="">Select a product category...</option>
-                        {['Fasteners','PPE & Safety','Welding Consumables','Hand Tools','Power Tools','Lifting Solutions','Pipes & Fittings','Abrasives & Adhesives','Construction Consumables','Other'].map(p => <option key={p} value={p}>{p}</option>)}
+                      <label className="block text-sm font-medium text-white mb-2">Product / Category</label>
+                      <select name="product" value={form.product} onChange={e => setForm({...form, product: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors">
+                        <option value="" className="bg-navy-900">Select a product category...</option>
+                        {['Fasteners','PPE & Safety','Welding Consumables','Hand Tools','Power Tools','Lifting Solutions','Pipes & Fittings','Abrasives & Adhesives','Construction Consumables','Other'].map(p => <option key={p} value={p} className="bg-navy-900">{p}</option>)}
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm text-gray-muted mb-2">Message / Requirements *</label>
-                      <textarea required rows={4} value={form.message} onChange={e => setForm({...form, message: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors resize-none placeholder-gray-muted/50" placeholder="Describe your requirements, quantities, specifications..." />
+                      <label className="block text-sm font-medium text-white mb-2">Message / Requirements *</label>
+                      <textarea required name="message" rows={4} value={form.message} onChange={e => setForm({...form, message: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors resize-none placeholder-gray-muted/50" placeholder="Describe your requirements, quantities, specifications..." />
+                      <ValidationError field="message" errors={state.errors} className="text-red-400 text-xs mt-1" />
                     </div>
-                    <button type="submit" disabled={status === 'sending'} className="btn-primary w-full justify-center py-4">
-                      {status === 'sending' ? 'Sending...' : <><Send size={16} /> Send Inquiry</>}
+                    <button type="submit" disabled={state.submitting} className="btn-primary w-full justify-center py-4">
+                      {state.submitting ? 'Sending...' : <><Send size={16} className="mr-2" /> Send Inquiry</>}
                     </button>
                   </form>
                 )}

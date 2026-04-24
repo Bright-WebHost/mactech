@@ -6,9 +6,6 @@ import { useRef, useEffect, useState } from 'react'
 import gsap from 'gsap'
 import { ArrowRight } from 'lucide-react'
 
-// Ensure these are in your layout or global CSS:
-// @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@900&family=DM+Sans:wght@400;500;700&display=swap');
-
 const PRODUCTS = [
   { name: 'Fasteners',   sub: 'Industrial',  image: '/images/products/fastner.png' },
   { name: 'Welding',     sub: 'Consumables', image: '/images/products/welding-consumable.png' },
@@ -20,57 +17,83 @@ const PRODUCTS = [
 const ITEMS  = [...PRODUCTS, ...PRODUCTS, ...PRODUCTS, ...PRODUCTS, ...PRODUCTS]
 const CARD_W = 280
 const GAP    = 24
-const RED    = '#CC1020' // Matching the exact Red from your Hero
+const RED    = '#CC1020'
 
-function CursorTeacher({ isMobile }: { isMobile: boolean }) {
-  const ref = useRef<HTMLDivElement>(null)
+function CursorTeacher({ isMobile, mousePos, isInteracted }: { isMobile: boolean, mousePos: { x: number, y: number }, isInteracted: boolean }) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const dotRef = useRef<HTMLDivElement>(null)
+  const autoTl = useRef<gsap.core.Timeline | null>(null)
 
   useEffect(() => {
     if (isMobile) return
-    const dot = dotRef.current
-    if (!dot) return
 
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.8 })
-    tl.set(dot, { x: -110 })
-    tl.to(dot, { x: 110,  duration: 1.4, ease: 'power2.inOut' })
-    tl.to(dot, { x: -110, duration: 1.4, ease: 'power2.inOut', delay: 0.3 })
+    if (!isInteracted) {
+      // 1. START AUTO ANIMATION (Initial State)
+      // Center the container and animate the inner dot
+      gsap.set(containerRef.current, { xPercent: -50, yPercent: -50, left: '50%', top: '50%' })
+      
+      autoTl.current = gsap.timeline({ repeat: -1, repeatDelay: 0.8 })
+      autoTl.current.set(dotRef.current, { x: -110 })
+      autoTl.current.to(dotRef.current, { x: 110, duration: 1.4, ease: 'power2.inOut' })
+      autoTl.current.to(dotRef.current, { x: -110, duration: 1.4, ease: 'power2.inOut', delay: 0.3 })
+    } else {
+      // 2. SWITCH TO MANUAL (When user moves mouse)
+      if (autoTl.current) autoTl.current.kill()
+      
+      // Reset the inner dot to center so it's under the cursor
+      gsap.to(dotRef.current, { x: 0, duration: 0.4, ease: 'power2.out' })
+      
+      // Move the main container to the mouse position
+      gsap.to(containerRef.current, {
+        left: mousePos.x,
+        top: mousePos.y,
+        duration: 0.5,
+        ease: 'power2.out'
+      })
+    }
 
-    return () => { tl.kill() }
-  }, [isMobile])
+    return () => { autoTl.current?.kill() }
+  }, [isMobile, isInteracted, mousePos])
 
   if (isMobile) return null
 
   return (
-    <div ref={ref} style={{ position: 'absolute', inset: 0, zIndex: 55, pointerEvents: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 24 }}>
+    <div ref={containerRef} style={{ 
+      position: 'absolute', zIndex: 55, pointerEvents: 'none', 
+      display: 'flex', flexDirection: 'column', alignItems: 'center', 
+      justifyContent: 'center', gap: 24, willChange: 'left, top' 
+    }}>
       <div style={{ position: 'relative', width: 260, height: 90, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div ref={dotRef} style={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div style={{ width: 60, height: 60, borderRadius: '50%', border: `3px solid ${RED}`, background: 'rgba(204,16,32,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)', boxShadow: `0 0 30px ${RED}50` }}>
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-7 1-4 7L5 3z" fill={RED} /></svg>
+          {/* Your Original Circle Design */}
+          <div style={{ 
+            width: 60, height: 60, borderRadius: '50%', border: `3px solid ${RED}`, 
+            background: 'rgba(204,16,32,0.2)', display: 'flex', alignItems: 'center', 
+            justifyContent: 'center', backdropFilter: 'blur(8px)', boxShadow: `0 0 30px ${RED}50` 
+          }}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <path d="M5 3l14 9-7 1-4 7L5 3z" fill={RED} />
+            </svg>
           </div>
         </div>
       </div>
       <div style={{ 
-        fontFamily: "'Barlow Condensed', sans-serif", 
-        fontSize: 14, 
-        fontWeight: 900, 
-        letterSpacing: '2px', 
-        textTransform: 'uppercase', 
-        color: RED, 
-        opacity: 0.8 
+        fontFamily: "'Barlow Condensed', sans-serif", fontSize: 14, 
+        fontWeight: 900, letterSpacing: '2px', textTransform: 'uppercase', 
+        color: RED, opacity: 0.8 
       }}>
-        Move cursor to explore →
+        {isInteracted ? 'Explore Solutions' : 'Move cursor to explore →'}
       </div>
     </div>
   )
 }
 
 function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLDivElement | null>, isMobile: boolean }) {
-  const trackRef  = useRef<HTMLDivElement>(null)
-  const stateRef  = useRef({ 
-    x: 0, vel: 0, targetVel: 0, mouseX: 0, mouseY: 0, inside: false, lastTouchX: 0, isTouching: false 
-  })
+  const trackRef = useRef<HTMLDivElement>(null)
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+  const [isInteracted, setIsInteracted] = useState(false)
   
+  const stateRef = useRef({ x: 0, vel: 0, targetVel: 0, mouseX: 0, inside: false })
   const SINGLE = (CARD_W + GAP) * PRODUCTS.length
   const BASE_SPEED = 0.5 
 
@@ -81,45 +104,37 @@ function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLD
 
     const s = stateRef.current
 
-    const onMove  = (e: MouseEvent) => { 
-        const r = wrap.getBoundingClientRect(); 
-        s.mouseX = e.clientX - r.left; 
-        s.mouseY = e.clientY - r.top 
+    const onMove = (e: MouseEvent) => { 
+      const r = wrap.getBoundingClientRect()
+      const x = e.clientX - r.left
+      const y = e.clientY - r.top
+      
+      // Mark as interacted to stop auto-animation
+      if (!isInteracted) setIsInteracted(true)
+      
+      s.mouseX = x
+      setMousePos({ x, y })
     }
-    const onEnter = () => { s.inside = true }
-    const onLeave = () => { s.inside = false }
-    const onTouchStart = (e: TouchEvent) => { s.isTouching = true; s.lastTouchX = e.touches[0].clientX; }
-    const onTouchMove = (e: TouchEvent) => {
-        const touchX = e.touches[0].clientX;
-        const delta = touchX - s.lastTouchX;
-        s.vel -= delta * 0.25;
-        s.lastTouchX = touchX;
-    }
-    const onTouchEnd = () => { s.isTouching = false }
 
     wrap.addEventListener('mousemove', onMove)
-    wrap.addEventListener('mouseenter', onEnter)
-    wrap.addEventListener('mouseleave', onLeave)
-    wrap.addEventListener('touchstart', onTouchStart, { passive: true })
-    wrap.addEventListener('touchmove', onTouchMove, { passive: true })
-    wrap.addEventListener('touchend', onTouchEnd)
+    wrap.addEventListener('mouseenter', () => { s.inside = true })
+    wrap.addEventListener('mouseleave', () => { s.inside = false })
 
     let raf: number
     const tick = () => {
       const W = wrap.offsetWidth || 800
       const cx = W / 2
 
-      if (s.inside && !isMobile) {
+      if (s.inside && isInteracted && !isMobile) {
         const norm = (s.mouseX - cx) / cx
         const DEAD = 0.1
         const clamped = Math.abs(norm) < DEAD ? 0 : (norm - Math.sign(norm) * DEAD) / (1 - DEAD)
-        s.targetVel = clamped * 8 + BASE_SPEED
+        s.targetVel = clamped * 10 + BASE_SPEED
       } else {
         s.targetVel = BASE_SPEED
       }
 
-      const friction = s.isTouching ? 0.2 : 0.05
-      s.vel += (s.targetVel - s.vel) * friction
+      s.vel += (s.targetVel - s.vel) * 0.05
       s.x -= s.vel
 
       if (Math.abs(s.x) >= SINGLE * 2) s.x += SINGLE * 2
@@ -127,17 +142,14 @@ function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLD
       
       gsap.set(track, { x: s.x })
 
+      // Card 3D effects
       const wrapRect = wrap.getBoundingClientRect()
       track.querySelectorAll<HTMLElement>('.mac-card').forEach(card => {
         const r2 = card.getBoundingClientRect()
         const ccx = r2.left - wrapRect.left + r2.width / 2
         const normX = Math.max(-1, Math.min(1, (ccx - cx) / (cx * 0.85)))
-        
         gsap.set(card, { 
-          rotateY: normX * -22, 
-          scale: 1 - Math.abs(normX) * 0.08, 
-          boxShadow: Math.abs(normX) < 0.2 ? `0 30px 100px ${RED}30` : '0 10px 40px rgba(0,0,0,0.5)',
-          transformPerspective: 1200 
+          rotateY: normX * -22, scale: 1 - Math.abs(normX) * 0.08, transformPerspective: 1200 
         })
       })
 
@@ -147,42 +159,32 @@ function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLD
 
     return () => {
       cancelAnimationFrame(raf)
-      wrap.removeEventListener('mousemove', onMove); wrap.removeEventListener('mouseenter', onEnter); wrap.removeEventListener('mouseleave', onLeave)
-      wrap.removeEventListener('touchstart', onTouchStart); wrap.removeEventListener('touchmove', onTouchMove); wrap.removeEventListener('touchend', onTouchEnd)
+      wrap.removeEventListener('mousemove', onMove)
     }
-  }, [SINGLE, wrapRef, isMobile])
+  }, [SINGLE, wrapRef, isMobile, isInteracted])
 
   return (
     <div ref={wrapRef} style={{ 
-        overflow: 'hidden', padding: isMobile ? '30px 0' : '60px 0', 
-        perspective: '1200px', position: 'relative', touchAction: 'pan-y' 
+        overflow: 'hidden', padding: '60px 0', perspective: '1200px', 
+        position: 'relative', cursor: isInteracted && !isMobile ? 'none' : 'default' 
     }}>
       <div ref={trackRef} style={{ display: 'flex', gap: GAP, width: 'max-content', alignItems: 'center' }}>
         {ITEMS.map((p, i) => (
-          <Link key={i} href="#" style={{ flexShrink: 0, display: 'block', textDecoration: 'none' }}>
-            <div className="mac-card" style={{
-              width: CARD_W, height: isMobile ? 360 : 400, borderRadius: 8, overflow: 'hidden', position: 'relative',
-              background: '#151515', transformStyle: 'preserve-3d', border: '1px solid rgba(255,255,255,0.1)'
-            }}>
-              <Image src={p.image} alt={p.name} fill style={{ objectFit: 'cover' }} />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.9) 100%)' }} />
-              <div style={{ position: 'absolute', bottom: 25, left: 25, zIndex: 2 }}>
-                <div style={{ 
-                    fontFamily: "'DM Sans', sans-serif", 
-                    fontSize: 10, color: '#FF6B35', fontWeight: 700, 
-                    letterSpacing: '2px', textTransform: 'uppercase', marginBottom: 4 
-                }}>{p.sub}</div>
-                <div style={{ 
-                    fontFamily: "'Barlow Condensed', sans-serif", 
-                    fontSize: 28, color: '#fff', fontWeight: 900, 
-                    textTransform: 'uppercase', lineHeight: 0.9 
-                }}>{p.name}</div>
-              </div>
+          <div key={i} className="mac-card" style={{
+            width: CARD_W, height: 400, borderRadius: 8, overflow: 'hidden', position: 'relative',
+            background: '#151515', border: '1px solid rgba(255,255,255,0.1)'
+          }}>
+            <Image src={p.image} alt={p.name} fill style={{ objectFit: 'cover' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.9) 100%)' }} />
+            <div style={{ position: 'absolute', bottom: 25, left: 25 }}>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: '#FF6B35', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>{p.sub}</div>
+              <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 28, color: '#fff', fontWeight: 900, textTransform: 'uppercase' }}>{p.name}</div>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
-      <CursorTeacher isMobile={isMobile} />
+      
+      <CursorTeacher isMobile={isMobile} mousePos={mousePos} isInteracted={isInteracted} />
     </div>
   )
 }
@@ -200,37 +202,11 @@ export default function ProductsSection() {
   return (
     <section style={{ background: '#0A0A0A', padding: '100px 0', position: 'relative', overflow: 'hidden' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', marginBottom: 20 }}>
-        {/* Industrial Headline Styling */}
-        <h2 style={{ 
-            fontFamily: "'Barlow Condensed', sans-serif",
-            fontSize: isMobile ? '48px' : '84px', 
-            fontWeight: 900, 
-            color: '#fff', 
-            margin: 0, 
-            lineHeight: 0.85,
-            textTransform: 'uppercase'
-        }}>
-            Industrial Solutions<br />
-            <span style={{ color: RED }}>Forged in Quality</span>
+        <h2 style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: isMobile ? '48px' : '84px', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 0.85, textTransform: 'uppercase' }}>
+            Industrial Solutions<br /><span style={{ color: RED }}>Forged in Quality</span>
         </h2>
       </div>
-
       <InfiniteMarquee wrapRef={wrapRef} isMobile={isMobile} />
-
-      <div style={{ textAlign: 'center', marginTop: 40 }}>
-        <button style={{
-          fontFamily: "'Barlow Condensed', sans-serif",
-          padding: '16px 40px', background: 'transparent', border: `2px solid ${RED}`, color: '#fff',
-          fontWeight: 900, fontSize: '18px', letterSpacing: '1px', textTransform: 'uppercase',
-          borderRadius: 4, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 12,
-          transition: 'all 0.3s ease'
-        }}
-        onMouseEnter={(e) => (e.currentTarget.style.background = RED)}
-        onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
-        >
-          Explore Full Range <ArrowRight size={20} />
-        </button>
-      </div>
     </section>
   )
 }

@@ -21,6 +21,7 @@ export const metadata: Metadata = {
   },
   description: 'Mactech Building Materials Trading LLC — ISO 9001 certified industrial supplier in Muscat, Oman. Fasteners, PPE, welding consumables, power tools, lifting solutions and more. Serving Oil & Gas, construction and manufacturing since 2008.',
   keywords: ['industrial supplier Muscat', 'PPE supplier Oman', 'fasteners Muscat', 'welding consumables Oman', 'safety equipment Muscat', 'building materials Oman', 'industrial tools Muscat'],
+  icons: { icon: '/mactech-logo.avif' },
   openGraph: {
     type: 'website',
     locale: 'en_US',
