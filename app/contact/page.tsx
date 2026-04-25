@@ -6,7 +6,7 @@ import { useForm, ValidationError } from '@formspree/react'
 
 export default function ContactPage() {
   const [state, handleSubmit] = useForm('mlgazrrd')
-  const [form, setForm] = useState({ name: '', company: '', phone: '', email: '', product: '', message: '' })
+  const [form, setForm] = useState({ name: '', phone: '', email: '', product: '', message: '' })
 
   return (
     <>
@@ -42,16 +42,10 @@ export default function ContactPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid grid-cols-2 gap-5">
-                      <div>
-                        <label className="block text-sm font-medium text-white mb-2">Full Name *</label>
-                        <input required name="name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="Your name" />
-                        <ValidationError field="name" errors={state.errors} className="text-red-400 text-xs mt-1" />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-white mb-2">Company</label>
-                        <input name="company" value={form.company} onChange={e => setForm({...form, company: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="Company name" />
-                      </div>
+                    <div>
+                      <label className="block text-sm font-medium text-white mb-2">Full Name *</label>
+                      <input required name="name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="w-full bg-navy-800 border border-gray-border/40 rounded-lg px-4 py-3 text-white text-sm focus:border-blue-accent focus:outline-none transition-colors placeholder-gray-muted/50" placeholder="Your name" />
+                      <ValidationError field="name" errors={state.errors} className="text-red-400 text-xs mt-1" />
                     </div>
                     <div className="grid grid-cols-2 gap-5">
                       <div>

@@ -1,26 +1,38 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
-const MARQUEE_ITEMS = [
-  'Industrial Supply','Fasteners & Fittings','PPE & Safety',
-  'Welding Consumables','Hand Tools','Power Tools',
-  'Lifting Solutions','Pipes & Fittings','Fabrications',
-  'Construction Consumables','Machine Tools','Pneumatic Tools',
-]
+const EASE = [0.76, 0, 0.24, 1] as const
 
+// EXACT SAME as About Page - Scroll-Linked Marquee with BOTH animations
 export default function MarqueeSection() {
+  const marqueeRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: marqueeRef,
+    offset: ["start end", "end start"]
+  })
+  
+  const xOffset = useTransform(scrollYProgress, [0, 1], [0, -200])
+  
   return (
-    <div style={{ background:'#111', borderTop:'2px solid #E20010', padding:'14px 0', overflow:'hidden', position:'relative' }}>
-      <div style={{ position:'absolute', left:0, top:0, bottom:0, width:80, background:'linear-gradient(90deg,#111,transparent)', zIndex:2, pointerEvents:'none' }}/>
-      <div style={{ position:'absolute', right:0, top:0, bottom:0, width:80, background:'linear-gradient(-90deg,#111,transparent)', zIndex:2, pointerEvents:'none' }}/>
-      <motion.div animate={{ x:['0%','-50%'] }} transition={{ duration:30, repeat:Infinity, ease:'linear' }} style={{ display:'flex', whiteSpace:'nowrap' }}>
-        {[...MARQUEE_ITEMS,...MARQUEE_ITEMS].map((item,i) => (
-          <span key={i} style={{ display:'inline-flex', alignItems:'center', gap:18, padding:'0 24px', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.28)', letterSpacing:'4px', textTransform:'uppercase' }}>
-            <span style={{ width:5, height:5, borderRadius:'50%', background:'#E20010', flexShrink:0 }}/>{item}
-          </span>
-        ))}
+    <motion.div 
+      ref={marqueeRef}
+      className="py-8 bg-[#0D1B2A] overflow-hidden"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+    >
+      <motion.div 
+        className="flex gap-8 text-white/30 font-['Barlow_Condensed'] font-bold text-3xl uppercase"
+        style={{ x: xOffset }}
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+      >
+        <span className="whitespace-nowrap">PDO Approved ✦ ISO 9001:2015 ✦ JSRS Certified ✦ PDO Approved ✦ ISO 9001:2015</span>
+        <span className="whitespace-nowrap" aria-hidden="true">PDO Approved ✦ ISO 9001:2015 ✦ JSRS Certified ✦ PDO Approved ✦ ISO 9001:2015</span>
       </motion.div>
-    </div>
+    </motion.div>
   )
 }
