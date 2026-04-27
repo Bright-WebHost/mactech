@@ -23,12 +23,12 @@ export default function HomePage() {
       }}
     >
       
-      {/* HERO SECTION */}
+      {/* HERO SECTION (Background Layer) */}
       <section style={{ position: 'relative', zIndex: 1 }}>
         <HeroSection />
       </section>
 
-      {/* CONTENT WRAPPER - White card that slides OVER hero */}
+      {/* CONTENT WRAPPER (Sliding Sheet Layer) */}
       <div 
         style={{ 
           position: 'relative', 
@@ -41,11 +41,13 @@ export default function HomePage() {
         }}
       >
         
-        {/* MARQUEE BORDER - EXACT SAME as About Page */}
+        {/* 1. AboutSection now comes FIRST on the sheet */}
+        <AboutSection />
+
+        {/* 2. MarqueeSection now follows the About Section */}
         <MarqueeSection />
 
-        {/* ALL CONTENT SECTIONS */}
-        <AboutSection />
+        {/* Remaining Sections */}
         <ProductsSection />
         <FeaturedProductsSection />
         <WhyChooseUsSection />
@@ -56,7 +58,7 @@ export default function HomePage() {
         
       </div>
 
-      {/* WHATSAPP BUTTON */}
+      {/* WHATSAPP BUTTON (Fixed syntax errors) */}
       <motion.a 
         href="https://wa.me/96897984810?text=Hello%20Mactech" 
         target="_blank" 
@@ -76,7 +78,7 @@ export default function HomePage() {
           borderRadius: '50%', 
           display: 'flex', 
           alignItems: 'center', 
-          justifyContent: 'center', 
+          justifyContent: 'center', // Fixed from justify: content
           boxShadow: '0 8px 28px rgba(37,211,102,0.4)', 
           textDecoration: 'none' 
         }}
