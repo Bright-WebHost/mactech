@@ -229,7 +229,7 @@ export default function WhyChooseUsSection() {
                   textTransform: 'uppercase', flexShrink: 0,
                   transition: '0.3s'
                 }}>
-                  Get Quote →
+                  Contact Us →
                 </Link>
               </div>
             </Reveal>

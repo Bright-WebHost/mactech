@@ -8,6 +8,28 @@ import { motion } from 'framer-motion'
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
+  const locations = [
+    {
+      city: 'Muscat',
+      country: 'Oman',
+      address: 'Al Jami Al Akbar St, Ghala Industrial Area',
+      pobox: 'PO Box: 870, PC: 115',
+      phone: '+968 2421 8110',
+      phone2: '+968 2421 8111',
+      gsm: '+968 9798 4810',
+      email: 'info@mactechoman.com'
+    },
+    {
+      city: 'Dubai',
+      country: 'UAE',
+      address: 'Shop No. 38, Chinese Dragon Building, Naif, Deira',
+      pobox: 'PO Box: 80565',
+      phone: '+971 4 2218032',
+      gsm: '+971 55 702 1325',
+      email: 'faraz@mactech.ae'
+    }
+  ]
+
   return (
     <footer style={{ background: '#111', color: '#fff', fontFamily: "'DM Sans', sans-serif", position: 'relative' }}>
       
@@ -28,8 +50,8 @@ export default function Footer() {
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
             <div style={{ flex: 1, minWidth: 250 }}>
-              <h3 style={{ fontSize: 'clamp(24px, 4vw, 32px)', fontWeight: 900, marginBottom: 8, color: '#fff', letterSpacing: '-0.5px' }}>Need a Quote?</h3>
-              <p style={{ fontSize: 'clamp(14px, 2vw, 16px)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>Contact us today for custom quotes and technical consultation.</p>
+              <h3 style={{ fontSize: 'clamp(24px, 4vw, 32px)', fontWeight: 900, marginBottom: 8, color: '#fff', letterSpacing: '-0.5px' }}>Get in Touch</h3>
+              <p style={{ fontSize: 'clamp(14px, 2vw, 16px)', color: 'rgba(255,255,255,0.9)', margin: 0 }}>Contact us today for custom specifications, technical support, and supply solutions.</p>
             </div>
             <Link 
               href="/contact" 
@@ -51,7 +73,7 @@ export default function Footer() {
               }} 
               className="hover:scale-105 hover:shadow-lg"
             >
-              Get Quote <ArrowRight size={18} strokeWidth={3} />
+              Contact Us <ArrowRight size={18} strokeWidth={3} />
             </Link>
           </div>
         </motion.div>
@@ -74,7 +96,7 @@ export default function Footer() {
               />
             </div>
             <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.8, marginBottom: 24 }}>
-              ISO 9001 certified industrial & building materials supplier in Oman. Your trusted partner for fasteners, PPE, welding, tools and more.
+              ISO 9001 certified industrial & building materials supplier serving Oman and UAE. Your trusted partner for fasteners, PPE, welding, tools and more.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a href="https://wa.me/96897984810" target="_blank" rel="noopener noreferrer" style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(226,0,16,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010', fontSize: 18, transition: 'all .3s' }} className="hover:bg-red-600 hover:text-white">💬</a>
@@ -102,37 +124,92 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div>
-            <h4 style={{ fontSize: 14, fontWeight: 800, marginBottom: 24, color: '#fff', letterSpacing: '2px', textTransform: 'uppercase' }}>Contact Us</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-              <motion.div whileHover={{ x: 4 }} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <div style={{ background: 'rgba(226,0,16,0.1)', padding: 8, borderRadius: 6 }}>
-                  <Phone size={16} style={{ color: '#E20010', flexShrink: 0 }} />
-                </div>
-                <div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', letterSpacing: '1px', marginBottom: 4 }}>PHONE</div>
-                  <a href="tel:+96824218110" style={{ fontSize: 14, color: '#fff', textDecoration: 'none', fontWeight: 600 }} >+968 2421 8110</a>
-                </div>
-              </motion.div>
-              <motion.div whileHover={{ x: 4 }} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <div style={{ background: 'rgba(226,0,16,0.1)', padding: 8, borderRadius: 6 }}>
-                  <MapPin size={16} style={{ color: '#E20010', flexShrink: 0 }} />
-                </div>
-                <div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', letterSpacing: '1px', marginBottom: 4 }}>ADDRESS</div>
-                  <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)', lineHeight: 1.5 }}>Ghala Industrial Area<br/>Muscat, Oman</div>
-                </div>
-              </motion.div>
-              <motion.div whileHover={{ x: 4 }} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <div style={{ background: 'rgba(226,0,16,0.1)', padding: 8, borderRadius: 6 }}>
-                  <Mail size={16} style={{ color: '#E20010', flexShrink: 0 }} />
-                </div>
-                <div>
-                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', letterSpacing: '1px', marginBottom: 4 }}>EMAIL</div>
-                  <a href="mailto:info@mactechoman.com" style={{ fontSize: 14, color: '#fff', textDecoration: 'none', fontWeight: 600 }}>info@mactechoman.com</a>
-                </div>
-              </motion.div>
+          {/* Offices Section - Spans full width for better readability */}
+          <div style={{ gridColumn: 'span 2' }}>
+            <h4 style={{ fontSize: 14, fontWeight: 800, marginBottom: 24, color: '#fff', letterSpacing: '2px', textTransform: 'uppercase' }}>Our Offices</h4>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 40 }}>
+              {locations.map((location, idx) => (
+                <motion.div 
+                  key={idx}
+                  whileHover={{ y: -6, boxShadow: '0 12px 24px rgba(226,0,16,0.25)' }}
+                  style={{ 
+                    background: 'linear-gradient(135deg, rgba(226,0,16,0.12) 0%, rgba(226,0,16,0.05) 100%)', 
+                    padding: '45px 40px', 
+                    borderRadius: 14,
+                    border: '1px solid rgba(226,0,16,0.3)',
+                    transition: 'all .3s ease',
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.3)'
+                  }}
+                >
+                  {/* Location Header */}
+                  <div style={{ marginBottom: 32, paddingBottom: 20, borderBottom: '2px solid rgba(226,0,16,0.4)' }}>
+                    <h5 style={{ fontSize: 16, fontWeight: 900, color: '#E20010', margin: 0, letterSpacing: '2px', textTransform: 'uppercase' }}>
+                      {location.city}
+                    </h5>
+                    <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', margin: '8px 0 0 0', letterSpacing: '0.5px' }}>
+                      {location.country}
+                    </p>
+                  </div>
+
+                  {/* Address Section */}
+                  <div style={{ marginBottom: 32 }}>
+                    <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                      <div style={{ background: 'rgba(226,0,16,0.2)', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 40, minHeight: 40, flexShrink: 0 }}>
+                        <MapPin size={18} style={{ color: '#E20010' }} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', fontWeight: 700, letterSpacing: '1.2px', marginBottom: 10, textTransform: 'uppercase' }}>Address</div>
+                        <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', lineHeight: 1.8, fontWeight: 500, marginBottom: 12 }}>
+                          {location.address}
+                        </div>
+                        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', fontWeight: 500 }}>
+                          {location.pobox}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Phone Section */}
+                  <div style={{ marginBottom: 32 }}>
+                    <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                      <div style={{ background: 'rgba(226,0,16,0.2)', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 40, minHeight: 40, flexShrink: 0 }}>
+                        <Phone size={18} style={{ color: '#E20010' }} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', fontWeight: 700, letterSpacing: '1.2px', marginBottom: 10, textTransform: 'uppercase' }}>Phone</div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                          <a href={`tel:${location.phone.replace(/\s/g, '')}`} style={{ fontSize: 14, color: '#fff', textDecoration: 'none', fontWeight: 600, transition: 'color .2s' }} className="hover:text-red-400">
+                            {location.phone}
+                          </a>
+                          {location.phone2 && (
+                            <a href={`tel:${location.phone2.replace(/\s/g, '')}`} style={{ fontSize: 14, color: '#fff', textDecoration: 'none', fontWeight: 600, transition: 'color .2s' }} className="hover:text-red-400">
+                              {location.phone2}
+                            </a>
+                          )}
+                          <a href={`https://wa.me/${location.gsm.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color .2s' }} className="hover:text-red-400">
+                            📱 {location.gsm}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Email Section */}
+                  <div>
+                    <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                      <div style={{ background: 'rgba(226,0,16,0.2)', padding: 10, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: 40, minHeight: 40, flexShrink: 0 }}>
+                        <Mail size={18} style={{ color: '#E20010' }} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', fontWeight: 700, letterSpacing: '1.2px', marginBottom: 10, textTransform: 'uppercase' }}>Email</div>
+                        <a href={`mailto:${location.email}`} style={{ fontSize: 14, color: '#fff', textDecoration: 'none', fontWeight: 600, wordBreak: 'break-all', transition: 'color .2s' }} className="hover:text-red-400">
+                          {location.email}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>

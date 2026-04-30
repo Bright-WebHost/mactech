@@ -85,20 +85,20 @@ function HeroParallax() {
         </div>
 
         <div className="font-['Barlow_Condensed'] font-extrabold uppercase leading-[0.95] text-[clamp(45px,12vw,140px)]">
-          <BlurText text="Defining" />
+          <BlurText text="Building" />
           <div className="flex items-center gap-3">
-            <BlurText text="Industrial" className="text-[#E20010]" delay={0.1} />
+            <BlurText text="Construction" className="text-[#E20010]" delay={0.1} />
             <div className="h-[0.8em] aspect-video rounded-full overflow-hidden bg-gray-100">
               <img 
                 src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=400&h=300&fit=crop" 
                 className="w-full h-full object-cover" 
-                alt="Industrial"
+                alt="Construction"
                 loading="lazy"
                 decoding="async"
               />
             </div>
           </div>
-          <BlurText text="Excellence" delay={0.2} />
+          <BlurText text="Standards" delay={0.2} />
         </div>
       </div>
 
@@ -220,7 +220,7 @@ export default function AboutPage() {
                 <Target className="text-[#E20010] mb-6" size={32} />
               </motion.div>
               <h3 className="font-['Barlow_Condensed'] text-4xl font-bold uppercase mb-4">Our Mission</h3>
-              <p className="text-white/60 leading-relaxed">Empowering industrial growth through premium supplies and service excellence.</p>
+              <p className="text-white/60 leading-relaxed">Supporting construction growth with quality materials, reliable supply, and trusted service.</p>
             </motion.div>
 
             {/* Vision */}
@@ -239,7 +239,7 @@ export default function AboutPage() {
                 <Globe className="text-[#E20010] mb-6" size={32} />
               </motion.div>
               <h3 className="font-['Barlow_Condensed'] text-4xl font-bold uppercase mb-4">Our Vision</h3>
-              <p className="text-gray-500 leading-relaxed">To be the most trusted supply backbone for Middle Eastern infrastructure.</p>
+              <p className="text-gray-500 leading-relaxed">To be the most trusted construction supply partner for infrastructure and building projects.</p>
             </motion.div>
           </div>
         </motion.section>

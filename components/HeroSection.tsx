@@ -17,7 +17,7 @@ const BG = '#0A0A0A'
 const NAVBAR_HEIGHT = 80 // Match your navbar height here
 
 const SLIDES = [
-  { src: '/images/hero/tools.png', label: 'Fasteners', tagline: 'Precision Built. Industry Trusted.', feature: 'Premium grade fasteners', icon: Award },
+  { src: '/images/hero/tools.png', label: 'Fasteners', tagline: 'Built Strong. Trusted by Builders', feature: 'High-quality construction materials & tools', icon: Award },
   { src: '/images/hero/tools2.png', label: 'Welding', tagline: 'Fuse Metal. Forge Progress.', feature: 'ISO certified welding solutions', icon: Zap },
   { src: '/images/hero/tools3.png', label: 'Safety', tagline: 'Every Worker. Every Site. Protected.', feature: 'Complete protection coverage', icon: Shield },
   { src: '/images/hero/tools4.png', label: 'Lifting', tagline: 'Lift Heavy. Move Safely.', feature: 'Certified load capacity', icon: Award },
@@ -118,16 +118,16 @@ export default function HeroSection() {
              <div className="headline-group">
                 <h2 className="main-title">
                   COMPLETE <br />
-                  <span style={{ color: RED }}>INDUSTRIAL</span> <br />
+                  <span style={{ color: RED }}>CONSTRUCTION</span> <br />
                   SUPPLY
                 </h2>
-                <p className="current-label">PREMIUM <span style={{ color: ACCENT_ORANGE }}>{slide.label.toUpperCase()}</span> SOLUTIONS</p>
+                <p className="current-label">QUALITY <span style={{ color: ACCENT_ORANGE }}>CONSTRUCTION MATERIALS</span> & SOLUTIONS</p>
              </div>
             
-            <p className="description-text">Serving Oil & Gas, Construction, and Fabrication sectors since 2008.</p>
+            <p className="description-text">Supplying high-quality materials and tools for construction, infrastructure, and building projects.</p>
             
             <div className="btn-group">
-              <Link href="/products" className="btn-primary">VIEW PRODUCTS <ArrowRight size={14} /></Link>
+              <Link href="/products" className="btn-primary">EXPLORE PRODUCTS <ArrowRight size={14} /></Link>
               <Link href="/contact" className="btn-secondary">CONTACT US</Link>
             </div>
           </div>
@@ -136,7 +136,7 @@ export default function HeroSection() {
             <div className="feature-card">
               <div className="icon-box"><IconComponent size={20} color={RED} /></div>
               <div>
-                <div className="feature-tag">Spec-Sheet</div>
+                <div className="feature-tag">OUR PRODUCTS</div>
                 <div className="feature-text">{slide.feature}</div>
               </div>
             </div>

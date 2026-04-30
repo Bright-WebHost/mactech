@@ -35,7 +35,7 @@ export default function CTASection() {
         </Reveal>
         <Reveal delay={.1}>
           <p style={{ fontSize:15, color:'rgba(255,255,255,0.35)', maxWidth:420, margin:'0 auto 48px', lineHeight:1.75 }}>
-            Contact our team for custom quotes, technical consultation, or emergency supply requirements across Muscat, Sohar and Dubai.
+            Contact our team for custom specifications, technical consultation, or emergency supply requirements across Muscat, Sohar and Dubai.
           </p>
         </Reveal>
         <Reveal delay={.2}>

@@ -46,7 +46,7 @@ export default function ImprovedProjectsSection() {
               fill 
               className="object-cover" 
               priority
-              style={{ filter: 'brightness(0.4) contrast(1.1)' }}
+              style={{ filter: 'brightness(0.65) contrast(1.1)' }}
             />
             <div className="absolute inset-0 bg-gradient-to-tr from-black via-black/40 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
