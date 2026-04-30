@@ -36,62 +36,73 @@ export default function HeroSection() {
     const container = containerRef.current
     if (!container) return
 
-    const isMobile = window.innerWidth < 1024
-    const scrollDistance = (N - 1) * (isMobile ? 800 : 1000)
+    // Small delay to ensure DOM is ready on server
+    const timer = setTimeout(() => {
+      const isMobile = window.innerWidth < 1024
+      const scrollDistance = (N - 1) * (isMobile ? 800 : 1000)
 
-    // Initial setup
-    gsap.set(".slide-item", { opacity: 0, scale: 0.8, z: -100, y: 0 })
-    gsap.set(".slide-item-0", { opacity: 1, scale: 1, z: 0, y: 0 })
+      // Initial setup
+      gsap.set(".slide-item", { opacity: 0, scale: 0.8, z: -100, y: 0 })
+      gsap.set(".slide-item-0", { opacity: 1, scale: 1, z: 0, y: 0 })
 
-    const st = ScrollTrigger.create({
-      trigger: container,
-      start: `top ${NAVBAR_HEIGHT}px`, // Start pinning after navbar height
-      end: `+=${scrollDistance}`,
-      pin: true,
-      pinSpacing: true, // This adds extra space for the pinned duration
-      scrub: 0.5,
-      onUpdate: (self) => {
-        const progress = self.progress * (N - 1)
-        const currentRounded = Math.min(Math.round(progress), N - 1)
+      const st = ScrollTrigger.create({
+        trigger: container,
+        start: `top ${NAVBAR_HEIGHT}px`, // Start pinning after navbar height
+        end: `+=${scrollDistance}`,
+        pin: true,
+        pinSpacing: true, // This adds extra space for the pinned duration
+        scrub: 0.5,
+        onUpdate: (self) => {
+          const progress = self.progress * (N - 1)
+          const currentRounded = Math.min(Math.round(progress), N - 1)
 
-        if (currentRounded !== indexRef.current) {
-          indexRef.current = currentRounded
-          setIdx(currentRounded)
-        }
-
-        SLIDES.forEach((_, i) => {
-          const slideEl = container.querySelector(`.slide-item-${i}`)
-          if (!slideEl) return
-
-          const diff = i - progress
-          let z = 0, opacity = 0, scale = 1
-
-          if (diff < 0) {
-            // Outgoing slides
-            z = Math.abs(diff) * 150
-            opacity = 1 - Math.abs(diff) * 2
-            scale = 1 + Math.abs(diff) * 0.1
-          } else {
-            // Incoming slides
-            opacity = 1 - Math.abs(diff)
-            scale = 1 - (Math.abs(diff) * 0.1)
-            z = Math.abs(diff) * -150
+          if (currentRounded !== indexRef.current) {
+            indexRef.current = currentRounded
+            setIdx(currentRounded)
           }
 
-          gsap.to(slideEl, {
-            y: 0, // CRITICAL: Keep Y locked at 0
-            z,
-            scale,
-            opacity: Math.max(opacity, 0),
-            duration: 0.1,
-            ease: 'none',
-            overwrite: 'auto'
-          })
-        })
-      }
-    })
+          SLIDES.forEach((_, i) => {
+            const slideEl = container.querySelector(`.slide-item-${i}`)
+            if (!slideEl) return
 
-    return () => st.kill()
+            const diff = i - progress
+            let z = 0, opacity = 0, scale = 1
+
+            if (diff < 0) {
+              // Outgoing slides
+              z = Math.abs(diff) * 150
+              opacity = 1 - Math.abs(diff) * 2
+              scale = 1 + Math.abs(diff) * 0.1
+            } else {
+              // Incoming slides
+              opacity = 1 - Math.abs(diff)
+              scale = 1 - (Math.abs(diff) * 0.1)
+              z = Math.abs(diff) * -150
+            }
+
+            gsap.to(slideEl, {
+              y: 0, // CRITICAL: Keep Y locked at 0
+              z,
+              scale,
+              opacity: Math.max(opacity, 0),
+              duration: 0.1,
+              ease: 'none',
+              overwrite: 'auto'
+            })
+          })
+        }
+      })
+
+      // Refresh ScrollTrigger to fix Vercel hydration issues
+      ScrollTrigger.refresh()
+
+      return () => {
+        st.kill()
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+      }
+    }, 100)
+
+    return () => clearTimeout(timer)
   }, [])
 
   const slide = SLIDES[idx]
