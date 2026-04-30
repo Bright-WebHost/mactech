@@ -65,7 +65,7 @@ export default function ImprovedProjectsSection() {
           </motion.div>
           {/* FIXED: Adjusted sizing to text-[12vw] for mobile, added whitespace-nowrap */}
           <h2 
-            className="text-[12vw] sm:text-6xl md:text-9xl font-black text-white uppercase tracking-tighter leading-[0.85] whitespace-nowrap"
+            className="text-[12vw] sm:text-6xl md:text-9xl font-black text-white uppercase tracking-normal leading-[0.85] whitespace-nowrap"
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
             {/* FIXED: Removed block class from span so it stays inline */}

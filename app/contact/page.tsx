@@ -10,20 +10,27 @@ export default function ContactPage() {
 
   return (
     <>
-      <section className="relative min-h-[40vh] flex items-center bg-navy-950 overflow-hidden">
-        <div className="absolute inset-0 grid-bg opacity-30" />
-        <div className="container-custom relative z-10 py-24">
-          <p className="section-eyebrow">Get in Touch</p>
-          <h1 className="text-4xl lg:text-6xl font-bold text-white mb-4">
-            Contact <span className="text-gradient-blue">Mactech Oman</span>
+      {/* ── Hero ── */}
+      <section className="bg-[#0A0A0A] border-b border-white/[0.06]">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-20 py-24 lg:py-32">
+          <p className="text-[#E20010] text-xs font-bold tracking-[0.4em] uppercase mb-6 flex items-center gap-3">
+            <span className="w-6 h-[2px] bg-[#E20010] inline-block" />
+            Get In Touch
+          </p>
+          <h1
+            className="font-barlow-condensed font-black uppercase text-white leading-[0.88] mb-6"
+            style={{ fontSize: 'clamp(52px, 8vw, 110px)' }}
+          >
+            Contact <span className="text-[#E20010]">Mactech</span> Oman
           </h1>
-          <p className="text-gray-muted text-lg max-w-xl">
-            Connect with our team to discuss your construction supply needs, check availability, or speak with our technical experts. 
+          <p className="text-white/40 text-base lg:text-lg max-w-xl leading-relaxed">
+            Reach our team for supply needs, availability checks, or technical guidance.
             We respond within 2 business hours.
           </p>
         </div>
       </section>
 
+      {/* ── Form + Info ── */}
       <section className="section-padding">
         <div className="container-custom">
           <div className="grid lg:grid-cols-5 gap-12">
@@ -31,9 +38,8 @@ export default function ContactPage() {
             {/* Form - 3 cols */}
             <div className="lg:col-span-3">
               <div className="glass-card p-8">
-                {/* Heading forced to white */}
                 <h2 className="text-2xl font-bold text-white mb-6">Send an Inquiry</h2>
-                
+
                 {state.succeeded ? (
                   <div className="text-center py-12">
                     <div className="text-5xl mb-4">✅</div>
@@ -103,19 +109,20 @@ export default function ContactPage() {
                 </div>
               ))}
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* Google Maps Section */}
+      {/* ── Google Maps ── */}
       <section className="w-full h-[500px] lg:h-[600px]">
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13236.853924417459!2d58.3602822!3d23.5756279!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e8e0020decb842d%3A0xa099574878fb17ac!2zTUFDVEVDSCBCdWlsZGluZyBNYXRlcmlhbHMgVHJhZGluZyBMTEMgKNmF2YrZgyDYqtmK2YMg2YTYqtis2KfYsdipINmF2YjYp9ivINin2YTYqNmG2KfYoSDYtCDZhSDZhSk!5e1!3m2!1sen!2sin!4v1777524591254!5m2!1sen!2sin" 
-          width="100%" 
-          height="100%" 
-          style={{ border: 0 }} 
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13236.853924417459!2d58.3602822!3d23.5756279!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e8e0020decb842d%3A0xa099574878fb17ac!2zTUFDVEVDSCBCdWlsZGluZyBNYXRlcmlhbHMgVHJhZGluZyBMTEMgKNmF2YrZgyDYqtmK2YMg2YTYqtis2KfYsdipINmF2YLYp9ivINin2YTYqNmG2KfYoSDYtCDZhSDZhSk!5e1!3m2!1sen!2sin!4v1777524591254!5m2!1sen!2sin"
+          width="100%"
+          height="100%"
+          style={{ border: 0 }}
           allowFullScreen
-          loading="lazy" 
+          loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
         />
       </section>

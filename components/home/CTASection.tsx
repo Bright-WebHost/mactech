@@ -28,7 +28,7 @@ export default function CTASection() {
         style={{ position:'absolute', top:'50%', left:'25%', transform:'translate(-50%,-50%)', width:600, height:400, borderRadius:'50%', background:'radial-gradient(circle,rgba(226,0,16,0.3) 0%,transparent 70%)', pointerEvents:'none' }}/>
       <div style={{ position:'relative', zIndex:1, maxWidth:860, margin:'0 auto' }}>
         <Reveal>
-          <h2 style={{ fontSize:'clamp(40px,8vw,108px)', fontWeight:900, lineHeight:.88, letterSpacing:'-3px', color:'#fff', marginBottom:20 }}>
+          <h2 style={{ fontSize:'clamp(40px,8vw,108px)', fontWeight:900, lineHeight:.88, letterSpacing:'-0.5px', color:'#fff', marginBottom:20 }}>
             Ready to <span style={{ color:'#E20010' }}>Partner</span><br/>
             With <span style={{ WebkitTextStroke:'1.5px #D7B569', color:'transparent' }}>Us?</span>
           </h2>

@@ -37,8 +37,8 @@ export default function FeaturedProductsSection() {
       ref={containerRef}
       onMouseMove={handleMove}
       onTouchMove={handleMove}
-      // FIXED: Adjusted vertical padding for mobile (pt-8) while keeping desktop (md:py-20)
-      className="bg-[#050505] min-h-screen text-white relative overflow-hidden pt-8 pb-20 md:py-20"
+      // FIXED: Changed background to white
+      className="bg-white min-h-screen text-[#0A0A0A] relative overflow-hidden pt-8 pb-20 md:py-20"
     >
       {/* ── Header ── */}
       {/* FIXED: Reduced bottom margin on mobile (mb-8) */}
@@ -47,25 +47,25 @@ export default function FeaturedProductsSection() {
           03 — Our Catalog
         </span>
         {/* FIXED: Added whitespace-nowrap and dynamic viewport width text sizing (text-[8vw]) for mobile */}
-        <h2 className="font-barlow-condensed font-black uppercase tracking-tighter text-[8vw] sm:text-5xl md:text-8xl leading-none whitespace-nowrap">
-          Featured <span className="italic font-light opacity-50">Products</span>
+        <h2 className="font-barlow-condensed font-black uppercase tracking-normal text-[8vw] sm:text-5xl md:text-8xl leading-[0.9]">
+          Featured <span className="italic font-light opacity-60">Products</span>
         </h2>
       </header>
 
       {/* ── Product List ── */}
-      <div className="relative z-10 border-t border-white/10" onMouseLeave={() => setHoveredIndex(null)}>
+      <div className="relative z-10 border-t border-gray-200" onMouseLeave={() => setHoveredIndex(null)}>
         {PRODUCTS.map((prod, index) => (
           <div
             key={prod.id}
             onMouseEnter={() => setHoveredIndex(index)}
             onTouchStart={() => setHoveredIndex(index)}
-            className="group relative border-b border-white/10 px-6 lg:px-20 py-10 md:py-16 cursor-pointer hover:bg-white/[0.02] transition-colors"
+            className="group relative border-b border-gray-200 px-6 lg:px-20 py-10 md:py-16 cursor-pointer hover:bg-gray-50 transition-colors"
           >
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
               
               <div className="flex items-baseline gap-6">
                 <span className="font-mono text-[#E20010] text-sm md:text-xl">0{index + 1}</span>
-                <h3 className="font-barlow-condensed font-black uppercase text-4xl md:text-7xl tracking-tighter group-hover:translate-x-4 transition-transform duration-500">
+                <h3 className="font-barlow-condensed font-black uppercase text-4xl md:text-7xl tracking-normal group-hover:translate-x-4 transition-transform duration-500">
                   {prod.name}
                 </h3>
               </div>
@@ -75,7 +75,7 @@ export default function FeaturedProductsSection() {
                   <Zap size={14} className="text-[#E20010]" />
                   <span className="text-[10px] font-bold uppercase tracking-widest">{prod.badge}</span>
                 </div>
-                <p className="text-sm text-gray-400 group-hover:text-white transition-colors">
+                <p className="text-sm text-gray-600 group-hover:text-[#0A0A0A] transition-colors">
                   {prod.desc}
                 </p>
               </div>

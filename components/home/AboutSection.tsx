@@ -80,7 +80,7 @@ export default function AboutSection() {
             lineHeight: 1, 
             pointerEvents: 'none', 
             userSelect: 'none', 
-            letterSpacing: '-4px', 
+            letterSpacing: '-0.5px', 
             zIndex: 0 
           }}>
           ABOUT
@@ -108,7 +108,7 @@ export default function AboutSection() {
                   fontSize: 'clamp(32px, 4.5vw, 56px)', 
                   fontWeight: 900, 
                   lineHeight: 1, 
-                  letterSpacing: '-0.5px', 
+                  letterSpacing: '0px', 
                   textTransform: 'uppercase', 
                   color: '#1a1a1a', 
                   marginBottom: 24 

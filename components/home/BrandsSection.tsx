@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { motion, useScroll, useTransform, MotionValue } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 
 const BRANDS = [
@@ -48,16 +48,13 @@ const RED = '#CC1020'
 export default function BrandsSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const [win, setWin] = useState({ w: 1200, h: 800, isMobile: false, mounted: false })
-  const [scrollDistance, setScrollDistance] = useState(0)
 
   useEffect(() => {
-    // Prevent SSR window errors
     if (typeof window === 'undefined') return;
 
     let lastWidth = window.innerWidth
 
     const handleResize = () => {
-      // Only recalculate if the horizontal width physically changes
       if (window.innerWidth !== lastWidth) {
         lastWidth = window.innerWidth
         setWin({
@@ -67,13 +64,8 @@ export default function BrandsSection() {
           mounted: true
         })
       }
-      
-      if (containerRef.current) {
-        setScrollDistance(containerRef.current.offsetHeight - window.innerHeight)
-      }
     }
     
-    // Set initial values
     setWin({
       w: window.innerWidth,
       h: window.innerHeight,
@@ -81,26 +73,15 @@ export default function BrandsSection() {
       mounted: true
     })
 
-    if (containerRef.current) {
-      setScrollDistance(containerRef.current.offsetHeight - window.innerHeight)
-    }
-
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
-  }, []) // Empty dependency array prevents re-render loops
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end'],
-  })
-
-  const fakeStickyY = useTransform(scrollYProgress, [0, 1], [0, scrollDistance])
+  }, [])
 
   return (
     <section 
       ref={containerRef} 
       style={{ 
-        height: '300vh', 
+        height: '100vh', 
         background: '#f5f4f0',
         position: 'relative',
         '--card-size': win.isMobile ? '80px' : '135px'
@@ -121,9 +102,8 @@ export default function BrandsSection() {
         }
       `}</style>
 
-      <motion.div style={{ 
+      <div style={{ 
         position: 'relative', 
-        y: fakeStickyY,
         height: '100vh', 
         overflow: 'hidden',
         display: 'flex',
@@ -187,7 +167,7 @@ export default function BrandsSection() {
           </p>
         </div>
 
-        {/* ── RIGHT SIDE: LOGO ANIMATION CONTAINER ── */}
+        {/* ── RIGHT SIDE: LOGO CONTAINER ── */}
         <div style={{ 
           flex: 1, 
           position: 'relative',
@@ -203,29 +183,22 @@ export default function BrandsSection() {
                   brand={brand} 
                   index={i} 
                   total={BRANDS.length} 
-                  scrollYProgress={scrollYProgress} 
                   win={win} 
                 />
               ))}
             </div>
           )}
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }
 
-function BrandNode({ brand, index, total, scrollYProgress, win }: { 
-  brand: any, index: number, total: number, scrollYProgress: MotionValue<number>, win: any 
+function BrandNode({ brand, index, total, win }: { 
+  brand: any, index: number, total: number, win: any 
 }) {
-  const orbitRadius = win.isMobile ? win.w * 0.35 : 240
-  const angle = (index / total) * Math.PI * 2
-  const startX = Math.cos(angle) * orbitRadius
-  const startY = Math.sin(angle) * orbitRadius
-
   const targetMap = win.isMobile ? MOBILE_MAP : DESKTOP_MAP
   
-  // Calculate bounding box constraints
   const panelWidth = win.isMobile ? win.w : win.w * 0.55
   const panelHeight = win.isMobile ? win.h * 0.55 : win.h
   
@@ -237,22 +210,15 @@ function BrandNode({ brand, index, total, scrollYProgress, win }: {
   
   const endX = targetMap[index].x * maxX
   const endY = targetMap[index].y * maxY
-
-  const x = useTransform(scrollYProgress, [0, 0.8], [startX, endX])
-  const y = useTransform(scrollYProgress, [0, 0.8], [startY, endY])
-  
   const finalScale = targetMap[index].scale
-  const scale = useTransform(scrollYProgress, [0, 0.7], [1, win.isMobile ? finalScale * 0.85 : finalScale])
-  const opacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0])
 
   return (
     <motion.div
       style={{
         position: 'absolute',
-        x, 
-        y,
-        scale,
-        opacity,
+        x: endX,
+        y: endY,
+        scale: win.isMobile ? finalScale * 0.85 : finalScale,
         left: 'calc(var(--card-size) / -2)', 
         top: 'calc(var(--card-size) / -2)',
       }}

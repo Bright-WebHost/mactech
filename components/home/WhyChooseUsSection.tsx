@@ -67,7 +67,7 @@ export default function WhyChooseUsSection() {
         fontSize: 'clamp(60px,14vw,220px)',
         fontWeight: 900, color: 'rgba(204,16,32,0.05)',
         lineHeight: 1, pointerEvents: 'none', userSelect: 'none',
-        letterSpacing: '-0.02em', zIndex: 0,
+        letterSpacing: '-0.01em', zIndex: 0,
       }}>
         QUALITY
       </div>

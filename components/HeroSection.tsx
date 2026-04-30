@@ -172,7 +172,7 @@ export default function HeroSection() {
           .main-title, .mactech-bg-text, .btn-primary, .btn-secondary, .feature-tag {
             font-family: 'Barlow Condensed', sans-serif;
             text-transform: uppercase;
-            letter-spacing: -0.02em;
+            letter-spacing: 0em;
           }
 
           .current-label, .description-text, .feature-text, .tagline-text, .counter-current, .counter-total {
