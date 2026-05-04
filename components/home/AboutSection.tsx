@@ -166,9 +166,9 @@ export default function AboutSection() {
                 style={{ position: 'absolute', bottom: -12, right: -12, width: '45%', height: '50%', background: '#E20010', zIndex: 0 }} />
 
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.15 }}
-                style={{ position: 'absolute', top: 12, left: 12, right: 12, bottom: 12, zIndex: 1, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}>
-                <motion.div animate={{ scale: [1, 1.04, 1] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }} style={{ width: '100%', height: '100%' }}>
-                  <Image src="/images/products/about.avif" alt="Mactech industrial" fill className="object-cover" />
+                style={{ position: 'relative', top: 12, left: 12, right: 12, bottom: 12, zIndex: 1, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', width: '100%', height: '100%' }}>
+                <motion.div animate={{ scale: [1, 1.04, 1] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }} style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <Image src="/images/products/about.webp" alt="Mactech industrial" fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 600px" className="object-cover" />
                 </motion.div>
               </motion.div>
 

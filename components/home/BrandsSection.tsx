@@ -5,16 +5,16 @@ import { motion } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 
 const BRANDS = [
-  { name: 'ATG', logo: '/images/atg.png' },
-  { name: '3M', logo: '/images/3m.png' },
-  { name: 'CTG', logo: '/images/ctg.png' },
-  { name: 'Delta Plus', logo: '/images/deltaplus.png' },
-  { name: 'Eyevex', logo: '/images/eyevex.png' },
-  { name: 'Hans', logo: '/images/hans.png' },
-  { name: 'MTS', logo: '/images/mts.png' },
-  { name: 'Pyramax', logo: '/images/pyramax.png' },
-  { name: 'Uvex', logo: '/images/uvex.png' },
-  { name: 'Vaultex', logo: '/images/vaultex.png' },
+  { name: 'ATG', logo: '/images/atg.webp' },
+  { name: '3M', logo: '/images/3m.webp' },
+  { name: 'CTG', logo: '/images/ctg.webp' },
+  { name: 'Delta Plus', logo: '/images/deltaplus.webp' },
+  { name: 'Eyevex', logo: '/images/eyevex.webp' },
+  { name: 'Hans', logo: '/images/hans.webp' },
+  { name: 'MTS', logo: '/images/mts.webp' },
+  { name: 'Pyramax', logo: '/images/pyramax.webp' },
+  { name: 'Uvex', logo: '/images/uvex.webp' },
+  { name: 'Vaultex', logo: '/images/vaultex.webp' },
 ]
 
 const DESKTOP_MAP = [

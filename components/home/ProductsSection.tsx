@@ -5,11 +5,11 @@ import { useRef, useEffect, useState } from 'react'
 import gsap from 'gsap'
 
 const PRODUCTS = [
-  { name: 'Fasteners',   sub: 'Industrial',  image: '/images/products/fastner.png' },
-  { name: 'Welding',     sub: 'Consumables', image: '/images/products/welding-consumable.png' },
-  { name: 'Safety PPE',  sub: 'Protection',  image: '/images/products/saftlyppes.png' },
-  { name: 'Lifting',     sub: 'Solutions',   image: '/images/products/lifting-solutions.png' },
-  { name: 'Power Tools', sub: 'Heavy Duty',  image: '/images/products/powertools.png' },
+  { name: 'Fasteners',   sub: 'Industrial',  image: '/images/products/fastner.webp' },
+  { name: 'Welding',     sub: 'Consumables', image: '/images/products/welding-consumable.webp' },
+  { name: 'Safety PPE',  sub: 'Protection',  image: '/images/products/saftlyppes.webp' },
+  { name: 'Lifting',     sub: 'Solutions',   image: '/images/products/lifting-solutions.webp' },
+  { name: 'Power Tools', sub: 'Heavy Duty',  image: '/images/products/powertools.webp' },
 ]
 
 const ITEMS  = [...PRODUCTS, ...PRODUCTS, ...PRODUCTS, ...PRODUCTS, ...PRODUCTS]
@@ -180,7 +180,7 @@ function InfiniteMarquee({ wrapRef, isMobile }: { wrapRef: React.RefObject<HTMLD
             width: CARD_W, height: 400, borderRadius: 8, overflow: 'hidden', position: 'relative',
             background: '#151515', border: '1px solid rgba(255,255,255,0.1)'
           }}>
-            <Image src={p.image} alt={p.name} fill style={{ objectFit: 'cover' }} />
+            <Image src={p.image} alt={p.name} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" style={{ objectFit: 'cover' }} />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.9) 100%)' }} />
             <div style={{ position: 'absolute', bottom: 25, left: 25 }}>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: '#FF6B35', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase' }}>{p.sub}</div>

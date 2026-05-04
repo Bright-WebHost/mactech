@@ -47,8 +47,8 @@ export default function CertificationsSection() {
           margin: '0 auto'
         }}>
           {[
-            { image: '/images/iso.png', title: 'ISO 9001:2015' },
-            { image: '/images/jsrs.png', title: 'JSRS Certified' },
+            { image: '/images/iso.webp', title: 'ISO 9001:2015' },
+            { image: '/images/jsrs.webp', title: 'JSRS Certified' },
           ].map((cert, idx) => (
             <Reveal key={cert.title} delay={idx * 0.1}>
               <motion.div

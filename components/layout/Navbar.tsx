@@ -29,7 +29,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <Image
-              src="/mactech-logo.avif"
+              src="/mactech-logo.webp"
               alt="Mactech Oman logo"
               width={56}
               height={56}

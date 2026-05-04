@@ -12,7 +12,7 @@ const SERVICES = [
     title: ['Fasteners &', 'Fixings'], 
     desc: 'A wide range of high-quality fasteners designed for strong, secure, and long-lasting construction applications.', 
     features: ['Hex bolts, anchor bolts, stud bolts & more', 'Stainless steel & high-strength materials', 'ASTM, DIN & ISO certified'], 
-    images: ['/images/fasteners/nut.png', '/images/fasteners/bolt.png', '/images/fasteners/brush.png', '/images/fasteners/wrench.png'] 
+    images: ['/images/fasteners/nut.webp', '/images/fasteners/bolt.webp', '/images/fasteners/brush.webp', '/images/fasteners/wrench.webp'] 
   },
   { 
     id: 'safety', 
@@ -22,7 +22,7 @@ const SERVICES = [
     title: ['Safety & Protective', 'Equipment'], 
     desc: 'Complete range of safety equipment designed to protect workers across construction and industrial environments.', 
     features: ['Hard hats & safety helmets', 'Hi-vis vests & coveralls', 'Respiratory & eye protection'], 
-    images: ['/images/fasteners/helmate.png', '/images/safety/boots.png', '/images/safety/coat.png', '/images/safety/fullsuit.png'] 
+    images: ['/images/fasteners/helmate.webp', '/images/safety/boots.webp', '/images/safety/coat.webp', '/images/safety/fullsuit.webp'] 
   },
   { 
     id: 'welding', 
@@ -32,7 +32,7 @@ const SERVICES = [
     title: ['Welding &', 'Fabrication Supplies'], 
     desc: 'Complete range of welding consumables and equipment for construction, fabrication, and industrial applications.', 
     features: ['Electrodes: cellulosic, rutile & low-hydrogen', 'MIG/TIG wires & metal-cored', 'Welding gases & accessories'], 
-    images: ['/images/welding/welding1.png', '/images/welding/welding2.png', '/images/welding/welding3.png', '/images/welding/welding4.png'] 
+    images: ['/images/welding/welding1.webp', '/images/welding/welding2.webp', '/images/welding/welding3.webp', '/images/welding/welding4.webp'] 
   },
   { 
     id: 'tools', 
@@ -42,7 +42,7 @@ const SERVICES = [
     title: ['Hand &', 'Power Tools'], 
     desc: 'High-quality hand and power tools designed for construction, maintenance, and on-site work.', 
     features: ['Spanners, ratchets, torque wrenches', 'Grinders, drills & impact drivers', 'Precision measuring tools'], 
-    images: ['/images/tools/tool1.png', '/images/tools/tool2.png', '/images/tools/tool3.png', '/images/fasteners/wrench2.png'] 
+    images: ['/images/tools/tool1.webp', '/images/tools/tool2.webp', '/images/tools/tool3.webp', '/images/fasteners/wrench2.webp'] 
   },
   { 
     id: 'piping', 
@@ -52,7 +52,7 @@ const SERVICES = [
     title: ['Pipes, Valves', '& Fittings'], 
     desc: 'Complete range of pipes, valves, and fittings for construction, plumbing, and infrastructure projects.', 
     features: ['Carbon steel, stainless & GI pipes', 'Gate, ball, globe & check valves', 'Gaskets, fittings & pipe supports'], 
-    images: ['/images/pipes/pipe1.png', '/images/pipes/pipe2.png', '/images/pipes/pipe3.png', '/images/pipes/pipe4.png'] 
+    images: ['/images/pipes/pipe1.webp', '/images/pipes/pipe2.webp', '/images/pipes/pipe3.webp', '/images/pipes/pipe4.webp'] 
   },
   { 
     id: 'construction', 
@@ -62,7 +62,7 @@ const SERVICES = [
     title: ['Construction', 'Materials & Consumables'], 
     desc: 'Wide range of construction materials and consumables designed to support building, maintenance, and site operations.', 
     features: ['Cutting discs & flap discs', 'Adhesives, sealants & lubricants', 'Cleaning & site maintenance'], 
-    images: ['/images/construction/1.png', '/images/construction/2.png', '/images/construction/3.png', '/images/construction/4.png'] 
+    images: ['/images/construction/1.webp', '/images/construction/2.webp', '/images/construction/3.webp', '/images/construction/4.webp'] 
   },
 ]
 

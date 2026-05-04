@@ -76,7 +76,7 @@ export default function Footer() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: 'clamp(12px, 4vw, 20px)', background: '#fff', padding: 'clamp(6px, 2vw, 10px) clamp(10px, 3vw, 15px)', borderRadius: 8, width: 'fit-content' }}>
               <Image
-                src="/mactech-logo.avif"
+                src="/mactech-logo.webp"
                 alt="Mactech Logo"
                 width={120}
                 height={40}

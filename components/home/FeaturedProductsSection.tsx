@@ -6,9 +6,9 @@ import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motio
 import { ArrowRight, Zap } from 'lucide-react'
 
 const PRODUCTS = [
-  { id: 'p1', name: 'Fasteners', image: '/images/products/fastner.png', category: 'INDUSTRIAL', desc: 'High-tensile precision fasteners for heavy-duty applications.', badge: 'Best Seller' },
-  { id: 'p2', name: 'Welding', image: '/images/products/welding-consumable.png', category: 'ENGINEERING', desc: 'Superior grade welding consumables for structural integrity.', badge: 'Premium' },
-  { id: 'p3', name: 'Safety', image: '/images/products/saftlyppes.png', category: 'PROTECTION', desc: 'Certified high-performance PPE for hazardous environments.', badge: 'Certified' },
+  { id: 'p1', name: 'Fasteners', image: '/images/products/fastner.webp', category: 'INDUSTRIAL', desc: 'High-tensile precision fasteners for heavy-duty applications.', badge: 'Best Seller' },
+  { id: 'p2', name: 'Welding', image: '/images/products/welding-consumable.webp', category: 'ENGINEERING', desc: 'Superior grade welding consumables for structural integrity.', badge: 'Premium' },
+  { id: 'p3', name: 'Safety', image: '/images/products/saftlyppes.webp', category: 'PROTECTION', desc: 'Certified high-performance PPE for hazardous environments.', badge: 'Certified' },
 ]
 
 export default function FeaturedProductsSection() {
@@ -104,6 +104,7 @@ export default function FeaturedProductsSection() {
               src={PRODUCTS[hoveredIndex].image} 
               alt={PRODUCTS[hoveredIndex].name} 
               fill 
+              sizes="(max-width: 640px) 200px, 320px"
               className="object-cover" 
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />

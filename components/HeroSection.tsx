@@ -17,11 +17,11 @@ const BG = '#0A0A0A'
 const NAVBAR_HEIGHT = 80 // Match your navbar height here
 
 const SLIDES = [
-  { src: '/images/hero/tools.png', label: 'Fasteners', tagline: 'Built Strong. Trusted by Builders', feature: 'High-quality construction materials & tools', icon: Award },
-  { src: '/images/hero/tools2.png', label: 'Welding', tagline: 'Fuse Metal. Forge Progress.', feature: 'ISO certified welding solutions', icon: Zap },
-  { src: '/images/hero/tools3.png', label: 'Safety', tagline: 'Every Worker. Every Site. Protected.', feature: 'Complete protection coverage', icon: Shield },
-  { src: '/images/hero/tools4.png', label: 'Lifting', tagline: 'Lift Heavy. Move Safely.', feature: 'Certified load capacity', icon: Award },
-  { src: '/images/hero/tools5.png', label: 'Power Tools', tagline: 'Power That Performs.', feature: 'Professional tool selection', icon: Zap },
+  { src: '/images/hero/tools.webp', label: 'Fasteners', tagline: 'Built Strong. Trusted by Builders', feature: 'High-quality construction materials & tools', icon: Award },
+  { src: '/images/hero/tools2.webp', label: 'Welding', tagline: 'Fuse Metal. Forge Progress.', feature: 'ISO certified welding solutions', icon: Zap },
+  { src: '/images/hero/tools3.webp', label: 'Safety', tagline: 'Every Worker. Every Site. Protected.', feature: 'Complete protection coverage', icon: Shield },
+  { src: '/images/hero/tools4.webp', label: 'Lifting', tagline: 'Lift Heavy. Move Safely.', feature: 'Certified load capacity', icon: Award },
+  { src: '/images/hero/tools5.webp', label: 'Power Tools', tagline: 'Power That Performs.', feature: 'Professional tool selection', icon: Zap },
 ]
 
 const N = SLIDES.length

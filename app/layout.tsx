@@ -37,9 +37,9 @@ export const metadata: Metadata = {
     siteName: 'Mactech Oman',
     title: 'Mactech Oman — Your Industrial Partner',
     description: 'ISO 9001 certified industrial & building materials supplier in Muscat, Oman. Fasteners, PPE, welding, tools and more since 2008.',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Mactech Oman Industrial Supplier' }],
+    images: [{ url: 'https://www.mactechoman.com/mactech-logo.webp', width: 400, height: 400, alt: 'Mactech Oman Industrial Supplier' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Mactech Oman', description: 'Industrial supplier in Muscat, Oman', images: ['/og-image.jpg'] },
+  twitter: { card: 'summary_large_image', title: 'Mactech Oman', description: 'Industrial supplier in Muscat, Oman', images: ['https://www.mactechoman.com/mactech-logo.webp'] },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
   alternates: { canonical: 'https://www.mactechoman.com' },
   verification: { google: 'YOUR_GOOGLE_SEARCH_CONSOLE_CODE' },
@@ -48,13 +48,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const organizationJsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': 'LocalBusiness',
+    '@id': 'https://www.mactechoman.com',
     name: 'Mactech Building Materials Trading LLC',
     alternateName: 'Mactech Oman',
     url: 'https://www.mactechoman.com',
-    logo: 'https://www.mactechoman.com/images/logo.png',
+    logo: 'https://www.mactechoman.com/mactech-logo.webp',
+    image: 'https://www.mactechoman.com/mactech-logo.webp',
     description: 'ISO 9001 certified industrial and building materials supplier in Muscat, Oman. Established 2008.',
     foundingDate: '2008',
+    priceRange: '$$',
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Al Jami Al Akbar St, Ghala Industrial Area',
@@ -64,14 +67,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     },
     contactPoint: [
       { '@type': 'ContactPoint', telephone: '+968-2421-8110', contactType: 'sales', areaServed: 'OM', availableLanguage: ['English', 'Arabic'] },
+      { '@type': 'ContactPoint', telephone: '+968-9798-4810', contactType: 'customer service', areaServed: 'OM' },
     ],
     sameAs: ['https://www.facebook.com/mactechoman/', 'https://www.instagram.com/mactech_me/', 'https://www.linkedin.com/company/mactechoman'],
+  }
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.mactechoman.com' },
+      { '@type': 'ListItem', position: 2, name: 'About', item: 'https://www.mactechoman.com/about' },
+      { '@type': 'ListItem', position: 3, name: 'Services', item: 'https://www.mactechoman.com/services' },
+      { '@type': 'ListItem', position: 4, name: 'Contact', item: 'https://www.mactechoman.com/contact' },
+    ],
   }
 
   return (
     <html lang="en" className={dmSans.variable}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       </head>
       <body className="bg-white text-black font-sans antialiased" suppressHydrationWarning>
         <Navbar />
