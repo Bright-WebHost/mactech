@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { motion, useSpring, useScroll, useTransform } from 'framer-motion'
 import { Target, Globe } from 'lucide-react'
 import Link from 'next/link'
+import NFHAboutSection from '@/components/about/NFHAboutSection'
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 
@@ -79,7 +80,7 @@ function HeroParallax() {
     >
       <div className="max-w-[1400px] mx-auto w-full">
         <div className="flex items-center gap-3 mb-6">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#E20010]">About Mactech</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#E20010]">About Fahud</span>
           <div className="w-8 h-[1px] bg-black/10" />
           <span className="text-[10px] text-gray-400">Est. 2008</span>
         </div>
@@ -312,6 +313,8 @@ export default function AboutPage() {
             </div>
           </div>
         </motion.section>
+
+        <NFHAboutSection />
 
       </div>
 

@@ -120,7 +120,7 @@ export default function AboutSection() {
               <Reveal delay={0.2}>
                 <div style={{ maxWidth: isMobile ? '100%' : '90%' }}>
                   <p style={{ fontSize: 15, lineHeight: 1.8, color: '#666', marginBottom: 14 }}>
-                    <strong style={{ color: '#1a1a1a' }}>Mactech Building Materials Trading LLC</strong> is committed to providing exceptional service with super quality products and comprehensive solutions. Established in 2008, we've been the trusted partner for over 15 years.
+                    <strong style={{ color: '#1a1a1a' }}>Fahud Safety & Technical Trading</strong> is committed to providing exceptional service with super quality products and comprehensive solutions. Established in 2008, we've been the trusted partner for over 15 years.
                   </p>
                   <p style={{ fontSize: 15, lineHeight: 1.8, color: '#666', marginBottom: 0 }}>
                     We focus on delivering excellence across Oil &amp; Gas, Construction, Fabrication, and various industrial sectors with full compliance to international standards.
@@ -157,21 +157,41 @@ export default function AboutSection() {
               margin: isMobile ? '0 auto' : '0',
               order: isMobile ? 1 : 2 
             }}>
+              {/* Black Box - Top Left (Wider, better proportioned) */}
               <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: [1, 1.03, 1] }}
                 transition={{ opacity: { duration: 0.7, delay: 0.1 }, scale: { duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 0.1 } }}
-                style={{ position: 'absolute', top: -12, left: -12, width: '55%', height: '60%', background: '#111', zIndex: 0 }} />
+                style={{ 
+                  position: 'absolute', 
+                  top: isMobile ? -12 : -16, 
+                  left: isMobile ? 0 : -16, 
+                  width: isMobile ? '50%' : 'calc(100% - 30%)', 
+                  height: isMobile ? '30%' : '35%', 
+                  background: '#111', 
+                  zIndex: 0 
+                }} />
 
+              {/* Red Box - Bottom Right (Better aligned with image) */}
               <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: [1, 1.04, 1] }}
                 transition={{ opacity: { duration: 0.7, delay: 0.2 }, scale: { duration: 4, repeat: Infinity, ease: 'easeInOut', delay: 1.5 } }}
-                style={{ position: 'absolute', bottom: -12, right: -12, width: '45%', height: '50%', background: '#E20010', zIndex: 0 }} />
+                style={{ 
+                  position: 'absolute', 
+                  bottom: isMobile ? -12 : -16, 
+                  right: isMobile ? 0 : -16, 
+                  width: isMobile ? '65%' : 'calc(100% - 25%)', 
+                  height: isMobile ? '35%' : '40%', 
+                  background: '#E20010', 
+                  zIndex: 0 
+                }} />
 
+              {/* Main Image Container */}
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.15 }}
-                style={{ position: 'relative', top: 12, left: 12, right: 12, bottom: 12, zIndex: 1, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', width: '100%', height: '100%' }}>
-                <motion.div animate={{ scale: [1, 1.04, 1] }} transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }} style={{ position: 'relative', width: '100%', height: '100%' }}>
-                  <Image src="/images/products/about.webp" alt="Mactech industrial" fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 600px" className="object-cover" />
-                </motion.div>
+                style={{ position: 'relative', top: 12, left: 12, right: 12, bottom: 12, zIndex: 1, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', width: '100%', height: '100%', background: '#f5f4f0' }}>
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <Image src="/images/building.png" alt="Fahud Safety & Technical Trading" fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 600px" className="object-contain object-center" />
+                </div>
               </motion.div>
 
+              {/* Experience Badge */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: [0, -8, 0] }}
                 transition={{ opacity: { duration: 0.6, delay: 0.4 }, y: { duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 0.4 } }}
                 style={{ 

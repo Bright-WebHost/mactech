@@ -39,7 +39,10 @@ export default function HeroSection() {
     // Small delay to ensure DOM is ready on server
     const timer = setTimeout(() => {
       const isMobile = window.innerWidth < 1024
-      const scrollDistance = (N - 1) * (isMobile ? 800 : 1000)
+      // OPTIMIZED: Mobile has much shorter scroll distance
+      // On mobile: ~900px scrolls through all 5 images (each image ~180px scroll)
+      // On desktop: ~4000px scrolls through all 5 images (each image ~1000px scroll)
+      const scrollDistance = isMobile ? 900 : (N - 1) * 1000
 
       // Initial setup
       gsap.set(".slide-item", { opacity: 0, scale: 0.8, z: -100, y: 0 })
@@ -112,7 +115,7 @@ export default function HeroSection() {
     <div ref={containerRef} style={{ background: BG, overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
       <section className="hero-viewport">
         {/* Background Large Text */}
-        <div className="mactech-bg-text">MACTECH</div>
+        <div className="fahud-bg-text">fahud</div>
         
         {/* Centered Image Stack */}
         <div className="stack-container">
@@ -169,7 +172,7 @@ export default function HeroSection() {
         </div>
 
         <style>{`
-          .main-title, .mactech-bg-text, .btn-primary, .btn-secondary, .feature-tag {
+          .main-title, .fahud-bg-text, .btn-primary, .btn-secondary, .feature-tag {
             font-family: 'Barlow Condensed', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0em;
@@ -190,7 +193,7 @@ export default function HeroSection() {
             perspective: 2000px;
           }
           
-          .mactech-bg-text {
+          .fahud-bg-text {
             position: absolute;
             top: 50%;
             left: 50%;

@@ -8,27 +8,14 @@ import { motion } from 'framer-motion'
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
-  const locations = [
-    {
-      city: 'Muscat',
-      country: 'Oman',
-      address: 'Al Jami Al Akbar St, Ghala Industrial Area',
-      pobox: 'PO Box: 870, PC: 115',
-      phone: '+968 2421 8110',
-      phone2: '+968 2421 8111',
-      gsm: '+968 9798 4810',
-      email: 'info@mactechoman.com'
-    },
-    {
-      city: 'Dubai',
-      country: 'UAE',
-      address: 'Shop No. 38, Chinese Dragon Building, Naif, Deira',
-      pobox: 'PO Box: 80565',
-      phone: '+971 4 2218032',
-      gsm: '+971 55 702 1325',
-      email: 'faraz@mactech.ae'
-    }
-  ]
+  const headOffice = {
+    title: 'Head Office',
+    address: 'Muscat, Ghala, Sultanate of Oman',
+    email: 'info@fahudoman.com',
+    phoneDisplay: '00968 + 94422435',
+    phoneHref: '0096894422435',
+    whatsappHref: '96894422435'
+  }
 
   return (
     <footer style={{ background: '#111', color: '#fff', fontFamily: "'DM Sans', sans-serif", position: 'relative' }}>
@@ -76,8 +63,8 @@ export default function Footer() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: 'clamp(12px, 4vw, 20px)', background: '#fff', padding: 'clamp(6px, 2vw, 10px) clamp(10px, 3vw, 15px)', borderRadius: 8, width: 'fit-content' }}>
               <Image
-                src="/mactech-logo.webp"
-                alt="Mactech Logo"
+                src="/images/logo.png"
+                alt="Fahud Logo"
                 width={120}
                 height={40}
                 style={{ objectFit: 'contain', width: 'clamp(80px, 20vw, 120px)', height: 'auto' }}
@@ -87,9 +74,9 @@ export default function Footer() {
               ISO 9001 certified industrial & building materials supplier serving Oman and UAE.
             </p>
             <div style={{ display: 'flex', gap: 'clamp(8px, 2vw, 12px)', flexWrap: 'wrap' }}>
-              <a href="https://wa.me/96897984810" target="_blank" rel="noopener noreferrer" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(226,0,16,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010', fontSize: 16 }} className="hover:bg-red-600 hover:text-white">💬</a>
-              <a href="tel:+96824218110" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(226,0,16,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010' }} className="hover:bg-red-600 hover:text-white"><Phone size={15} /></a>
-              <a href="mailto:info@mactechoman.com" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(226,0,16,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010' }} className="hover:bg-red-600 hover:text-white"><Mail size={15} /></a>
+              <a href={`https://wa.me/${headOffice.whatsappHref}`} target="_blank" rel="noopener noreferrer" style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(226,0,16,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010', fontSize: 16 }} className="hover:bg-red-600 hover:text-white transition-all"><Image src="/whatsapp.png" alt="WhatsApp" width={24} height={24} style={{ objectFit: 'contain' }} /></a>
+              <a href={`tel:${headOffice.phoneHref}`} style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(226,0,16,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010' }} className="hover:bg-red-600 hover:text-white"><Phone size={15} /></a>
+              <a href="mailto:info@fahudoman.com" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(226,0,16,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010' }} className="hover:bg-red-600 hover:text-white"><Mail size={15} /></a>
             </div>
           </div>
 
@@ -112,54 +99,67 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Offices — compact two-column side by side */}
+          {/* Branches & Subsidiaries */}
+          <div>
+            <div>
+              <h4 style={{ fontSize: 12, fontWeight: 800, marginBottom: 20, color: '#fff', letterSpacing: '2px', textTransform: 'uppercase' }}>Our Branches</h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {['Muscat', 'Sohar', 'Dubai'].map(branch => (
+                  <li key={branch} style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ color: '#E20010', fontSize: 10 }}>•</span> {branch}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div style={{ marginTop: 24 }}>
+              <h4 style={{ fontSize: 12, fontWeight: 800, marginBottom: 20, color: '#fff', letterSpacing: '2px', textTransform: 'uppercase' }}>Our Subsidiaries</h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                {[
+                  { name: 'New Food House', desc: 'Fine Dine Restaurant' },
+                  { name: 'Cilantro', desc: 'Corporate Catering' },
+                ].map(sub => (
+                  <li key={sub.name}>
+                    <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ color: '#E20010', fontSize: 10 }}>•</span> {sub.name}
+                    </p>
+                    <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: '4px 0 0 18px' }}>{sub.desc}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Office */}
           <div style={{ gridColumn: 'span 2' }}>
-            <h4 style={{ fontSize: 12, fontWeight: 800, marginBottom: 20, color: '#fff', letterSpacing: '2px', textTransform: 'uppercase' }}>Our Offices</h4>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-              {locations.map((loc, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    background: 'rgba(226,0,16,0.07)',
-                    border: '1px solid rgba(226,0,16,0.2)',
-                    borderRadius: 12,
-                    padding: '20px 24px',
-                  }}
-                >
-                  {/* City header */}
-                  <div style={{ marginBottom: 16, paddingBottom: 12, borderBottom: '1px solid rgba(226,0,16,0.2)' }}>
-                    <p style={{ fontSize: 13, fontWeight: 900, color: '#E20010', margin: 0, letterSpacing: '2px', textTransform: 'uppercase' }}>{loc.city}</p>
-                    <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', margin: '4px 0 0' }}>{loc.country}</p>
-                  </div>
+            <h4 style={{ fontSize: 12, fontWeight: 800, marginBottom: 20, color: '#fff', letterSpacing: '2px', textTransform: 'uppercase' }}>Our Office</h4>
+            <div
+              style={{
+                background: 'rgba(226,0,16,0.07)',
+                border: '1px solid rgba(226,0,16,0.2)',
+                borderRadius: 12,
+                padding: '20px 24px',
+              }}
+            >
+              <div style={{ marginBottom: 16, paddingBottom: 12, borderBottom: '1px solid rgba(226,0,16,0.2)' }}>
+                <p style={{ fontSize: 13, fontWeight: 900, color: '#E20010', margin: 0, letterSpacing: '2px', textTransform: 'uppercase' }}>{headOffice.title}</p>
+              </div>
 
-                  {/* Details */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    
-                    <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                      <MapPin size={13} style={{ color: '#E20010', marginTop: 2, flexShrink: 0 }} />
-                      <div>
-                        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', margin: 0, lineHeight: 1.6 }}>{loc.address}</p>
-                        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', margin: '4px 0 0' }}>{loc.pobox}</p>
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                      <Phone size={13} style={{ color: '#E20010', marginTop: 2, flexShrink: 0 }} />
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                        <a href={`tel:${loc.phone.replace(/\s/g, '')}`} style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }} className="hover:text-red-400">{loc.phone}</a>
-                        {loc.phone2 && <a href={`tel:${loc.phone2.replace(/\s/g, '')}`} style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }} className="hover:text-red-400">{loc.phone2}</a>}
-                        <a href={`https://wa.me/${loc.gsm.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }} className="hover:text-red-400">📱 {loc.gsm}</a>
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-                      <Mail size={13} style={{ color: '#E20010', flexShrink: 0 }} />
-                      <a href={`mailto:${loc.email}`} style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', textDecoration: 'none', wordBreak: 'break-all' }} className="hover:text-red-400">{loc.email}</a>
-                    </div>
-
-                  </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                  <MapPin size={13} style={{ color: '#E20010', marginTop: 2, flexShrink: 0 }} />
+                  <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', margin: 0, lineHeight: 1.6 }}>{headOffice.address}</p>
                 </div>
-              ))}
+
+                <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                  <Mail size={13} style={{ color: '#E20010', flexShrink: 0 }} />
+                  <a href={`mailto:${headOffice.email}`} style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', textDecoration: 'none', wordBreak: 'break-all' }} className="hover:text-red-400">{headOffice.email}</a>
+                </div>
+
+                <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+                  <Phone size={13} style={{ color: '#E20010', flexShrink: 0 }} />
+                  <a href={`tel:${headOffice.phoneHref}`} style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', textDecoration: 'none' }} className="hover:text-red-400">{headOffice.phoneDisplay}</a>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -171,12 +171,13 @@ export default function Footer() {
         {/* Bottom */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
           <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: 0, letterSpacing: '0.5px' }}>
-            © {currentYear} Mactech Building Materials Trading LLC. All rights reserved.
+            © 2026 Fahud Safety & Technical Trading. Site by <a href="https://brightmedia.tech/" style={{ color: '#E20010', textDecoration: 'none' }} className="hover:text-red-400">Bright Media</a>
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
             {['Privacy Policy', 'Terms of Service', 'Sitemap'].map(item => (
               <a key={item} href="#" style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }} className="hover:text-white">{item}</a>
             ))}
+            <a href="https://www.facebook.com/fahudsafety" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }} className="hover:text-red-500">Facebook</a>
           </div>
         </div>
       </div>

@@ -21,7 +21,7 @@ export default function ContactPage() {
             className="font-barlow-condensed font-black uppercase text-white leading-[0.88] mb-6"
             style={{ fontSize: 'clamp(52px, 8vw, 110px)' }}
           >
-            Contact <span className="text-[#E20010]">Mactech</span> Oman
+            Contact <span className="text-[#E20010]">Fahud</span> Oman
           </h1>
           <p className="text-white/40 text-base lg:text-lg max-w-xl leading-relaxed">
             Reach our team for supply needs, availability checks, or technical guidance.
@@ -103,7 +103,7 @@ export default function ContactPage() {
                     {loc.primary && <span className="text-xs bg-blue-accent/20 text-blue-accent px-2 py-0.5 rounded-full">Main Branch</span>}
                   </div>
                   <p className="text-gray-muted text-xs mb-3 leading-relaxed">{loc.address}</p>
-                  <a href={`tel:${loc.phone}`} className="flex items-center gap-2 text-gray-300 text-sm hover:text-blue-accent transition-colors">
+                  <a href={`tel:${loc.phone.replace(/\D/g, '')}`} className="flex items-center gap-2 text-gray-300 text-sm hover:text-blue-accent transition-colors">
                     <Phone size={13} /> {loc.phone}
                   </a>
                 </div>
@@ -117,7 +117,7 @@ export default function ContactPage() {
       {/* ── Google Maps ── */}
       <section className="w-full h-[500px] lg:h-[600px]">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d13236.853924417459!2d58.3602822!3d23.5756279!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e8e0020decb842d%3A0xa099574878fb17ac!2zTUFDVEVDSCBCdWlsZGluZyBNYXRlcmlhbHMgVHJhZGluZyBMTEMgKNmF2YrZgyDYqtmK2YMg2YTYqtis2KfYsdipINmF2YLYp9ivINin2YTYqNmG2KfYoSDYtCDZhSDZhSk!5e1!3m2!1sen!2sin!4v1777524591254!5m2!1sen!2sin"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.0483403959456!2d58.3758374!3d23.5821792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e91ff935c8c42b1%3A0x7ca207a215d5c997!2sFahud%20Safety%20And%20Technical%20Trading%20SPC!5e1!3m2!1sen!2sin!4v1781497651137!5m2!1sen!2sin"
           width="100%"
           height="100%"
           style={{ border: 0 }}

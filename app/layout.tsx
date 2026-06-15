@@ -14,12 +14,12 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.mactechoman.com'),
+  metadataBase: new URL('https://www.fahudoman.com'),
   title: {
-    default: 'Mactech Oman | Industrial & Building Materials Supplier — Muscat',
-    template: '%s | Mactech Oman',
+    default: 'Fahud Safety & Technical Trading | Industrial & Building Materials Supplier — Muscat',
+    template: '%s | Fahud Safety & Technical Trading',
   },
-  description: 'Mactech Building Materials Trading LLC — ISO 9001 certified industrial supplier in Muscat, Oman. Fasteners, PPE, welding consumables, power tools, lifting solutions and more. Serving Oil & Gas, construction and manufacturing since 2008.',
+  description: 'Fahud Safety & Technical Trading — ISO 9001 certified industrial supplier in Muscat, Oman. Fasteners, PPE, welding consumables, power tools, lifting solutions and more. Serving Oil & Gas, construction and manufacturing since 2008.',
   keywords: ['industrial supplier Muscat', 'PPE supplier Oman', 'fasteners Muscat', 'welding consumables Oman', 'safety equipment Muscat', 'building materials Oman', 'industrial tools Muscat'],
   icons: {
     icon: [
@@ -33,15 +33,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.mactechoman.com',
-    siteName: 'Mactech Oman',
-    title: 'Mactech Oman — Your Industrial Partner',
+    url: 'https://www.fahudoman.com',
+    siteName: 'Fahud Safety & Technical Trading',
+    title: 'Fahud Safety & Technical Trading — Your Industrial Partner',
     description: 'ISO 9001 certified industrial & building materials supplier in Muscat, Oman. Fasteners, PPE, welding, tools and more since 2008.',
-    images: [{ url: 'https://www.mactechoman.com/mactech-logo.webp', width: 400, height: 400, alt: 'Mactech Oman Industrial Supplier' }],
+    images: [{ url: 'https://www.fahudoman.com/fahud-logo.webp', width: 400, height: 400, alt: 'Fahud Safety & Technical Trading Industrial Supplier' }],
   },
-  twitter: { card: 'summary_large_image', title: 'Mactech Oman', description: 'Industrial supplier in Muscat, Oman', images: ['https://www.mactechoman.com/mactech-logo.webp'] },
+  twitter: { card: 'summary_large_image', title: 'Fahud Safety & Technical Trading', description: 'Industrial supplier in Muscat, Oman', images: ['https://www.fahudoman.com/fahud-logo.webp'] },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-  alternates: { canonical: 'https://www.mactechoman.com' },
+  alternates: { canonical: 'https://www.fahudoman.com' },
   verification: { google: 'YOUR_GOOGLE_SEARCH_CONSOLE_CODE' },
 }
 
@@ -49,37 +49,37 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const organizationJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    '@id': 'https://www.mactechoman.com',
-    name: 'Mactech Building Materials Trading LLC',
-    alternateName: 'Mactech Oman',
-    url: 'https://www.mactechoman.com',
-    logo: 'https://www.mactechoman.com/mactech-logo.webp',
-    image: 'https://www.mactechoman.com/mactech-logo.webp',
+    '@id': 'https://www.fahudoman.com',
+    name: 'Fahud Safety & Technical Trading',
+    alternateName: 'Fahud Oman',
+    url: 'https://www.fahudoman.com',
+    logo: 'https://www.fahudoman.com/fahud-logo.webp',
+    image: 'https://www.fahudoman.com/fahud-logo.webp',
     description: 'ISO 9001 certified industrial and building materials supplier in Muscat, Oman. Established 2008.',
     foundingDate: '2008',
     priceRange: '$$',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Al Jami Al Akbar St, Ghala Industrial Area',
+      streetAddress: 'Muscat, Ghala, Sultanate of Oman',
       addressLocality: 'Muscat',
       postalCode: '115',
       addressCountry: 'OM',
     },
     contactPoint: [
-      { '@type': 'ContactPoint', telephone: '+968-2421-8110', contactType: 'sales', areaServed: 'OM', availableLanguage: ['English', 'Arabic'] },
-      { '@type': 'ContactPoint', telephone: '+968-9798-4810', contactType: 'customer service', areaServed: 'OM' },
+      { '@type': 'ContactPoint', telephone: '00968 + 94422435', contactType: 'sales', areaServed: 'OM', availableLanguage: ['English', 'Arabic'] },
+      { '@type': 'ContactPoint', telephone: '00968 + 94422435', contactType: 'customer service', areaServed: 'OM' },
     ],
-    sameAs: ['https://www.facebook.com/mactechoman/', 'https://www.instagram.com/mactech_me/', 'https://www.linkedin.com/company/mactechoman'],
+    sameAs: ['https://www.facebook.com/fahudsafety', 'https://www.instagram.com/fahud_me/', 'https://www.linkedin.com/company/fahudoman'],
   }
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.mactechoman.com' },
-      { '@type': 'ListItem', position: 2, name: 'About', item: 'https://www.mactechoman.com/about' },
-      { '@type': 'ListItem', position: 3, name: 'Services', item: 'https://www.mactechoman.com/services' },
-      { '@type': 'ListItem', position: 4, name: 'Contact', item: 'https://www.mactechoman.com/contact' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.fahudoman.com' },
+      { '@type': 'ListItem', position: 2, name: 'About', item: 'https://www.fahudoman.com/about' },
+      { '@type': 'ListItem', position: 3, name: 'Services', item: 'https://www.fahudoman.com/services' },
+      { '@type': 'ListItem', position: 4, name: 'Contact', item: 'https://www.fahudoman.com/contact' },
     ],
   }
 
