@@ -80,7 +80,7 @@ function HeroParallax() {
     >
       <div className="max-w-[1400px] mx-auto w-full">
         <div className="flex items-center gap-3 mb-6">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#E20010]">About Fahud</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#E20010]">About Mactech</span>
           <div className="w-8 h-[1px] bg-black/10" />
           <span className="text-[10px] text-gray-400">Est. 2008</span>
         </div>
@@ -145,8 +145,8 @@ function ScrollMarquee() {
         className="flex gap-8 text-white/30 font-['Barlow_Condensed'] font-bold text-3xl uppercase"
         style={{ x: xOffset }}
       >
-        <span className="whitespace-nowrap">PDO Approved ✦ ISO 9001:2015 ✦ JSRS Certified ✦ PDO Approved ✦ ISO 9001:2015</span>
-        <span className="whitespace-nowrap" aria-hidden="true">PDO Approved ✦ ISO 9001:2015 ✦ JSRS Certified ✦ PDO Approved ✦ ISO 9001:2015</span>
+        <span className="whitespace-nowrap">Riyadah (SME) ✦ ISO 9001:2015 ✦ JSRS Certified ✦ Riyadah (SME) ✦ ISO 9001:2015</span>
+        <span className="whitespace-nowrap" aria-hidden="true">Riyadah (SME) ✦ ISO 9001:2015 ✦ JSRS Certified ✦ Riyadah (SME) ✦ ISO 9001:2015</span>
       </motion.div>
     </motion.div>
   )
@@ -314,7 +314,7 @@ export default function AboutPage() {
           </div>
         </motion.section>
 
-        <NFHAboutSection />
+        {/* <NFHAboutSection /> */}
 
       </div>
 

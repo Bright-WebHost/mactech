@@ -115,7 +115,7 @@ export default function HeroSection() {
     <div ref={containerRef} style={{ background: BG, overflow: 'hidden', fontFamily: "'DM Sans', sans-serif" }}>
       <section className="hero-viewport">
         {/* Background Large Text */}
-        <div className="fahud-bg-text">fahud</div>
+        <div className="mactech-bg-text">mactech</div>
         
         {/* Centered Image Stack */}
         <div className="stack-container">
@@ -172,7 +172,7 @@ export default function HeroSection() {
         </div>
 
         <style>{`
-          .main-title, .fahud-bg-text, .btn-primary, .btn-secondary, .feature-tag {
+          .main-title, .mactech-bg-text, .btn-primary, .btn-secondary, .feature-tag {
             font-family: 'Barlow Condensed', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0em;
@@ -193,7 +193,7 @@ export default function HeroSection() {
             perspective: 2000px;
           }
           
-          .fahud-bg-text {
+          .mactech-bg-text {
             position: absolute;
             top: 50%;
             left: 50%;

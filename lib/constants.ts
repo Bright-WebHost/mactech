@@ -1,20 +1,21 @@
-export const SITE_URL = 'https://www.fahudoman.com'
-export const SITE_NAME = 'Fahud Safety & Technical Trading'
+export const SITE_URL = 'https://www.mactechoman.com'
+export const SITE_NAME = 'MACTECH Building Materials Trading LLC'
 export const SITE_TAGLINE = 'Your Industrial Partner in Oman'
-export const PHONE_MUSCAT = '00968 + 94422435'
-export const PHONE_MOBILE = '00968 + 94422435'
-export const EMAIL = 'info@fahudoman.com'
-export const WHATSAPP = '96894422435'
+export const PHONE_MUSCAT = '+968 99224564'
+export const PHONE_MOBILE = '+968 99224564'
+export const EMAIL = 'info@mactechoman.com'
+export const WHATSAPP = '96899224564'
 
 export const LOCATIONS = [
   {
     city: 'Muscat',
     country: 'Sultanate of Oman',
-    address: 'Muscat, Ghala, Sultanate of Oman',
-    pobox: 'P.O. Box 870, PC 115',
-    phone: '00968 + 94422435',
-    mobile: '00968 + 94422435',
-    email: 'info@fahudoman.com',
+    title: 'Head Office',
+    address: 'Shop No. 2, Plot No. 74, Al Saqsooq Industrial Area, Wilayat Barka, South Al Batinah, Sultanate of Oman',
+    pobox: '',
+    phone: '+968 99224564',
+    mobile: '+968 99224564',
+    email: 'info@mactechoman.com',
     mapUrl: 'https://maps.google.com/?q=Ghala+Industrial+Area+Muscat+Oman',
     slug: 'muscat',
     primary: true,

@@ -25,8 +25,8 @@ export default function ScrollMarquee() {
         className="flex gap-10 text-white/20 font-['Barlow_Condensed'] font-black text-4xl md:text-6xl uppercase italic whitespace-nowrap"
         style={{ x: xOffset }}
       >
-        <span>PDO Approved ✦ ISO 9001:2015 ✦ JSRS Certified ✦ Industrial Leaders ✦ Muscat Oman</span>
-        <span>PDO Approved ✦ ISO 9001:2015 ✦ JSRS Certified ✦ Industrial Leaders ✦ Muscat Oman</span>
+        <span>Riyadah (SME) ✦ ISO 9001:2015 ✦ JSRS Certified ✦ Industrial Leaders ✦ Muscat Oman</span>
+        <span>Riyadah (SME) ✦ ISO 9001:2015 ✦ JSRS Certified ✦ Industrial Leaders ✦ Muscat Oman</span>
       </motion.div>
     </motion.div>
   )

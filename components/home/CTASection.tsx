@@ -43,8 +43,8 @@ export default function CTASection() {
             <Link href="/contact" style={{ display:'inline-flex', alignItems:'center', gap:10, background:'#E20010', color:'#fff', fontWeight:700, fontSize:11, padding:'16px 36px', borderRadius:7, textDecoration:'none', letterSpacing:'2px', textTransform:'uppercase', border:'2px solid #E20010', transition:'all .3s' }} className="hover:bg-transparent hover:text-red-500">
               Contact Us Today <ArrowRight size={14}/>
             </Link>
-            <a href="tel:0096894422435" style={{ display:'inline-flex', alignItems:'center', gap:10, border:'2px solid rgba(215,181,105,0.35)', color:'#D7B569', fontWeight:700, fontSize:11, padding:'16px 36px', borderRadius:7, textDecoration:'none', letterSpacing:'2px', textTransform:'uppercase', transition:'all .3s' }} className="hover:border-yellow-400">
-              <Phone size={14}/> 00968 + 94422435
+            <a href="tel:+96899224564" style={{ display:'inline-flex', alignItems:'center', gap:10, border:'2px solid rgba(215,181,105,0.35)', color:'#D7B569', fontWeight:700, fontSize:11, padding:'16px 36px', borderRadius:7, textDecoration:'none', letterSpacing:'2px', textTransform:'uppercase', transition:'all .3s' }} className="hover:border-yellow-400">
+              <Phone size={14}/> +968 99224564
             </a>
           </div>
         </Reveal>

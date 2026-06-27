@@ -4,8 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HiMenu, HiX } from 'react-icons/hi'
-import { AiOutlinePhone, AiOutlineMail } from 'react-icons/ai'
-import { NAV_LINKS, PHONE_MUSCAT, EMAIL } from '@/lib/constants'
+import { FaWhatsapp } from 'react-icons/fa'
+import { NAV_LINKS, PHONE_MUSCAT, EMAIL, WHATSAPP } from '@/lib/constants'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -19,18 +19,49 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Top Bar */}
+      <div className="bg-[#0D1B2A] text-sm hidden lg:block">
+        <div className="container-custom mx-auto flex items-center justify-between py-2">
+          {/* Left side */}
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+            <span className="text-gray-300">Need support? Call or WhatsApp:</span>
+            <a href={`tel:${PHONE_MUSCAT.replace(/\s+/g, '')}`} className="text-[#E20010] hover:underline font-medium">
+              {PHONE_MUSCAT}
+            </a>
+          </div>
+
+          {/* Right side */}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 text-white">
+              <div className="bg-green-600/20 p-1 rounded-full text-[#25D366]">
+                <FaWhatsapp size={14} />
+              </div>
+              <span className="font-medium text-[#25D366]">WhatsApp Support</span>
+            </div>
+            <a 
+              href={`https://wa.me/${WHATSAPP}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#25D366] text-white px-4 py-1.5 rounded-full font-medium hover:bg-[#20bd5a] transition-colors flex items-center gap-1 text-sm"
+            >
+              WhatsApp Us &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* Main nav */}
-      <nav className={`sticky top-0 z-50 bg-white transition-all duration-300 ${
-        isScrolled 
-          ? 'border-b border-gray-200 shadow-md' 
+      <nav className={`sticky top-0 z-50 bg-white transition-all duration-300 ${isScrolled
+          ? 'border-b border-gray-200 shadow-md'
           : 'border-b border-gray-100'
-      }`}>
+        }`}>
         <div className="container-custom flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3">
             <Image
               src="/images/logo.png"
-              alt="Fahud Safety & Technical Trading logo"
+              alt="MACTECH Building Materials Trading LLC logo"
               width={56}
               height={56}
               className="h-12 w-auto object-contain"

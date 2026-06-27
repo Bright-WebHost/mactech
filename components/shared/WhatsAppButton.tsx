@@ -6,7 +6,7 @@ import { WHATSAPP } from '@/lib/constants'
 export default function WhatsAppButton() {
   return (
     <motion.a
-      href={`https://wa.me/${WHATSAPP}?text=Hello%20Fahud%2C%20I%27d%20like%20to%20inquire%20about%20your%20products.`}
+      href={`https://wa.me/${WHATSAPP}?text=Hello%20Mactech%2C%20I%27d%20like%20to%20inquire%20about%20your%20products.`}
       target="_blank"
       rel="noopener noreferrer"
       initial={{ scale: 0, opacity: 0 }}

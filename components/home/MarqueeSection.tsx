@@ -30,8 +30,8 @@ export default function MarqueeSection() {
         animate={{ x: ['0%', '-50%'] }}
         transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
       >
-        <span className="whitespace-nowrap">PDO Approved ✦ ISO 9001:2015 ✦ JSRS Certified ✦ PDO Approved ✦ ISO 9001:2015</span>
-        <span className="whitespace-nowrap" aria-hidden="true">PDO Approved ✦ ISO 9001:2015 ✦ JSRS Certified ✦ PDO Approved ✦ ISO 9001:2015</span>
+        <span className="whitespace-nowrap">Riyadah (SME) ✦ ISO 9001:2015 ✦ JSRS Certified ✦ Riyadah (SME) ✦ ISO 9001:2015</span>
+        <span className="whitespace-nowrap" aria-hidden="true">Riyadah (SME) ✦ ISO 9001:2015 ✦ JSRS Certified ✦ Riyadah (SME) ✦ ISO 9001:2015</span>
       </motion.div>
     </motion.div>
   )

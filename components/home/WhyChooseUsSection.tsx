@@ -177,9 +177,9 @@ export default function WhyChooseUsSection() {
             <div className="wcu-cards">
               {[
                 { iconType: 'award', title: 'ISO 9001:2015', sub: 'Quality-certified supply chain with full documentation.' },
-                { iconType: 'zap',   title: 'Fast Delivery',  sub: '24–48h delivery across all Oman with dedicated fleet.' },
-                { iconType: 'globe', title: 'Global Brands',  sub: 'Authorized distributor of Stanley, Ansell & Delta-Plus.' },
-                { iconType: 'users', title: 'Expert Team',    sub: '19+ professionals with deep technical knowledge.' },
+                { iconType: 'zap', title: 'Fast Delivery', sub: '24–48h delivery across all Oman with dedicated fleet.' },
+                { iconType: 'globe', title: 'Global Brands', sub: 'Suppliers of major reputed brands' },
+                { iconType: 'users', title: 'Expert Team', sub: '19+ professionals with deep technical knowledge.' },
               ].map((card, i) => (
                 <Reveal key={card.title} delay={i * 0.07}>
                   <motion.div
@@ -188,7 +188,7 @@ export default function WhyChooseUsSection() {
                   >
                     <div className="wcu-card-icon">
                       {card.iconType === 'award' && <Award size={20} />}
-                      {card.iconType === 'zap'   && <Zap   size={20} />}
+                      {card.iconType === 'zap' && <Zap size={20} />}
                       {card.iconType === 'globe' && <Globe size={20} />}
                       {card.iconType === 'users' && <Users size={20} />}
                     </div>

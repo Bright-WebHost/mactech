@@ -4,65 +4,65 @@ import { motion } from 'framer-motion'
 
 // ─── Service Data ─────────────────────────────────────────────────────────────
 const SERVICES = [
-  { 
-    id: 'fasteners', 
-    num: '01', 
-    category: 'FASTENERS & FIXINGS', 
-    tag: 'Strong, Durable & Reliable', 
-    title: ['Fasteners &', 'Fixings'], 
-    desc: 'A wide range of high-quality fasteners designed for strong, secure, and long-lasting construction applications.', 
-    features: ['Hex bolts, anchor bolts, stud bolts & more', 'Stainless steel & high-strength materials', 'ASTM, DIN & ISO certified'], 
-    images: ['/images/fasteners/nut.webp', '/images/fasteners/bolt.webp', '/images/fasteners/brush.webp', '/images/fasteners/wrench.webp'] 
+  {
+    id: 'fasteners',
+    num: '01',
+    category: 'FASTENERS & FIXINGS',
+    tag: 'Strong, Durable & Reliable',
+    title: ['Fasteners &', 'Fixings'],
+    desc: 'A wide range of high-quality fasteners designed for strong, secure, and long-lasting construction applications.',
+    features: ['Hex bolts, anchor bolts, stud bolts & more', 'Stainless steel & high-strength materials', 'ASTM, DIN & ISO certified'],
+    images: ['/images/fasteners/nut.webp', '/images/fasteners/bolt.webp', '/images/fasteners/brush.webp', '/images/fasteners/wrench.webp']
   },
-  { 
-    id: 'safety', 
-    num: '02', 
-    category: 'SAFETY EQUIPMENT (PPE)', 
-    tag: 'CERTIFIED & COMPLIANT', 
-    title: ['Safety & Protective', 'Equipment'], 
-    desc: 'Complete range of safety equipment designed to protect workers across construction and industrial environments.', 
-    features: ['Hard hats & safety helmets', 'Hi-vis vests & coveralls', 'Respiratory & eye protection'], 
-    images: ['/images/fasteners/helmate.webp', '/images/safety/boots.webp', '/images/safety/coat.webp', '/images/safety/fullsuit.webp'] 
+  {
+    id: 'safety',
+    num: '02',
+    category: 'SAFETY EQUIPMENT (PPE)',
+    tag: 'CERTIFIED & COMPLIANT',
+    title: ['Safety & Protective', 'Equipment'],
+    desc: 'Complete range of safety equipment designed to protect workers across construction and industrial environments.',
+    features: ['Hard hats & safety helmets', 'Hi-vis vests & coveralls', 'Respiratory & eye protection'],
+    images: ['/images/fasteners/helmate.webp', '/images/safety/boots.webp', '/images/safety/coat.webp', '/images/safety/fullsuit.webp']
   },
-  { 
-    id: 'welding', 
-    num: '03', 
-    category: 'WELDING & FABRICATION', 
-    tag: 'MIG · TIG · MMA · FCAW', 
-    title: ['Welding &', 'Fabrication Supplies'], 
-    desc: 'Complete range of welding consumables and equipment for construction, fabrication, and industrial applications.', 
-    features: ['Electrodes: cellulosic, rutile & low-hydrogen', 'MIG/TIG wires & metal-cored', 'Welding gases & accessories'], 
-    images: ['/images/welding/welding1.webp', '/images/welding/welding2.webp', '/images/welding/welding3.webp', '/images/welding/welding4.webp'] 
+  {
+    id: 'welding',
+    num: '03',
+    category: 'WELDING & FABRICATION',
+    tag: 'MIG · TIG · MMA · FCAW',
+    title: ['Welding &', 'Fabrication Supplies'],
+    desc: 'Complete range of welding consumables and equipment for construction, fabrication, and industrial applications.',
+    features: ['Electrodes: cellulosic, rutile & low-hydrogen', 'MIG/TIG wires & metal-cored', 'Welding gases & accessories'],
+    images: ['/images/welding/welding1.webp', '/images/welding/welding2.webp', '/images/welding/welding3.webp', '/images/welding/welding4.webp']
   },
-  { 
-    id: 'tools', 
-    num: '04', 
-    category: 'HAND & POWER TOOLS', 
-    tag: 'Hand · Power · Precision', 
-    title: ['Hand &', 'Power Tools'], 
-    desc: 'High-quality hand and power tools designed for construction, maintenance, and on-site work.', 
-    features: ['Spanners, ratchets, torque wrenches', 'Grinders, drills & impact drivers', 'Precision measuring tools'], 
-    images: ['/images/tools/tool1.webp', '/images/tools/tool2.webp', '/images/tools/tool3.webp', '/images/fasteners/wrench2.webp'] 
+  {
+    id: 'tools',
+    num: '04',
+    category: 'HAND & POWER TOOLS',
+    tag: 'Hand · Power · Precision',
+    title: ['Hand &', 'Power Tools'],
+    desc: 'High-quality hand and power tools designed for construction, maintenance, and on-site work.',
+    features: ['Spanners, ratchets, torque wrenches', 'Grinders, drills & impact drivers', 'Precision measuring tools'],
+    images: ['/images/tools/tool1.webp', '/images/tools/tool2.webp', '/images/tools/tool3.webp', '/images/fasteners/wrench2.webp']
   },
-  { 
-    id: 'piping', 
-    num: '05', 
-    category: 'PIPES & FITTINGS', 
-    tag: 'CS · SS · GI · HDPE', 
-    title: ['Pipes, Valves', '& Fittings'], 
-    desc: 'Complete range of pipes, valves, and fittings for construction, plumbing, and infrastructure projects.', 
-    features: ['Carbon steel, stainless & GI pipes', 'Gate, ball, globe & check valves', 'Gaskets, fittings & pipe supports'], 
-    images: ['/images/pipes/pipe1.webp', '/images/pipes/pipe2.webp', '/images/pipes/pipe3.webp', '/images/pipes/pipe4.webp'] 
+  {
+    id: 'piping',
+    num: '05',
+    category: 'VALVES & FITTINGS',
+    tag: 'CS · SS · GI · HDPE',
+    title: ['Valves', '& Fittings'],
+    desc: 'Complete range of valves and fittings for construction, plumbing, and infrastructure projects.',
+    features: ['Carbon steel, stainless & GI fittings', 'Gate, ball, globe & check valves', 'Gaskets, fittings & supports'],
+    images: ['/images/pipes/pipe6.webp', '/images/pipes/pipe2.webp', '/images/pipes/pipe3.webp', '/images/pipes/pipe4.webp']
   },
-  { 
-    id: 'construction', 
-    num: '06', 
-    category: 'CONSTRUCTION MATERIALS', 
-    tag: 'ESSENTIAL MATERIALS & SUPPLIES', 
-    title: ['Construction', 'Materials & Consumables'], 
-    desc: 'Wide range of construction materials and consumables designed to support building, maintenance, and site operations.', 
-    features: ['Cutting discs & flap discs', 'Adhesives, sealants & lubricants', 'Cleaning & site maintenance'], 
-    images: ['/images/construction/1.webp', '/images/construction/2.webp', '/images/construction/3.webp', '/images/construction/4.webp'] 
+  {
+    id: 'construction',
+    num: '06',
+    category: 'CONSTRUCTION MATERIALS',
+    tag: 'ESSENTIAL MATERIALS & SUPPLIES',
+    title: ['Construction', 'Materials & Consumables'],
+    desc: 'Wide range of construction materials and consumables designed to support building, maintenance, and site operations.',
+    features: ['Cutting discs & flap discs', 'Adhesives, sealants & lubricants', 'Cleaning & site maintenance'],
+    images: ['/images/construction/1.webp', '/images/construction/2.webp', '/images/construction/3.webp', '/images/construction/4.webp']
   },
 ]
 
@@ -88,17 +88,17 @@ function FloatingImages({ images }: { images: string[] }) {
           src={src}
           alt="Industrial component"
           initial={{ y: 20, opacity: 0 }}
-          whileInView={{ 
-            y: [0, -15, 0], 
+          whileInView={{
+            y: [0, -15, 0],
             opacity: 1,
-            transition: { 
+            transition: {
               y: { duration: 4 + i, repeat: Infinity, ease: "easeInOut" },
               opacity: { duration: 0.8 }
             }
           }}
           className="absolute object-contain drop-shadow-2xl"
           style={{
-            width: i === 0 ? '55%' : '25%', 
+            width: i === 0 ? '55%' : '25%',
             zIndex: i === 0 ? 10 : 5,
             left: i === 0 ? '22%' : i === 1 ? '8%' : i === 2 ? '68%' : '12%',
             top: i === 0 ? '22%' : i === 1 ? '12%' : i === 2 ? '18%' : '58%',

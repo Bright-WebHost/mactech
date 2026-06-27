@@ -120,7 +120,7 @@ export default function AboutSection() {
               <Reveal delay={0.2}>
                 <div style={{ maxWidth: isMobile ? '100%' : '90%' }}>
                   <p style={{ fontSize: 15, lineHeight: 1.8, color: '#666', marginBottom: 14 }}>
-                    <strong style={{ color: '#1a1a1a' }}>Fahud Safety & Technical Trading</strong> is committed to providing exceptional service with super quality products and comprehensive solutions. Established in 2008, we've been the trusted partner for over 15 years.
+                    <strong style={{ color: '#1a1a1a' }}>MACTECH Building Materials Trading LLC</strong> is committed to providing exceptional service with super quality products and comprehensive solutions. Established in 2008, we've been the trusted partner for over 15 years.
                   </p>
                   <p style={{ fontSize: 15, lineHeight: 1.8, color: '#666', marginBottom: 0 }}>
                     We focus on delivering excellence across Oil &amp; Gas, Construction, Fabrication, and various industrial sectors with full compliance to international standards.
@@ -187,7 +187,7 @@ export default function AboutSection() {
               <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.15 }}
                 style={{ position: 'relative', top: 12, left: 12, right: 12, bottom: 12, zIndex: 1, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', width: '100%', height: '100%', background: '#f5f4f0' }}>
                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
-                  <Image src="/images/building.png" alt="Fahud Safety & Technical Trading" fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 600px" className="object-contain object-center" />
+                  <Image src="/images/products/about.webp" alt="MACTECH Building Materials Trading LLC" fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 600px" className="object-contain object-center" />
                 </div>
               </motion.div>
 

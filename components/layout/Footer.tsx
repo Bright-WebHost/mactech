@@ -10,11 +10,11 @@ export default function Footer() {
 
   const headOffice = {
     title: 'Head Office',
-    address: 'Muscat, Ghala, Sultanate of Oman',
-    email: 'info@fahudoman.com',
-    phoneDisplay: '00968 + 94422435',
-    phoneHref: '0096894422435',
-    whatsappHref: '96894422435'
+    address: 'Shop No. 2, Plot No. 74, Al Saqsooq Industrial Area, Wilayat Barka, South Al Batinah, Sultanate of Oman',
+    email: 'info@mactechoman.com',
+    phoneDisplay: '+968 99224564',
+    phoneHref: '+96899224564',
+    whatsappHref: '96899224564'
   }
 
   return (
@@ -64,7 +64,7 @@ export default function Footer() {
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: 'clamp(12px, 4vw, 20px)', background: '#fff', padding: 'clamp(6px, 2vw, 10px) clamp(10px, 3vw, 15px)', borderRadius: 8, width: 'fit-content' }}>
               <Image
                 src="/images/logo.png"
-                alt="Fahud Logo"
+                alt="Mactech Logo"
                 width={120}
                 height={40}
                 style={{ objectFit: 'contain', width: 'clamp(80px, 20vw, 120px)', height: 'auto' }}
@@ -76,7 +76,7 @@ export default function Footer() {
             <div style={{ display: 'flex', gap: 'clamp(8px, 2vw, 12px)', flexWrap: 'wrap' }}>
               <a href={`https://wa.me/${headOffice.whatsappHref}`} target="_blank" rel="noopener noreferrer" style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(226,0,16,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010', fontSize: 16 }} className="hover:bg-red-600 hover:text-white transition-all"><Image src="/whatsapp.png" alt="WhatsApp" width={24} height={24} style={{ objectFit: 'contain' }} /></a>
               <a href={`tel:${headOffice.phoneHref}`} style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(226,0,16,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010' }} className="hover:bg-red-600 hover:text-white"><Phone size={15} /></a>
-              <a href="mailto:info@fahudoman.com" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(226,0,16,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010' }} className="hover:bg-red-600 hover:text-white"><Mail size={15} /></a>
+              <a href="mailto:info@mactechoman.com" style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(226,0,16,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none', color: '#E20010' }} className="hover:bg-red-600 hover:text-white"><Mail size={15} /></a>
             </div>
           </div>
 
@@ -171,13 +171,14 @@ export default function Footer() {
         {/* Bottom */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
           <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: 0, letterSpacing: '0.5px' }}>
-            © 2026 Fahud Safety & Technical Trading. Site by <a href="https://brightmedia.tech/" style={{ color: '#E20010', textDecoration: 'none' }} className="hover:text-red-400">Bright Media</a>
+            © 2026 MACTECH Building Materials Trading LLC. Site by <a href="https://brightmedia.tech/" style={{ color: '#E20010', textDecoration: 'none' }} className="hover:text-red-400">Bright Media</a>
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
             {['Privacy Policy', 'Terms of Service', 'Sitemap'].map(item => (
               <a key={item} href="#" style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }} className="hover:text-white">{item}</a>
             ))}
-            <a href="https://www.facebook.com/fahudsafety" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }} className="hover:text-red-500">Facebook</a>
+            <a href="https://www.facebook.com/mactechoman/" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }} className="hover:text-red-500">Facebook</a>
+            <a href="https://www.linkedin.com/company/mactechoman/" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }} className="hover:text-red-500">LinkedIn</a>
           </div>
         </div>
       </div>

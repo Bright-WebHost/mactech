@@ -21,7 +21,7 @@ export default function ContactPage() {
             className="font-barlow-condensed font-black uppercase text-white leading-[0.88] mb-6"
             style={{ fontSize: 'clamp(52px, 8vw, 110px)' }}
           >
-            Contact <span className="text-[#E20010]">Fahud</span> Oman
+            Contact <span className="text-[#E20010]">MACTECH</span> Oman
           </h1>
           <p className="text-white/40 text-base lg:text-lg max-w-xl leading-relaxed">
             Reach our team for supply needs, availability checks, or technical guidance.
@@ -117,13 +117,13 @@ export default function ContactPage() {
       {/* ── Google Maps ── */}
       <section className="w-full h-[500px] lg:h-[600px]">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.0483403959456!2d58.3758374!3d23.5821792!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e91ff935c8c42b1%3A0x7ca207a215d5c997!2sFahud%20Safety%20And%20Technical%20Trading%20SPC!5e1!3m2!1sen!2sin!4v1781497651137!5m2!1sen!2sin"
+          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3308.182675359093!2d57.85603707533185!3d23.616492978762004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjPCsDM2JzU5LjQiTiA1N8KwNTEnMzEuMCJF!5e1!3m2!1sen!2sin!4v1782536601649!5m2!1sen!2sin"
           width="100%"
           height="100%"
           style={{ border: 0 }}
           allowFullScreen
           loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
+          referrerPolicy="strict-origin-when-cross-origin"
         />
       </section>
     </>

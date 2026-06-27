@@ -52,7 +52,7 @@ export default function HomePage() {
         <WhyChooseUsSection />
         <ProjectsSection />
         <BrandsSection />
-        <CertificationsSection />
+        {/* <CertificationsSection /> */}
         <CTASection />
         
       </div>
