@@ -99,35 +99,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Branches & Subsidiaries */}
-          <div>
-            <div>
-              <h4 style={{ fontSize: 12, fontWeight: 800, marginBottom: 20, color: '#fff', letterSpacing: '2px', textTransform: 'uppercase' }}>Our Branches</h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {['Muscat', 'Sohar', 'Dubai'].map(branch => (
-                  <li key={branch} style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <span style={{ color: '#E20010', fontSize: 10 }}>•</span> {branch}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div style={{ marginTop: 24 }}>
-              <h4 style={{ fontSize: 12, fontWeight: 800, marginBottom: 20, color: '#fff', letterSpacing: '2px', textTransform: 'uppercase' }}>Our Subsidiaries</h4>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                {[
-                  { name: 'New Food House', desc: 'Fine Dine Restaurant' },
-                  { name: 'Cilantro', desc: 'Corporate Catering' },
-                ].map(sub => (
-                  <li key={sub.name}>
-                    <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <span style={{ color: '#E20010', fontSize: 10 }}>•</span> {sub.name}
-                    </p>
-                    <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: '4px 0 0 18px' }}>{sub.desc}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
 
           {/* Office */}
           <div style={{ gridColumn: 'span 2' }}>
@@ -174,9 +145,7 @@ export default function Footer() {
             © 2026 MACTECH Building Materials Trading LLC. Site by <a href="https://brightmedia.tech/" style={{ color: '#E20010', textDecoration: 'none' }} className="hover:text-red-400">Bright Media</a>
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
-            {['Privacy Policy', 'Terms of Service', 'Sitemap'].map(item => (
-              <a key={item} href="#" style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }} className="hover:text-white">{item}</a>
-            ))}
+
             <a href="https://www.facebook.com/mactechoman/" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }} className="hover:text-red-500">Facebook</a>
             <a href="https://www.linkedin.com/company/mactechoman/" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }} className="hover:text-red-500">LinkedIn</a>
           </div>
